@@ -1,13 +1,27 @@
-import { iconFacebook, iconGoogle } from '@/assets/icon';
+import {
+	iconEmail,
+	iconFacebook,
+	iconGoogle,
+	iconLock,
+	iconVisiblity,
+} from '@/assets/icon';
 import KeyboardAvoidingWrapper from '@/src/components/KeyboardAvoidingWrapper';
 import RoundedLitButton from '@/src/components/RoundedLitButton';
 import tw from '@/src/lib/tailwind';
 import { Link } from 'expo-router';
-import React from 'react';
+import React, { useState } from 'react';
 import { Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { SvgXml } from 'react-native-svg';
 
 export default function SignIn() {
+	const [emailFocused, setEmailFocused] = useState(false);
+	const [passwordFocused, setPasswordFocused] = useState(false);
+
+	const [email, setEmail] = useState('');
+	const [password, setPassword] = useState('');
+
+	const [passwordVisible, setPasswordVisible] = useState(false);
+
 	return (
 		<KeyboardAvoidingWrapper>
 			<View style={tw`flex flex-col pb-10 gap-3 items-center justify-center`}>
@@ -21,23 +35,59 @@ export default function SignIn() {
 			<View style={tw`flex flex-col w-full gap-4`}>
 				<View style={tw`flex flex-col gap-3 w-full`}>
 					<Text style={tw`text-white pl-2`}>Email</Text>
-					<View style={tw`w-full h-12 bg-white/10 blur-3xl rounded-full`}>
-						<TextInput style={tw`w-full h-full px-4 text-white`} />
+					<View
+						style={tw`w-full h-12 ${
+							emailFocused
+								? 'bg-black/40 border border-[#9E91BA]'
+								: 'bg-white/10'
+						} blur-3xl rounded-full flex flex-row items-center px-4`}
+					>
+						<SvgXml xml={iconEmail} />
+						<TextInput
+							style={tw`flex-1 h-full px-4 text-white`}
+							onChangeText={setEmail}
+							value={email}
+							onFocus={() => setEmailFocused(true)}
+							onBlur={() => {
+								email.length === 0 && setEmailFocused(false);
+							}}
+						/>
 					</View>
 				</View>
 				<View style={tw`flex flex-col gap-3 w-full`}>
 					<Text style={tw`text-white pl-2`}>Password</Text>
-					<View style={tw`w-full h-12 bg-white/10 blur-2xl rounded-full`}>
-						<TextInput style={tw`w-full h-full px-4 text-white`} />
+					<View
+						style={tw`w-full h-12 ${
+							passwordFocused
+								? 'bg-black/40 border border-[#9E91BA]'
+								: 'bg-white/10'
+						} blur-2xl rounded-full flex flex-row items-center px-4`}
+					>
+						<SvgXml xml={iconLock} />
+						<TextInput
+							style={tw`flex-1 h-full px-4 text-white`}
+							secureTextEntry={!passwordVisible}
+							onChangeText={setPassword}
+							value={password}
+							onFocus={() => setPasswordFocused(true)}
+							onBlur={() => {
+								password.length === 0 && setPasswordFocused(false);
+							}}
+						/>
+						<TouchableOpacity
+							onPress={() => setPasswordVisible(!passwordVisible)}
+						>
+							<SvgXml xml={iconVisiblity} />
+						</TouchableOpacity>
 					</View>
 					<Link
-						href="/"
+						href="/auth/forgotPassword"
 						style={tw`text-right text-purple-300 font-poppins text-xs pr-2`}
 					>
 						Forgot Password?
 					</Link>
 				</View>
-				<RoundedLitButton text="Sign In" />
+				<RoundedLitButton text="Sign In" action={() => {}} />
 				<Text
 					style={tw` w-full text-center pt-6 text-gray-400 font-poppins text-xs`}
 				>

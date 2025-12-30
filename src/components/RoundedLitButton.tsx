@@ -4,10 +4,17 @@ import React from 'react';
 import { Text, TouchableOpacity, View } from 'react-native';
 import tw from '../lib/tailwind';
 
-export default function RoundedLitButton({ text }: { text: string }) {
+export default function RoundedLitButton({
+	text,
+	action,
+}: {
+	text: string;
+	action: () => void;
+}) {
 	return (
 		<TouchableOpacity
 			style={tw`mt-6 flex items-center justify-center w-full h-12 bg-black border border-b-4 border-[#9E91BA] shadow-2xl shadow-[rgb(140,82,255)] rounded-full`}
+			onPress={action}
 		>
 			<MaskedView
 				style={tw`w-full h-full`}
