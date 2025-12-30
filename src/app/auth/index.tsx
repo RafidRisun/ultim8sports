@@ -90,7 +90,7 @@ export default function SignIn() {
 				<RoundedLitButton
 					text="Sign In"
 					action={() => {
-						router.push('/(common)/plans');
+						router.replace('/(common)/plans');
 					}}
 				/>
 				<Text
