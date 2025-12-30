@@ -8,7 +8,7 @@ import {
 import KeyboardAvoidingWrapper from '@/src/components/KeyboardAvoidingWrapper';
 import RoundedLitButton from '@/src/components/RoundedLitButton';
 import tw from '@/src/lib/tailwind';
-import { Link } from 'expo-router';
+import { Link, router } from 'expo-router';
 import React, { useState } from 'react';
 import { Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { SvgXml } from 'react-native-svg';
@@ -87,7 +87,12 @@ export default function SignIn() {
 						Forgot Password?
 					</Link>
 				</View>
-				<RoundedLitButton text="Sign In" action={() => {}} />
+				<RoundedLitButton
+					text="Sign In"
+					action={() => {
+						router.push('/(common)/plans');
+					}}
+				/>
 				<Text
 					style={tw` w-full text-center pt-6 text-gray-400 font-poppins text-xs`}
 				>
