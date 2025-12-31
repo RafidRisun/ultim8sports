@@ -5,6 +5,7 @@ export default function CommonLayout() {
 	return (
 		<Stack screenOptions={{ headerShown: false }}>
 			<Stack.Screen name="plans" />
+			<Stack.Screen name="payment" />
 		</Stack>
 	);
 }

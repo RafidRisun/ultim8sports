@@ -3,8 +3,9 @@ import BrightRoundedButton from '@/src/components/BrightRoundedButton';
 import Wrapper from '@/src/components/Wrapper';
 import tw from '@/src/lib/tailwind';
 import { LinearGradient } from 'expo-linear-gradient';
+import { router } from 'expo-router';
 import React from 'react';
-import { Text, TouchableOpacity, View } from 'react-native';
+import { Pressable, Text, View } from 'react-native';
 import { SvgXml } from 'react-native-svg';
 
 export default function Plans() {
@@ -24,7 +25,7 @@ export default function Plans() {
 			<View
 				style={tw`flex flex-row w-52 bg-black rounded-full border border-gray-700`}
 			>
-				<TouchableOpacity
+				<Pressable
 					style={tw`flex-1 py-3 rounded-full`}
 					onPress={() => setSelectedPlan('monthly')}
 				>
@@ -41,8 +42,8 @@ export default function Plans() {
 					>
 						Monthly
 					</Text>
-				</TouchableOpacity>
-				<TouchableOpacity
+				</Pressable>
+				<Pressable
 					style={tw`flex-1 py-3 rounded-full`}
 					onPress={() => setSelectedPlan('yearly')}
 				>
@@ -59,7 +60,7 @@ export default function Plans() {
 					>
 						Yearly
 					</Text>
-				</TouchableOpacity>
+				</Pressable>
 			</View>
 			<View style={tw`mt-10 w-full px-4`}>
 				<View
@@ -81,7 +82,7 @@ export default function Plans() {
 									/{selectedPlan === 'monthly' ? 'month' : 'year'}
 								</Text>
 							</Text>
-							<TouchableOpacity
+							<View
 								style={tw`flex items-center justify-center px-3 py-2 rounded-full`}
 							>
 								<LinearGradient
@@ -93,7 +94,7 @@ export default function Plans() {
 										? `Save ${monthlyPlan.save}`
 										: `Save ${yearlyPlan.save}`}
 								</Text>
-							</TouchableOpacity>
+							</View>
 						</View>
 						<View style={tw`flex flex-col my-4`}>
 							{selectedPlan === 'monthly'
@@ -123,7 +124,14 @@ export default function Plans() {
 					</View>
 				</View>
 			</View>
-			<BrightRoundedButton text="Start 7-Date Free Trial" action={() => {}} />
+			<View style={tw`absolute bottom-10 w-full`}>
+				<BrightRoundedButton
+					text="Start 7-Date Free Trial"
+					action={() => {
+						router.push('/payment');
+					}}
+				/>
+			</View>
 		</Wrapper>
 	);
 }
