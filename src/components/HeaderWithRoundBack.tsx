@@ -7,11 +7,25 @@ import { Text, TouchableOpacity, View } from 'react-native';
 import { SvgXml } from 'react-native-svg';
 import tw from '../lib/tailwind';
 
-export default function HeaderWithRoundBack({ title }: { title: string }) {
+export default function HeaderWithRoundBack({
+	title,
+	share,
+}: {
+	title: string;
+	share?: boolean;
+}) {
 	return (
-		<View style={tw`flex flex-row items-center justify-center w-full`}>
+		<View style={tw`flex flex-row items-center justify-between w-full my-4`}>
+			<TouchableOpacity
+				style={tw`flex items-center justify-center h-11 w-11 rounded-full bg-white/10 border border-white/20 border-t-white/40 border-b-white/30 blur-lg`}
+				onPress={() => {
+					router.back();
+				}}
+			>
+				<SvgXml xml={iconBackArrow} />
+			</TouchableOpacity>
 			<MaskedView
-				style={tw`w-full h-6`}
+				style={tw`flex-1 h-6`}
 				maskElement={
 					<View
 						style={{
@@ -40,14 +54,18 @@ export default function HeaderWithRoundBack({ title }: { title: string }) {
 					style={{ flex: 1, height: '100%' }}
 				/>
 			</MaskedView>
-			<TouchableOpacity
-				style={tw`absolute left-4 flex items-center justify-center h-11 w-11 rounded-full bg-white/10 border border-white/20 border-t-white/40 border-b-white/30 blur-lg`}
-				onPress={() => {
-					router.back();
-				}}
-			>
-				<SvgXml xml={iconBackArrow} />
-			</TouchableOpacity>
+			{share ? (
+				<TouchableOpacity
+					style={tw`flex items-center justify-center h-11 w-11 rounded-full bg-white/10 border border-white/20 border-t-white/40 border-b-white/30 blur-lg`}
+					onPress={() => {
+						router.back();
+					}}
+				>
+					<SvgXml xml={iconBackArrow} />
+				</TouchableOpacity>
+			) : (
+				<View style={tw`w-11`}></View>
+			)}
 		</View>
 	);
 }

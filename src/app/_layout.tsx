@@ -1,5 +1,5 @@
 import { useFonts } from 'expo-font';
-import { Stack } from 'expo-router';
+import { Slot } from 'expo-router';
 
 export default function RootLayout() {
 	const [loaded] = useFonts({
@@ -12,5 +12,5 @@ export default function RootLayout() {
 
 	if (!loaded) return null;
 
-	return <Stack screenOptions={{ headerShown: false }} />;
+	return <Slot></Slot>;
 }

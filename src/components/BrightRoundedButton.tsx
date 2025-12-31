@@ -11,9 +11,9 @@ export default function BrightRoundedButton({
 	action: () => void;
 }) {
 	return (
-		<View style={tw`w-full px-4 py-7`}>
+		<View style={tw`w-full items-center mb-4`}>
 			<TouchableOpacity
-				style={tw`flex w-full py-3 rounded-full mt-10 items-center justify-center border-b-2 border-l-2 border-r-2 border-slate-400 shadow-2xl shadow-[#9E91BA] bg-black relative`}
+				style={tw`flex w-full py-3 rounded-full mt-10 items-center justify-center border-b-2 border-l-2 border-r-2 border-slate-400 shadow-xl shadow-[#9E91BA] bg-black relative`}
 				onPress={action}
 			>
 				<LinearGradient

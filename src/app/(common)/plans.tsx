@@ -14,124 +14,128 @@ export default function Plans() {
 	);
 	return (
 		<Wrapper>
-			<View style={tw`flex flex-col py-10 gap-3 items-center justify-center`}>
-				<Text style={tw`text-2xl font-poppinsSemiBold text-white`}>
-					Choose Your edge
-				</Text>
-				<Text style={tw`text-gray-400 font-poppins text-sm px-12 text-center`}>
-					Unlock real-time market data and unlimited scanning.
-				</Text>
-			</View>
-			<View
-				style={tw`flex flex-row w-52 bg-black rounded-full border border-gray-700`}
-			>
-				<Pressable
-					style={tw`flex-1 py-3 rounded-full`}
-					onPress={() => setSelectedPlan('monthly')}
-				>
-					{selectedPlan === 'monthly' && (
-						<LinearGradient
-							colors={['#FFFFFF', '#8C52FF']}
-							style={tw`absolute inset-0 rounded-full`}
-						/>
-					)}
-					<Text
-						style={tw`${
-							selectedPlan === 'monthly' ? 'text-black' : 'text-white'
-						} text-center font-poppinsMedium`}
-					>
-						Monthly
+			<View style={tw`flex-1 w-full`}>
+				<View style={tw`flex flex-col py-10 gap-3 items-center justify-center`}>
+					<Text style={tw`text-2xl font-poppinsSemiBold text-white`}>
+						Choose Your edge
 					</Text>
-				</Pressable>
-				<Pressable
-					style={tw`flex-1 py-3 rounded-full`}
-					onPress={() => setSelectedPlan('yearly')}
-				>
-					{selectedPlan === 'yearly' && (
-						<LinearGradient
-							colors={['#FFFFFF', '#8C52FF']}
-							style={tw`absolute inset-0 rounded-full`}
-						/>
-					)}
 					<Text
-						style={tw`${
-							selectedPlan === 'yearly' ? 'text-black' : 'text-white'
-						} text-center font-poppinsMedium`}
+						style={tw`text-gray-400 font-poppins text-sm px-12 text-center`}
 					>
-						Yearly
+						Unlock real-time market data and unlimited scanning.
 					</Text>
-				</Pressable>
-			</View>
-			<View style={tw`mt-10 w-full px-4`}>
-				<View
-					style={tw`bg-[#130C23] border border-[#9E91BA] shadow-2xl shadow-[#9E91BA] rounded-3xl p-4 gap-4`}
-				>
-					<View style={tw`flex flex-row justify-center items-center gap-4`}>
-						<SvgXml xml={iconCrown} />
-						<Text style={tw`text-white font-poppinsMedium text-lg`}>
-							{selectedPlan === 'monthly' ? 'Monthly' : 'Yearly'} Plan
-						</Text>
-					</View>
-					<View style={tw`flex w-full rounded-2xl bg-black p-4`}>
-						<View style={tw`flex flex-row justify-between items-center`}>
-							<Text style={tw`text-white font-poppinsMedium text-2xl`}>
-								{selectedPlan === 'monthly'
-									? `$${monthlyPlan.price}`
-									: `$${yearlyPlan.price}`}
-								<Text style={tw`text-gray-400 font-poppins text-sm`}>
-									/{selectedPlan === 'monthly' ? 'month' : 'year'}
-								</Text>
-							</Text>
-							<View
-								style={tw`flex items-center justify-center px-3 py-2 rounded-full`}
-							>
+				</View>
+				<View style={tw`w-full items-center`}>
+					<View
+						style={tw`flex flex-row w-52 bg-black rounded-full border border-gray-700`}
+					>
+						<Pressable
+							style={tw`flex-1 py-3 rounded-full`}
+							onPress={() => setSelectedPlan('monthly')}
+						>
+							{selectedPlan === 'monthly' && (
 								<LinearGradient
 									colors={['#FFFFFF', '#8C52FF']}
 									style={tw`absolute inset-0 rounded-full`}
 								/>
-								<Text style={tw`text-black font-poppinsMedium text-sm`}>
-									{selectedPlan === 'monthly'
-										? `Save ${monthlyPlan.save}`
-										: `Save ${yearlyPlan.save}`}
-								</Text>
-							</View>
+							)}
+							<Text
+								style={tw`${
+									selectedPlan === 'monthly' ? 'text-black' : 'text-white'
+								} text-center font-poppinsMedium`}
+							>
+								Monthly
+							</Text>
+						</Pressable>
+						<Pressable
+							style={tw`flex-1 py-3 rounded-full`}
+							onPress={() => setSelectedPlan('yearly')}
+						>
+							{selectedPlan === 'yearly' && (
+								<LinearGradient
+									colors={['#FFFFFF', '#8C52FF']}
+									style={tw`absolute inset-0 rounded-full`}
+								/>
+							)}
+							<Text
+								style={tw`${
+									selectedPlan === 'yearly' ? 'text-black' : 'text-white'
+								} text-center font-poppinsMedium`}
+							>
+								Yearly
+							</Text>
+						</Pressable>
+					</View>
+				</View>
+				<View style={tw`mt-10 w-full`}>
+					<View
+						style={tw`bg-[#130C23] border border-[#9E91BA] shadow-2xl shadow-[#9E91BA] rounded-3xl p-4 gap-4`}
+					>
+						<View style={tw`flex flex-row justify-center items-center gap-4`}>
+							<SvgXml xml={iconCrown} />
+							<Text style={tw`text-white font-poppinsMedium text-lg`}>
+								{selectedPlan === 'monthly' ? 'Monthly' : 'Yearly'} Plan
+							</Text>
 						</View>
-						<View style={tw`flex flex-col my-4`}>
-							{selectedPlan === 'monthly'
-								? monthlyPlan.benefits.map((benefit, index) => (
-										<View
-											key={index}
-											style={tw`flex flex-row items-center gap-2 mt-3`}
-										>
-											<SvgXml xml={iconBenefits} />
-											<Text style={tw`text-white font-poppins text-sm`}>
-												{benefit}
-											</Text>
-										</View>
-								  ))
-								: yearlyPlan.benefits.map((benefit, index) => (
-										<View
-											key={index}
-											style={tw`flex flex-row items-center gap-2 mt-3`}
-										>
-											<SvgXml xml={iconBenefits} />
-											<Text style={tw`text-white font-poppins text-sm`}>
-												{benefit}
-											</Text>
-										</View>
-								  ))}
+						<View style={tw`flex w-full rounded-2xl bg-black p-4`}>
+							<View style={tw`flex flex-row justify-between items-center`}>
+								<Text style={tw`text-white font-poppinsMedium text-2xl`}>
+									{selectedPlan === 'monthly'
+										? `$${monthlyPlan.price}`
+										: `$${yearlyPlan.price}`}
+									<Text style={tw`text-gray-400 font-poppins text-sm`}>
+										/{selectedPlan === 'monthly' ? 'month' : 'year'}
+									</Text>
+								</Text>
+								<View
+									style={tw`flex items-center justify-center px-3 py-2 rounded-full`}
+								>
+									<LinearGradient
+										colors={['#FFFFFF', '#8C52FF']}
+										style={tw`absolute inset-0 rounded-full`}
+									/>
+									<Text style={tw`text-black font-poppinsMedium text-sm`}>
+										{selectedPlan === 'monthly'
+											? `Save ${monthlyPlan.save}`
+											: `Save ${yearlyPlan.save}`}
+									</Text>
+								</View>
+							</View>
+							<View style={tw`flex flex-col my-4`}>
+								{selectedPlan === 'monthly'
+									? monthlyPlan.benefits.map((benefit, index) => (
+											<View
+												key={index}
+												style={tw`flex flex-row items-center gap-2 mt-3`}
+											>
+												<SvgXml xml={iconBenefits} />
+												<Text style={tw`text-white font-poppins text-sm`}>
+													{benefit}
+												</Text>
+											</View>
+									  ))
+									: yearlyPlan.benefits.map((benefit, index) => (
+											<View
+												key={index}
+												style={tw`flex flex-row items-center gap-2 mt-3`}
+											>
+												<SvgXml xml={iconBenefits} />
+												<Text style={tw`text-white font-poppins text-sm`}>
+													{benefit}
+												</Text>
+											</View>
+									  ))}
+							</View>
 						</View>
 					</View>
 				</View>
 			</View>
-			<View style={tw`absolute bottom-10 w-full`}>
-				<BrightRoundedButton
-					text="Start 7-Date Free Trial"
-					action={() => {
-						router.push('/payment');
-					}}
-				/>
-			</View>
+			<BrightRoundedButton
+				text="Start 7-Date Free Trial"
+				action={() => {
+					router.push('/payment');
+				}}
+			/>
 		</Wrapper>
 	);
 }
