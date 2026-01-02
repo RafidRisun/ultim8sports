@@ -167,3 +167,28 @@ export const iconProfileFocused = `<svg width="24" height="24" viewBox="0 0 24 2
 <path d="M20.5901 22C20.5901 18.13 16.7402 15 12.0002 15C7.26015 15 3.41016 18.13 3.41016 22" fill="#8C52FF"/>
 </svg>
 `;
+
+export const iconNotfication = `<svg width="20" height="22" viewBox="0 0 20 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M16.4991 8.46V7.755C16.4991 3.886 13.4751 0.75 9.74909 0.75C6.02309 0.75 2.99909 3.886 2.99909 7.755V8.46C3.00029 9.30155 2.76013 10.1258 2.30709 10.835L1.19909 12.56C0.188086 14.135 0.960085 16.276 2.71909 16.774C7.31537 18.0757 12.1828 18.0757 16.7791 16.774C18.5381 16.276 19.3101 14.135 18.2991 12.561L17.1911 10.836C16.7377 10.1269 16.4972 9.30265 16.4981 8.461L16.4991 8.46Z" stroke="white" stroke-width="1.5"/>
+<path d="M5.24902 17.75C5.90402 19.498 7.67102 20.75 9.74902 20.75C11.827 20.75 13.594 19.498 14.249 17.75" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
+</svg>
+`;
+
+export const iconIncrease = `<svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g clip-path="url(#clip0_97_1163)">
+<mask id="mask0_97_1163" style="mask-type:luminance" maskUnits="userSpaceOnUse" x="0" y="0" width="22" height="22">
+<path d="M10.9997 20.1668C16.0624 20.1668 20.1663 16.0629 20.1663 11.0002C20.1663 5.93741 16.0624 1.8335 10.9997 1.8335C5.93692 1.8335 1.83301 5.93741 1.83301 11.0002C1.83301 16.0629 5.93692 20.1668 10.9997 20.1668Z" stroke="white" stroke-width="2"/>
+<path d="M10.9997 20.1668C16.0624 20.1668 20.1663 16.0629 20.1663 11.0002C20.1663 5.93741 16.0624 1.8335 10.9997 1.8335C5.93692 1.8335 1.83301 5.93741 1.83301 11.0002C1.83301 16.0629 5.93692 20.1668 10.9997 20.1668Z" fill="white" stroke="white" stroke-width="2" stroke-linejoin="round"/>
+<path d="M15.125 12.375L11 8.25L6.875 12.375" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+</mask>
+<g mask="url(#mask0_97_1163)">
+<path d="M0 0H22V22H0V0Z" fill="#2BC535"/>
+</g>
+</g>
+<defs>
+<clipPath id="clip0_97_1163">
+<rect width="22" height="22" fill="white"/>
+</clipPath>
+</defs>
+</svg>
+`;

@@ -1,10 +1,15 @@
+import Wrapper from '@/src/components/Wrapper';
 import React from 'react';
 import { Text, View } from 'react-native';
 
 export default function Inventory() {
 	return (
-		<View>
-			<Text>Inventory</Text>
-		</View>
+		<Wrapper>
+			<View>
+				<Text style={{ color: 'white', textAlign: 'center', margin: 10 }}>
+					Inventory Screen
+				</Text>
+			</View>
+		</Wrapper>
 	);
 }
