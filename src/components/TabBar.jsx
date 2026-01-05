@@ -49,7 +49,12 @@ export default function TabBar({ state, descriptors, navigation }) {
 				{Platform.OS === 'ios' ? (
 					<GlassView style={tw`absolute inset-0 rounded-full`} />
 				) : (
-					<BlurView intensity={50} style={tw`absolute inset-0 rounded-full`} />
+					<BlurView
+						intensity={50}
+						// experimentalBlurMethod="dimezisBlurView"
+						tint="dark"
+						style={tw`absolute inset-0 rounded-full`}
+					/>
 				)}
 				{state.routes.map((route, index) => {
 					const { options } = descriptors[route.key];

@@ -192,3 +192,9 @@ export const iconIncrease = `<svg width="22" height="22" viewBox="0 0 22 22" fil
 </defs>
 </svg>
 `;
+
+export const iconIncreaseChart = `<svg width="15" height="9" viewBox="0 0 15 9" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M0.374023 7.86051L4.86577 3.36876L7.86027 6.36326L13.8493 0.374268" stroke="#1FB146" stroke-width="0.748624" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M10.8545 0.374268H13.849V3.36876" stroke="#1FB146" stroke-width="0.748624" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+`;

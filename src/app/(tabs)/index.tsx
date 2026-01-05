@@ -1,4 +1,5 @@
 import { iconIncrease, iconNotfication } from '@/assets/icon';
+import ListingCard from '@/src/components/HomeComponents/ListingCard';
 import tw from '@/src/lib/tailwind';
 import MaskedView from '@react-native-masked-view/masked-view';
 import { Image } from 'expo-image';
@@ -7,6 +8,7 @@ import React from 'react';
 import {
 	ImageBackground,
 	Keyboard,
+	Pressable,
 	ScrollView,
 	Text,
 	TouchableOpacity,
@@ -19,6 +21,9 @@ import { SvgXml } from 'react-native-svg';
 
 export default function Home() {
 	const { top, bottom } = useSafeAreaInsets();
+	const [selectedTab, setSelectedTab] = React.useState<
+		'weekly' | 'monthly' | 'all'
+	>('weekly');
 	return (
 		<TouchableWithoutFeedback
 			onPress={() => {
@@ -34,25 +39,25 @@ export default function Home() {
 				]}
 			>
 				<View style={tw`flex-1  w-full`}>
-					<View
-						style={tw`flex flex-row w-full justify-between items-center my-4 px-[4%]`}
-					>
-						<View
-							style={tw`flex items-center justify-center h-11 w-11 rounded-full`}
-						>
-							<Image
-								source={require('@/assets/images/parrot.png')}
-								style={tw`h-11 w-11 rounded-full`}
-								contentFit="cover"
-							/>
-						</View>
-						<TouchableOpacity
-							style={tw`flex items-center justify-center h-11 w-11 rounded-full bg-white/10 border border-white/20 border-t-white/40 border-b-white/30 blur-lg`}
-						>
-							<SvgXml xml={iconNotfication} />
-						</TouchableOpacity>
-					</View>
 					<ScrollView style={tw`w-full`} showsVerticalScrollIndicator={false}>
+						<View
+							style={tw`flex flex-row w-full justify-between items-center my-4 px-[4%]`}
+						>
+							<View
+								style={tw`flex items-center justify-center h-11 w-11 rounded-full`}
+							>
+								<Image
+									source={require('@/assets/images/parrot.png')}
+									style={tw`h-11 w-11 rounded-full`}
+									contentFit="cover"
+								/>
+							</View>
+							<TouchableOpacity
+								style={tw`flex items-center justify-center h-11 w-11 rounded-full bg-white/10 border border-white/20 border-t-white/40 border-b-white/30 blur-lg`}
+							>
+								<SvgXml xml={iconNotfication} />
+							</TouchableOpacity>
+						</View>
 						<View style={tw`flex gap-2`}>
 							<MaskedView
 								style={tw`flex-1 h-12`}
@@ -73,7 +78,7 @@ export default function Home() {
 												fontWeight: 'bold',
 											}}
 										>
-											$23,450.00
+											$23,450
 										</Text>
 									</View>
 								}
@@ -99,7 +104,7 @@ export default function Home() {
 						<View style={[tw`w-full pt-7`, { marginBottom: -7 }]}>
 							<LineChart
 								areaChart
-								data={data}
+								data={dataWeekly}
 								startFillColor="#8C52FF"
 								startOpacity={0.3}
 								endFillColor="#8C52FF"
@@ -121,14 +126,14 @@ export default function Home() {
 										const value = items?.[0]?.value;
 										// find last occurrence index of this value in the data
 										let lastIdx = -1;
-										for (let i = data.length - 1; i >= 0; i--) {
-											if (data[i].value === value) {
+										for (let i = dataWeekly.length - 1; i >= 0; i--) {
+											if (dataWeekly[i].value === value) {
 												lastIdx = i;
 												break;
 											}
 										}
-										const isLast = lastIdx === data.length - 1;
-										const isOneBeforeLast = lastIdx === data.length - 2;
+										const isLast = lastIdx === dataWeekly.length - 1;
+										const isOneBeforeLast = lastIdx === dataWeekly.length - 2;
 
 										return (
 											<View
@@ -151,9 +156,14 @@ export default function Home() {
 								}}
 							/>
 						</View>
-						<View
-							style={tw`flex w-full h-220 bg-[#8C52FF] bg-opacity-30 pt-12`}
-						>
+						<View style={tw`flex w-full pt-12 pb-40 gap-12`}>
+							{/* bg-[#8C52FF] bg-opacity-30 */}
+							<LinearGradient
+								colors={['#8C52FF', 'transparent']}
+								locations={[0, 1]}
+								style={tw`absolute inset-0 opacity-30`}
+							/>
+
 							<View
 								style={tw`flex flex-row w-full items-center justify-between px-4`}
 							>
@@ -166,6 +176,78 @@ export default function Home() {
 									</Text>
 								))}
 							</View>
+							<View style={tw`flex w-full items-center`}>
+								<View
+									style={tw`flex flex-row w-64 bg-black/60 rounded-lg border border-gray-700 p-0.5`}
+								>
+									<Pressable
+										style={tw`flex-1 py-3 rounded-md`}
+										onPress={() => setSelectedTab('weekly')}
+									>
+										{selectedTab === 'weekly' && (
+											<LinearGradient
+												colors={['#FFFFFF', '#8C52FF']}
+												style={tw`absolute inset-0 rounded-md`}
+											/>
+										)}
+										<Text
+											style={tw`${
+												selectedTab === 'weekly' ? 'text-black' : 'text-white'
+											} text-center text-xs font-poppinsMedium`}
+										>
+											Weekly
+										</Text>
+									</Pressable>
+									<Pressable
+										style={tw`flex-1 py-3 rounded-md`}
+										onPress={() => setSelectedTab('monthly')}
+									>
+										{selectedTab === 'monthly' && (
+											<LinearGradient
+												colors={['#FFFFFF', '#8C52FF']}
+												style={tw`absolute inset-0 rounded-md`}
+											/>
+										)}
+										<Text
+											style={tw`${
+												selectedTab === 'monthly' ? 'text-black' : 'text-white'
+											} text-center text-xs font-poppinsMedium`}
+										>
+											Monthly
+										</Text>
+									</Pressable>
+									<Pressable
+										style={tw`flex-1 py-3 rounded-md`}
+										onPress={() => setSelectedTab('all')}
+									>
+										{selectedTab === 'all' && (
+											<LinearGradient
+												colors={['#FFFFFF', '#8C52FF']}
+												style={tw`absolute inset-0 rounded-md`}
+											/>
+										)}
+										<Text
+											style={tw`${
+												selectedTab === 'all' ? 'text-black' : 'text-white'
+											} text-center text-xs font-poppinsMedium`}
+										>
+											All
+										</Text>
+									</Pressable>
+								</View>
+							</View>
+							<View style={tw`flex flex-col w-full px-4 gap-4`}>
+								<Text style={tw`text-white font-poppinsMedium text-lg`}>
+									Top Movers
+								</Text>
+								<View
+									style={tw`flex flex-col w-full justify-center items-center gap-2`}
+								>
+									<ListingCard />
+									<ListingCard />
+									<ListingCard />
+								</View>
+							</View>
 						</View>
 					</ScrollView>
 				</View>
@@ -174,12 +256,12 @@ export default function Home() {
 	);
 }
 
-const data = [
-	{ value: 1500 },
-	{ value: 300 },
-	{ value: 260 },
-	{ value: 40 },
-	{ value: 1500 },
-	{ value: 300 },
-	{ value: 2600 },
+const dataWeekly = [
+	{ value: 600 },
+	{ value: 3000 },
+	{ value: 1000 },
+	{ value: 2200 },
+	{ value: 600 },
+	{ value: 3000 },
+	{ value: 1600 },
 ];
