@@ -1,4 +1,5 @@
 import tw from '@/src/lib/tailwind';
+import { StatusBar } from 'expo-status-bar';
 import {
 	ImageBackground,
 	Keyboard,
@@ -24,7 +25,7 @@ export default function Wrapper({ children }: { children: React.ReactNode }) {
 					{ paddingTop: top, paddingBottom: bottom },
 				]}
 			>
-				{/* <StatusBar style="light" /> */}
+				<StatusBar style="light" />
 				{/* <KeyboardAvoidingView
 					behavior="padding"
 					style={tw`flex-1 w-full pt-14`}
