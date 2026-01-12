@@ -1,4 +1,4 @@
-import { iconBackArrow } from '@/assets/icon';
+import { iconBackArrow, iconShare } from '@/assets/icon';
 import MaskedView from '@react-native-masked-view/masked-view';
 import { LinearGradient } from 'expo-linear-gradient';
 import { router } from 'expo-router';
@@ -63,11 +63,8 @@ export default function HeaderWithRoundBack({
 			{share ? (
 				<TouchableOpacity
 					style={tw`flex items-center justify-center h-11 w-11 rounded-full bg-white/10 border border-white/20 border-t-white/40 border-b-white/30 blur-lg`}
-					onPress={() => {
-						router.back();
-					}}
 				>
-					<SvgXml xml={iconBackArrow} />
+					<SvgXml xml={iconShare} />
 				</TouchableOpacity>
 			) : (
 				<View style={tw`w-11 h-11`}></View>

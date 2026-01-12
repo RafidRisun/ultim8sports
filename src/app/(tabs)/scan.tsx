@@ -16,9 +16,9 @@ export default function Scan() {
 	return (
 		<Wrapper>
 			<HeaderWithRoundBack title="Add Card" />
-			<View style={tw`flex flex-col items-center justify-start gap-4`}>
+			<View style={tw`flex flex-col items-center justify-start gap-5 mt-8`}>
 				<TouchableOpacity
-					style={tw`flex flex-row w-full p-2 border border-white/20 border-t-white/40 border-b-white/30 blur-lg rounded-xl items-start gap-2`}
+					style={tw`flex flex-row w-full p-2 border border-white/20 border-t-white/40 border-b-white/30 blur-lg rounded-xl items-start gap-4`}
 				>
 					<BlurView
 						intensity={40}
@@ -30,16 +30,16 @@ export default function Scan() {
 						<SvgXml xml={iconSalesHistory} />
 					</View>
 					<View style={tw`flex flex-col flex-1`}>
-						<Text style={tw`text-white font-medium text-lg`}>
+						<Text style={tw`text-white font-poppinsMedium text-lg`}>
 							Sales History
 						</Text>
-						<Text style={tw`text-white/60 text-sm`}>
+						<Text style={tw`text-white/60 font-poppinsLight text-sm`}>
 							View and manage your sales history
 						</Text>
 					</View>
 				</TouchableOpacity>
 				<TouchableOpacity
-					style={tw`flex flex-row w-full p-2 border border-white/20 border-t-white/40 border-b-white/30 blur-lg rounded-xl items-start gap-2`}
+					style={tw`flex flex-row w-full p-2 border border-white/20 border-t-white/40 border-b-white/30 blur-lg rounded-xl items-start gap-4`}
 				>
 					<BlurView
 						intensity={40}
@@ -51,14 +51,16 @@ export default function Scan() {
 						<SvgXml xml={iconScanCard} />
 					</View>
 					<View style={tw`flex flex-col flex-1`}>
-						<Text style={tw`text-white font-medium text-lg`}>Scan Card</Text>
-						<Text style={tw`text-white/60 text-sm`}>
+						<Text style={tw`text-white font-poppinsMedium text-lg`}>
+							Scan Card
+						</Text>
+						<Text style={tw`text-white/60 font-poppinsLight text-sm`}>
 							Scan your card to add it quickly
 						</Text>
 					</View>
 				</TouchableOpacity>
 				<TouchableOpacity
-					style={tw`flex flex-row w-full p-2 border border-white/20 border-t-white/40 border-b-white/30 blur-lg rounded-xl items-start gap-2`}
+					style={tw`flex flex-row w-full p-2 border border-white/20 border-t-white/40 border-b-white/30 blur-lg rounded-xl items-start gap-4`}
 				>
 					<BlurView
 						intensity={40}
@@ -70,16 +72,16 @@ export default function Scan() {
 						<SvgXml xml={iconManualCardEntry} />
 					</View>
 					<View style={tw`flex flex-col flex-1`}>
-						<Text style={tw`text-white font-medium text-lg`}>
+						<Text style={tw`text-white font-poppinsMedium text-lg`}>
 							Manual Card Entry
 						</Text>
-						<Text style={tw`text-white/60 text-sm`}>
+						<Text style={tw`text-white/60 font-poppinsLight text-sm`}>
 							Enter your card details manually
 						</Text>
 					</View>
 				</TouchableOpacity>
 				<TouchableOpacity
-					style={tw`flex flex-row w-full p-2 border border-white/20 border-t-white/40 border-b-white/30 blur-lg rounded-xl items-start gap-2`}
+					style={tw`flex flex-row w-full p-2 border border-white/20 border-t-white/40 border-b-white/30 blur-lg rounded-xl items-start gap-4`}
 				>
 					<BlurView
 						intensity={40}
@@ -91,8 +93,10 @@ export default function Scan() {
 						<SvgXml xml={iconSearchCard} />
 					</View>
 					<View style={tw`flex flex-col flex-1`}>
-						<Text style={tw`text-white font-medium text-lg`}>Search Card</Text>
-						<Text style={tw`text-white/60 text-sm`}>
+						<Text style={tw`text-white font-poppinsMedium text-lg`}>
+							Search Card
+						</Text>
+						<Text style={tw`text-white/60 text-sm font-poppinsLight`}>
 							Search and manage your cards
 						</Text>
 					</View>
