@@ -12,7 +12,7 @@ export default function ListingCard() {
 			style={tw`flex flex-row w-full px-3 py-2 border border-white/20 border-t-white/40 border-b-white/30 blur-lg rounded-xl items-center gap-2`}
 		>
 			<BlurView
-				intensity={50}
+				intensity={70}
 				// experimentalBlurMethod="dimezisBlurView"
 				tint="dark"
 				style={tw`absolute inset-0 rounded-xl`}
@@ -29,7 +29,7 @@ export default function ListingCard() {
 				<Text style={tw`text-gray-200 font-poppinsMedium text-xs`}>
 					1986 Fleer
 				</Text>
-				<View style={tw`flex flex-row items-center gap-1`}>
+				<View style={tw`flex flex-row items-center gap-4`}>
 					<Text style={tw`text-white font-poppins text-lg`}>$5,250</Text>
 					<View
 						style={tw`flex flex-row items-center gap-1 bg-green-600/20 px-2 py-0.5 rounded-md`}

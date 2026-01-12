@@ -50,7 +50,7 @@ export default function TabBar({ state, descriptors, navigation }) {
 					<GlassView style={tw`absolute inset-0 rounded-full`} />
 				) : (
 					<BlurView
-						intensity={50}
+						intensity={100}
 						// experimentalBlurMethod="dimezisBlurView"
 						tint="dark"
 						style={tw`absolute inset-0 rounded-full`}
