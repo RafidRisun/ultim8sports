@@ -2,13 +2,14 @@ import { iconIncrease, iconNotfication } from '@/assets/icon';
 import ChartTabButtons from '@/src/components/ChartTabButtons';
 import ListingCard from '@/src/components/ListingCard';
 import MainAreaChart from '@/src/components/MainAreaChart';
+import RoundGlass from '@/src/components/RoundGlass';
 import WrapperWithoutPX from '@/src/components/WrapperWithoutPX';
 import tw from '@/src/lib/tailwind';
 import MaskedView from '@react-native-masked-view/masked-view';
 import { Image } from 'expo-image';
 import { LinearGradient } from 'expo-linear-gradient';
 import React from 'react';
-import { ScrollView, Text, TouchableOpacity, View } from 'react-native';
+import { ScrollView, Text, View } from 'react-native';
 import { SvgXml } from 'react-native-svg';
 
 export default function Home() {
@@ -31,11 +32,9 @@ export default function Home() {
 								contentFit="cover"
 							/>
 						</View>
-						<TouchableOpacity
-							style={tw`flex items-center justify-center h-11 w-11 rounded-full bg-white/10 border border-white/20 border-t-white/40 border-b-white/30 blur-lg`}
-						>
+						<RoundGlass>
 							<SvgXml xml={iconNotfication} />
-						</TouchableOpacity>
+						</RoundGlass>
 					</View>
 					<View style={tw`flex gap-2`}>
 						<MaskedView

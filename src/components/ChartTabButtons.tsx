@@ -15,7 +15,7 @@ export default function ChartTabButtons({
 	return (
 		<View style={tw`flex w-full items-center`}>
 			<View
-				style={tw`flex flex-row w-64 bg-black/60 rounded-lg border border-gray-700 p-0.5`}
+				style={tw`flex flex-row w-64 bg-black/45 rounded-lg border border-gray-700 p-0.5`}
 			>
 				<Pressable
 					style={tw`flex-1 py-3 rounded-md`}
