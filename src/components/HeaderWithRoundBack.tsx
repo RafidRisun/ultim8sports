@@ -10,20 +10,26 @@ import tw from '../lib/tailwind';
 export default function HeaderWithRoundBack({
 	title,
 	share,
+	back,
 }: {
 	title: string;
 	share?: boolean;
+	back?: boolean;
 }) {
 	return (
 		<View style={tw`flex flex-row items-center justify-between w-full my-4`}>
-			<TouchableOpacity
-				style={tw`flex items-center justify-center h-11 w-11 rounded-full bg-white/10 border border-white/20 border-t-white/40 border-b-white/30 blur-lg`}
-				onPress={() => {
-					router.back();
-				}}
-			>
-				<SvgXml xml={iconBackArrow} />
-			</TouchableOpacity>
+			{back ? (
+				<TouchableOpacity
+					style={tw`flex items-center justify-center h-11 w-11 rounded-full bg-white/10 border border-white/20 border-t-white/40 border-b-white/30 blur-lg`}
+					onPress={() => {
+						router.back();
+					}}
+				>
+					<SvgXml xml={iconBackArrow} />
+				</TouchableOpacity>
+			) : (
+				<View style={tw`w-11 h-11`}></View>
+			)}
 			<MaskedView
 				style={tw`flex-1 h-6`}
 				maskElement={
@@ -64,7 +70,7 @@ export default function HeaderWithRoundBack({
 					<SvgXml xml={iconBackArrow} />
 				</TouchableOpacity>
 			) : (
-				<View style={tw`w-11`}></View>
+				<View style={tw`w-11 h-11`}></View>
 			)}
 		</View>
 	);

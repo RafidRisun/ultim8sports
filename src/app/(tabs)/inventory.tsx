@@ -106,25 +106,33 @@ export default function Inventory() {
 						</View>
 						<View style={tw`flex flex-row w-full items-center gap-2`}>
 							<RectangleGlass>
-								<Text style={tw`text-xs font-poppinsLight text-white`}>
-									TOTAL INVESTED
-								</Text>
-								<Text style={tw`text-white font-poppinsMedium text-lg`}>
-									$12,200
-								</Text>
-							</RectangleGlass>
-							<RectangleGlass>
-								<Text style={tw`text-xs font-poppinsLight text-white`}>
-									MARKET VALUE
-								</Text>
-								<View style={tw`flex flex-row items-center gap-4`}>
-									<Text style={tw`text-green-500 font-poppinsMedium text-lg`}>
+								<View style={tw`flex flex-col w-full items-start gap-2`}>
+									<Text style={tw`text-xs font-poppinsLight text-white`}>
+										TOTAL INVESTED
+									</Text>
+									<Text style={tw`text-white font-poppinsMedium text-lg`}>
 										$12,200
 									</Text>
-									<View style={tw`flex px-2 py-1 bg-green-600/20 rounded-full`}>
-										<Text style={tw`text-green-400 font-poppinsMedium text-xs`}>
-											+8.2%
+								</View>
+							</RectangleGlass>
+							<RectangleGlass>
+								<View style={tw`flex flex-col w-full items-start gap-2`}>
+									<Text style={tw`text-xs font-poppinsLight text-white`}>
+										MARKET VALUE
+									</Text>
+									<View style={tw`flex flex-row items-center gap-4`}>
+										<Text style={tw`text-green-500 font-poppinsMedium text-lg`}>
+											$12,200
 										</Text>
+										<View
+											style={tw`flex px-2 py-1 bg-green-600/20 rounded-full`}
+										>
+											<Text
+												style={tw`text-green-400 font-poppinsMedium text-xs`}
+											>
+												+8.2%
+											</Text>
+										</View>
 									</View>
 								</View>
 							</RectangleGlass>

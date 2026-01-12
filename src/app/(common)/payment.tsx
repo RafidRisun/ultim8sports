@@ -25,7 +25,7 @@ export default function Payment() {
 
 	return (
 		<Wrapper>
-			<HeaderWithRoundBack title="Payment" />
+			<HeaderWithRoundBack title="Payment" back />
 			<View style={tw`flex-1 flex-col justify-between`}>
 				<View style={tw`flex flex-col w-full items-start gap-5  mt-12`}>
 					<View style={tw`flex flex-col w-full items-start gap-4`}>
