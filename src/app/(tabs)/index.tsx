@@ -8,14 +8,16 @@ import tw from '@/src/lib/tailwind';
 import MaskedView from '@react-native-masked-view/masked-view';
 import { Image } from 'expo-image';
 import { LinearGradient } from 'expo-linear-gradient';
+import { useRouter } from 'expo-router';
 import React from 'react';
-import { ScrollView, Text, View } from 'react-native';
+import { ScrollView, Text, TouchableOpacity, View } from 'react-native';
 import { SvgXml } from 'react-native-svg';
 
 export default function Home() {
 	const [selectedTab, setSelectedTab] = React.useState<
 		'weekly' | 'monthly' | 'yearly'
 	>('weekly');
+	const router = useRouter();
 	return (
 		<WrapperWithoutPX>
 			<View style={tw`flex-1  w-full`}>
@@ -23,15 +25,15 @@ export default function Home() {
 					<View
 						style={tw`flex flex-row w-full justify-between items-center my-4 px-[4%]`}
 					>
-						<View
-							style={tw`flex items-center justify-center h-11 w-11 rounded-full`}
+						<TouchableOpacity
+							onPress={() => router.navigate('/(tabs)/profile')}
 						>
 							<Image
 								source={require('@/assets/images/profile photo.jpg')}
 								style={tw`h-11 w-11 rounded-full`}
 								contentFit="cover"
 							/>
-						</View>
+						</TouchableOpacity>
 						<RoundGlass>
 							<SvgXml xml={iconNotfication} />
 						</RoundGlass>

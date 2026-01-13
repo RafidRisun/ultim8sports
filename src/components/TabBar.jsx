@@ -98,7 +98,7 @@ export default function TabBar({ state, descriptors, navigation }) {
 							style={tw`flex-1 aspect-square items-center justify-center rounded-full`}
 						>
 							{isFocused && (
-								<View style={tw`absolute inset-0 bg-white rounded-full`} />
+								<View style={tw`absolute inset-1 bg-white rounded-full`} />
 							)}
 							{route.name === 'index' && (
 								<SvgXml xml={isFocused ? homeFocused : homeUnfocused} />
