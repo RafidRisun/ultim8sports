@@ -4,11 +4,11 @@ import {
 	iconIncreaseChart,
 	iconTrash,
 } from '@/assets/icon';
+import RectangleGlassRow from '@/src/components/RectangleGlassRow';
 import StatsCard from '@/src/components/WatchlistComponents/StatsCard';
 import Wrapper from '@/src/components/Wrapper';
 import tw from '@/src/lib/tailwind';
 import MaskedView from '@react-native-masked-view/masked-view';
-import { BlurView } from 'expo-blur';
 import { Image } from 'expo-image';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
@@ -139,59 +139,55 @@ export default function Watchlist() {
 									renderRightActions={RightAction}
 									containerStyle={tw`w-full`}
 								>
-									<TouchableOpacity
-										style={tw`flex flex-row w-full px-3 py-2 border border-white/20 border-t-white/40 border-b-white/30 blur-lg rounded-xl items-center gap-2`}
-									>
-										<BlurView
-											intensity={70}
-											// experimentalBlurMethod="dimezisBlurView"
-											tint="dark"
-											style={tw`absolute inset-0 rounded-xl`}
-										/>
-										<Image
-											source={require('@/assets/images/card1.jpg')}
-											style={tw`h-17 w-13 rounded-md`}
-											contentFit="cover"
-										/>
-										<View style={tw`flex flex-col gap-1`}>
-											<Text style={tw`text-white font-poppinsSemiBold text-sm`}>
-												{item.name}
-											</Text>
-											<Text
-												style={tw`text-gray-200 font-poppinsMedium text-xs`}
-											>
-												{item.series}
-											</Text>
-											<View style={tw`flex flex-row items-center gap-4`}>
-												<Text style={tw`text-white font-poppins text-lg`}>
-													{item.price}
+									<RectangleGlassRow>
+										<TouchableOpacity style={tw`flex flex-row w-full gap-4`}>
+											<Image
+												source={require('@/assets/images/card1.jpg')}
+												style={tw`h-17 w-13 rounded-md`}
+												contentFit="cover"
+											/>
+											<View style={tw`flex flex-col gap-1`}>
+												<Text
+													style={tw`text-white font-poppinsSemiBold text-sm`}
+												>
+													{item.name}
 												</Text>
-												{item.change.startsWith('+') ? (
-													<View
-														style={tw`flex flex-row items-center gap-1 bg-green-600/20 px-2 py-0.5 rounded-md`}
-													>
-														<SvgXml xml={iconIncreaseChart} />
-														<Text
-															style={tw`text-green-400 font-poppinsMedium text-xs`}
+												<Text
+													style={tw`text-gray-200 font-poppinsMedium text-xs`}
+												>
+													{item.series}
+												</Text>
+												<View style={tw`flex flex-row items-center gap-4`}>
+													<Text style={tw`text-white font-poppins text-lg`}>
+														{item.price}
+													</Text>
+													{item.change.startsWith('+') ? (
+														<View
+															style={tw`flex flex-row items-center gap-1 bg-green-600/20 px-2 py-0.5 rounded-md`}
 														>
-															{item.change}
-														</Text>
-													</View>
-												) : (
-													<View
-														style={tw`flex flex-row items-center gap-1 bg-red-600/20 px-2 py-0.5 rounded-md`}
-													>
-														<SvgXml xml={iconDecreaseChart} />
-														<Text
-															style={tw`text-red-400 font-poppinsMedium text-xs`}
+															<SvgXml xml={iconIncreaseChart} />
+															<Text
+																style={tw`text-green-400 font-poppinsMedium text-xs`}
+															>
+																{item.change}
+															</Text>
+														</View>
+													) : (
+														<View
+															style={tw`flex flex-row items-center gap-1 bg-red-600/20 px-2 py-0.5 rounded-md`}
 														>
-															{item.change}
-														</Text>
-													</View>
-												)}
+															<SvgXml xml={iconDecreaseChart} />
+															<Text
+																style={tw`text-red-400 font-poppinsMedium text-xs`}
+															>
+																{item.change}
+															</Text>
+														</View>
+													)}
+												</View>
 											</View>
-										</View>
-									</TouchableOpacity>
+										</TouchableOpacity>
+									</RectangleGlassRow>
 								</ReanimatedSwipeable>
 							)}
 						/>
