@@ -1,13 +1,46 @@
-import { iconAddPlus } from '@/assets/icon';
-import ListingCard from '@/src/components/ListingCard';
+import { iconAddPlus, iconIncreaseChart, iconTrash } from '@/assets/icon';
 import StatsCard from '@/src/components/WatchlistComponents/StatsCard';
 import Wrapper from '@/src/components/Wrapper';
 import tw from '@/src/lib/tailwind';
 import MaskedView from '@react-native-masked-view/masked-view';
+import { BlurView } from 'expo-blur';
+import { Image } from 'expo-image';
 import { LinearGradient } from 'expo-linear-gradient';
 import React, { useState } from 'react';
-import { ScrollView, Text, TouchableOpacity, View } from 'react-native';
+import {
+	FlatList,
+	ScrollView,
+	StyleSheet,
+	Text,
+	TouchableOpacity,
+	View,
+} from 'react-native';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import ReanimatedSwipeable from 'react-native-gesture-handler/ReanimatedSwipeable';
+import Reanimated, {
+	SharedValue,
+	useAnimatedStyle,
+} from 'react-native-reanimated';
 import { SvgXml } from 'react-native-svg';
+
+function RightAction(prog: SharedValue<number>, drag: SharedValue<number>) {
+	const styleAnimation = useAnimatedStyle(() => {
+		console.log('showRightProgress:', prog.value);
+		console.log('appliedTranslation:', drag.value);
+
+		return {
+			transform: [{ translateX: drag.value + 70 }],
+		};
+	});
+
+	return (
+		<Reanimated.View style={styleAnimation}>
+			<TouchableOpacity style={styles.rightAction}>
+				<SvgXml xml={iconTrash} />
+			</TouchableOpacity>
+		</Reanimated.View>
+	);
+}
 
 export default function Watchlist() {
 	const [selectedStat, setSelectedStat] = useState<string | null>(null);
@@ -83,18 +116,81 @@ export default function Watchlist() {
 					<Text style={tw`text-white font-poppinsMedium text-lg`}>
 						YOUR ITEMS
 					</Text>
-					<View
+					<GestureHandlerRootView
 						style={tw`flex flex-col w-full justify-center items-center gap-2`}
 					>
-						<ListingCard />
-						<ListingCard />
-						<ListingCard />
-					</View>
+						<FlatList
+							data={itemData}
+							keyExtractor={(_, index) => index.toString()}
+							style={tw`w-full`}
+							contentContainerStyle={tw`gap-4`}
+							renderItem={({ item }) => (
+								<ReanimatedSwipeable
+									friction={2}
+									rightThreshold={10}
+									renderRightActions={RightAction}
+									containerStyle={tw`w-full`}
+								>
+									<TouchableOpacity
+										style={tw`flex flex-row w-full px-3 py-2 border border-white/20 border-t-white/40 border-b-white/30 blur-lg rounded-xl items-center gap-2`}
+									>
+										<BlurView
+											intensity={70}
+											// experimentalBlurMethod="dimezisBlurView"
+											tint="dark"
+											style={tw`absolute inset-0 rounded-xl`}
+										/>
+										<Image
+											source={require('@/assets/images/card1.jpg')}
+											style={tw`h-17 w-13 rounded-md`}
+											contentFit="cover"
+										/>
+										<View style={tw`flex flex-col gap-1`}>
+											<Text style={tw`text-white font-poppinsSemiBold text-sm`}>
+												{item.name}
+											</Text>
+											<Text
+												style={tw`text-gray-200 font-poppinsMedium text-xs`}
+											>
+												{item.series}
+											</Text>
+											<View style={tw`flex flex-row items-center gap-4`}>
+												<Text style={tw`text-white font-poppins text-lg`}>
+													{item.price}
+												</Text>
+												<View
+													style={tw`flex flex-row items-center gap-1 bg-green-600/20 px-2 py-0.5 rounded-md`}
+												>
+													<SvgXml xml={iconIncreaseChart} />
+													<Text
+														style={tw`text-green-400 font-poppinsMedium text-xs`}
+													>
+														{item.change}
+													</Text>
+												</View>
+											</View>
+										</View>
+									</TouchableOpacity>
+								</ReanimatedSwipeable>
+							)}
+						/>
+					</GestureHandlerRootView>
 				</View>
 			</View>
 		</Wrapper>
 	);
 }
+
+const styles = StyleSheet.create({
+	rightAction: {
+		width: 70,
+		height: '100%',
+		backgroundColor: '#D43939',
+		alignItems: 'center',
+		justifyContent: 'center',
+		borderRadius: 16,
+	},
+});
 
 const basketballData = [
 	{ value: 150, label: 'Jan' },
@@ -115,4 +211,31 @@ const baseballData = [
 	{ value: 50, label: 'Feb' },
 	{ value: 45, label: 'Mar' },
 	{ value: 160, label: 'Apr' },
+];
+
+const itemData = [
+	{
+		name: 'Michael Jordan',
+		series: '1986 Fleer',
+		price: '$5,250',
+		change: '+8.2%',
+	},
+	{
+		name: 'LeBron James',
+		series: '2003 Topps',
+		price: '$4,800',
+		change: '+5.6%',
+	},
+	{
+		name: 'Kobe Bryant',
+		series: '1996 Topps',
+		price: '$3,900',
+		change: '+7.1%',
+	},
+	{
+		name: "Shaquille O'Neal",
+		series: '1992 Upper Deck',
+		price: '$2,750',
+		change: '+4.3%',
+	},
 ];
