@@ -27,7 +27,7 @@ export default function Home() {
 							style={tw`flex items-center justify-center h-11 w-11 rounded-full`}
 						>
 							<Image
-								source={require('@/assets/images/parrot.png')}
+								source={require('@/assets/images/profile photo.jpg')}
 								style={tw`h-11 w-11 rounded-full`}
 								contentFit="cover"
 							/>

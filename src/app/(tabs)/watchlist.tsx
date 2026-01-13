@@ -1,4 +1,9 @@
-import { iconAddPlus, iconIncreaseChart, iconTrash } from '@/assets/icon';
+import {
+	iconAddPlus,
+	iconDecreaseChart,
+	iconIncreaseChart,
+	iconTrash,
+} from '@/assets/icon';
 import StatsCard from '@/src/components/WatchlistComponents/StatsCard';
 import Wrapper from '@/src/components/Wrapper';
 import tw from '@/src/lib/tailwind';
@@ -6,6 +11,7 @@ import MaskedView from '@react-native-masked-view/masked-view';
 import { BlurView } from 'expo-blur';
 import { Image } from 'expo-image';
 import { LinearGradient } from 'expo-linear-gradient';
+import { useRouter } from 'expo-router';
 import React, { useState } from 'react';
 import {
 	FlatList,
@@ -25,8 +31,8 @@ import { SvgXml } from 'react-native-svg';
 
 function RightAction(prog: SharedValue<number>, drag: SharedValue<number>) {
 	const styleAnimation = useAnimatedStyle(() => {
-		console.log('showRightProgress:', prog.value);
-		console.log('appliedTranslation:', drag.value);
+		// console.log('showRightProgress:', prog.value);
+		// console.log('appliedTranslation:', drag.value);
 
 		return {
 			transform: [{ translateX: drag.value + 70 }],
@@ -44,6 +50,7 @@ function RightAction(prog: SharedValue<number>, drag: SharedValue<number>) {
 
 export default function Watchlist() {
 	const [selectedStat, setSelectedStat] = useState<string | null>(null);
+	const router = useRouter();
 	return (
 		<Wrapper>
 			<View style={tw`flex flex-row items-center justify-between w-full my-4`}>
@@ -80,6 +87,7 @@ export default function Watchlist() {
 				</MaskedView>
 				<TouchableOpacity
 					style={tw`flex items-center justify-center h-11 w-11 rounded-full bg-white/10 border border-white/20 border-t-white/40 border-b-white/30 blur-lg`}
+					onPress={() => router.navigate('/(tabs)/scan')}
 				>
 					<SvgXml xml={iconAddPlus} />
 				</TouchableOpacity>
@@ -158,16 +166,29 @@ export default function Watchlist() {
 												<Text style={tw`text-white font-poppins text-lg`}>
 													{item.price}
 												</Text>
-												<View
-													style={tw`flex flex-row items-center gap-1 bg-green-600/20 px-2 py-0.5 rounded-md`}
-												>
-													<SvgXml xml={iconIncreaseChart} />
-													<Text
-														style={tw`text-green-400 font-poppinsMedium text-xs`}
+												{item.change.startsWith('+') ? (
+													<View
+														style={tw`flex flex-row items-center gap-1 bg-green-600/20 px-2 py-0.5 rounded-md`}
 													>
-														{item.change}
-													</Text>
-												</View>
+														<SvgXml xml={iconIncreaseChart} />
+														<Text
+															style={tw`text-green-400 font-poppinsMedium text-xs`}
+														>
+															{item.change}
+														</Text>
+													</View>
+												) : (
+													<View
+														style={tw`flex flex-row items-center gap-1 bg-red-600/20 px-2 py-0.5 rounded-md`}
+													>
+														<SvgXml xml={iconDecreaseChart} />
+														<Text
+															style={tw`text-red-400 font-poppinsMedium text-xs`}
+														>
+															{item.change}
+														</Text>
+													</View>
+												)}
 											</View>
 										</View>
 									</TouchableOpacity>
@@ -236,6 +257,6 @@ const itemData = [
 		name: "Shaquille O'Neal",
 		series: '1992 Upper Deck',
 		price: '$2,750',
-		change: '+4.3%',
+		change: '-4.3%',
 	},
 ];
