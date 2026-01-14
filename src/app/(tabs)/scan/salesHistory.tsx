@@ -44,10 +44,10 @@ export default function SalesHistory() {
 								<View style={tw`flex flex-row gap-4`}>
 									<Image
 										source={require('@/assets/images/card1.jpg')}
-										style={tw`h-17 w-13 rounded-md`}
+										style={tw`h-14 w-10 rounded-md`}
 										contentFit="cover"
 									/>
-									<View style={tw`flex flex-col gap-1`}>
+									<View style={tw`flex flex-col gap-1 justify-center`}>
 										<Text style={tw`text-white font-poppinsSemiBold text-sm`}>
 											Michael Jordan
 										</Text>

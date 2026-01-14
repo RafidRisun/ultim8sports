@@ -12,6 +12,10 @@ export default function ScanLayout() {
 				name="salesHistory"
 				options={{ title: 'Sales History', headerShown: false }}
 			/>
+			<Stack.Screen
+				name="manualCardInput"
+				options={{ title: 'Manual Card Input', headerShown: false }}
+			/>
 		</Stack>
 	);
 }
