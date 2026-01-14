@@ -21,11 +21,21 @@ import RectangleGlassRow from '@/src/components/RectangleGlassRow';
 import Wrapper from '@/src/components/Wrapper';
 import tw from '@/src/lib/tailwind';
 import { Image } from 'expo-image';
-import React from 'react';
-import { ScrollView, Text, TouchableOpacity, View } from 'react-native';
+import React, { useState } from 'react';
+import { ScrollView, Switch, Text, TouchableOpacity, View } from 'react-native';
 import { SvgXml } from 'react-native-svg';
 
 export default function Profile() {
+	const [isPriceAlertEnabled, setIsPriceAlertEnabled] = useState(false);
+	const [isTwoFactorEnabled, setIsTwoFactorEnabled] = useState(true);
+	const [isGoogleSheetConnected, setIsGoogleSheetConnected] = useState(true);
+
+	const togglePriceAlertSwitch = () =>
+		setIsPriceAlertEnabled(previousState => !previousState);
+	const toggleTwoFactorSwitch = () =>
+		setIsTwoFactorEnabled(previousState => !previousState);
+	const toggleGoogleSheetSwitch = () =>
+		setIsGoogleSheetConnected(previousState => !previousState);
 	return (
 		<Wrapper>
 			<View style={tw`flex-1 w-full`}>
@@ -123,7 +133,13 @@ export default function Profile() {
 												Two-Factor Authentication
 											</Text>
 										</View>
-										<SvgXml xml={iconRightArrow} />
+										<Switch
+											trackColor={{ false: '#FFFFFF', true: '#A375FF' }}
+											thumbColor={isTwoFactorEnabled ? '#FFFFFF' : '#A375FF'}
+											// ios_backgroundColor="#3e3e3e"
+											onValueChange={toggleTwoFactorSwitch}
+											value={isTwoFactorEnabled}
+										/>
 									</View>
 								</TouchableOpacity>
 							</View>
@@ -147,7 +163,13 @@ export default function Profile() {
 												Price Alert
 											</Text>
 										</View>
-										<SvgXml xml={iconRightArrow} />
+										<Switch
+											trackColor={{ false: '#FFFFFF', true: '#A375FF' }}
+											thumbColor={isPriceAlertEnabled ? '#FFFFFF' : '#A375FF'}
+											// ios_backgroundColor="#3e3e3e"
+											onValueChange={togglePriceAlertSwitch}
+											value={isPriceAlertEnabled}
+										/>
 									</View>
 								</TouchableOpacity>
 								<TouchableOpacity style={tw`flex flex-col w-full gap-2 px-2`}>
@@ -270,7 +292,15 @@ export default function Profile() {
 												</Text>
 											</View>
 										</View>
-										<SvgXml xml={iconRightArrow} />
+										<Switch
+											trackColor={{ false: '#FFFFFF', true: '#A375FF' }}
+											thumbColor={
+												isGoogleSheetConnected ? '#FFFFFF' : '#A375FF'
+											}
+											// ios_backgroundColor="#3e3e3e"
+											onValueChange={toggleGoogleSheetSwitch}
+											value={isGoogleSheetConnected}
+										/>
 									</View>
 								</TouchableOpacity>
 							</View>
