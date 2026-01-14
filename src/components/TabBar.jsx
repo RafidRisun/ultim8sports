@@ -48,7 +48,7 @@ export default function TabBar({ state, descriptors, navigation }) {
 
 	const rotate = tilt.interpolate({
 		inputRange: [-1, 0, 1],
-		outputRange: ['-8deg', '0deg', '8deg'],
+		outputRange: ['-6deg', '0deg', '6deg'],
 	});
 
 	return (
