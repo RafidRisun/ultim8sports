@@ -121,7 +121,7 @@ export default function Profile() {
 										<SvgXml xml={iconRightArrow} />
 									</View>
 								</TouchableOpacity>
-								<TouchableOpacity style={tw`flex flex-col w-full gap-2 px-2`}>
+								<View style={tw`flex flex-col w-full gap-2 px-2`}>
 									<View
 										style={tw`flex flex-row w-full items-center justify-between`}
 									>
@@ -141,7 +141,7 @@ export default function Profile() {
 											value={isTwoFactorEnabled}
 										/>
 									</View>
-								</TouchableOpacity>
+								</View>
 							</View>
 						</RectangleGlassRow>
 						<Text
@@ -151,7 +151,7 @@ export default function Profile() {
 						</Text>
 						<RectangleGlassRow>
 							<View style={tw`flex flex-col w-full my-2 gap-4`}>
-								<TouchableOpacity style={tw`flex flex-col w-full gap-2 px-2`}>
+								<View style={tw`flex flex-col w-full gap-2 px-2`}>
 									<View
 										style={tw`flex flex-row w-full items-center justify-between`}
 									>
@@ -171,7 +171,7 @@ export default function Profile() {
 											value={isPriceAlertEnabled}
 										/>
 									</View>
-								</TouchableOpacity>
+								</View>
 								<TouchableOpacity style={tw`flex flex-col w-full gap-2 px-2`}>
 									<View
 										style={tw`flex flex-row w-full items-center justify-between`}
@@ -273,7 +273,7 @@ export default function Profile() {
 						</Text>
 						<RectangleGlassRow>
 							<View style={tw`flex flex-col w-full my-2 gap-4`}>
-								<TouchableOpacity style={tw`flex flex-col w-full gap-2 px-2`}>
+								<View style={tw`flex flex-col w-full gap-2 px-2`}>
 									<View
 										style={tw`flex flex-row w-full items-center justify-between`}
 									>
@@ -302,7 +302,7 @@ export default function Profile() {
 											value={isGoogleSheetConnected}
 										/>
 									</View>
-								</TouchableOpacity>
+								</View>
 							</View>
 						</RectangleGlassRow>
 						<Text
