@@ -211,6 +211,12 @@ export default function Inventory() {
 								<ListingCard />
 								<ListingCard />
 								<ListingCard />
+								<ListingCard />
+								<ListingCard />
+								<ListingCard />
+								<ListingCard />
+								<ListingCard />
+								<ListingCard />
 							</View>
 						</View>
 					</View>

@@ -154,6 +154,10 @@ export default function Home() {
 								<ListingCard />
 								<ListingCard />
 								<ListingCard />
+								<ListingCard />
+								<ListingCard />
+								<ListingCard />
+								<ListingCard />
 							</View>
 						</View>
 					</View>
