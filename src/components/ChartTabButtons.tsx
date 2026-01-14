@@ -32,7 +32,7 @@ export default function ChartTabButtons({
 							selectedTab === 'weekly' ? 'text-black' : 'text-white'
 						} text-center text-xs font-poppinsMedium`}
 					>
-						Weekly
+						Week
 					</Text>
 				</Pressable>
 				<Pressable
@@ -50,7 +50,7 @@ export default function ChartTabButtons({
 							selectedTab === 'monthly' ? 'text-black' : 'text-white'
 						} text-center text-xs font-poppinsMedium`}
 					>
-						Monthly
+						Month
 					</Text>
 				</Pressable>
 				<Pressable
@@ -68,7 +68,7 @@ export default function ChartTabButtons({
 							selectedTab === 'yearly' ? 'text-black' : 'text-white'
 						} text-center text-xs font-poppinsMedium`}
 					>
-						Yearly
+						Year
 					</Text>
 				</Pressable>
 			</View>
