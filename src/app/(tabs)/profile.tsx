@@ -1,14 +1,21 @@
 import {
 	iconAlert,
+	iconCardSmall,
+	iconContact,
 	iconCrown,
 	iconCurrency,
 	iconDelete,
+	iconFAQ,
+	iconGoogleSheet,
+	iconLogout,
 	iconPassword,
 	iconProfile,
 	iconRightArrow,
 	iconShareProfile,
+	iconTermsAndConditions,
 	iconTwoFactor,
 } from '@/assets/icon';
+import DividerPurple from '@/src/components/DividerPurple';
 import HeaderWithRoundBack from '@/src/components/HeaderWithRoundBack';
 import RectangleGlassRow from '@/src/components/RectangleGlassRow';
 import Wrapper from '@/src/components/Wrapper';
@@ -25,7 +32,7 @@ export default function Profile() {
 				<HeaderWithRoundBack title="Profile" />
 				<ScrollView style={tw`w-full`} showsVerticalScrollIndicator={false}>
 					<View
-						style={tw`flex flex-col items-center justify-start gap-5 mt-4 pb-40`}
+						style={tw`flex flex-col items-center justify-start gap-5 mt-4 pb-30`}
 					>
 						<RectangleGlassRow>
 							<View style={tw`flex flex-col w-full my-2 gap-4`}>
@@ -58,7 +65,7 @@ export default function Profile() {
 										</Text>
 									</View>
 								</View>
-								<View style={tw`h-0.75px bg-purple-700 w-full`} />
+								<DividerPurple />
 								<TouchableOpacity style={tw`flex flex-col w-full gap-2 px-2`}>
 									<View
 										style={tw`flex flex-row w-full items-center justify-between`}
@@ -215,6 +222,142 @@ export default function Profile() {
 										</Text>
 									</View>
 								</View>
+								<View style={tw`flex flex-row items-center gap-2`}>
+									<SvgXml xml={iconCardSmall} />
+									<Text style={tw`text-white font-poppins text-xs`}>
+										**** **** **** 1234
+									</Text>
+								</View>
+								<DividerPurple />
+								<View style={tw`flex flex-row w-full items-center`}>
+									<TouchableOpacity style={tw`flex-1 py-1 items-center`}>
+										<Text style={tw`text-blue-600 font-poppinsMedium text-xs`}>
+											Upgrade Plan
+										</Text>
+									</TouchableOpacity>
+									<View style={tw`w-0.75px bg-purple-700 h-full`} />
+									<TouchableOpacity style={tw`flex-1 py-1 items-center`}>
+										<Text style={tw`text-white font-poppinsMedium text-xs`}>
+											Billing History
+										</Text>
+									</TouchableOpacity>
+								</View>
+							</View>
+						</RectangleGlassRow>
+						<Text
+							style={tw`text-gray-400 font-poppinsLight text-sm w-full text-start`}
+						>
+							Integration
+						</Text>
+						<RectangleGlassRow>
+							<View style={tw`flex flex-col w-full my-2 gap-4`}>
+								<TouchableOpacity style={tw`flex flex-col w-full gap-2 px-2`}>
+									<View
+										style={tw`flex flex-row w-full items-center justify-between`}
+									>
+										<View style={tw`flex flex-row items-center gap-4`}>
+											<View style={tw`p-2 bg-white/30 rounded-lg`}>
+												<SvgXml xml={iconGoogleSheet} />
+											</View>
+											<View style={tw`flex flex-col`}>
+												<Text style={tw`text-white font-poppinsMedium text-sm`}>
+													Google Sheets
+												</Text>
+												<Text
+													style={tw`text-gray-300 font-poppinsLight text-xs`}
+												>
+													Last Synced: Today, 10:42 AM
+												</Text>
+											</View>
+										</View>
+										<SvgXml xml={iconRightArrow} />
+									</View>
+								</TouchableOpacity>
+							</View>
+						</RectangleGlassRow>
+						<Text
+							style={tw`text-gray-400 font-poppinsLight text-sm w-full text-start`}
+						>
+							Support
+						</Text>
+						<RectangleGlassRow>
+							<View style={tw`flex flex-col w-full my-2 gap-4`}>
+								<TouchableOpacity style={tw`flex flex-col w-full gap-2 px-2`}>
+									<View
+										style={tw`flex flex-row w-full items-center justify-between`}
+									>
+										<View style={tw`flex flex-row items-center gap-4`}>
+											<View style={tw`p-2 bg-white/30 rounded-lg`}>
+												<SvgXml xml={iconFAQ} />
+											</View>
+											<Text style={tw`text-white font-poppinsMedium text-sm`}>
+												Help & FAQ
+											</Text>
+										</View>
+										<SvgXml xml={iconRightArrow} />
+									</View>
+								</TouchableOpacity>
+								<TouchableOpacity style={tw`flex flex-col w-full gap-2 px-2`}>
+									<View
+										style={tw`flex flex-row w-full items-center justify-between`}
+									>
+										<View style={tw`flex flex-row items-center gap-4`}>
+											<View style={tw`p-2 bg-white/30 rounded-lg`}>
+												<SvgXml xml={iconContact} />
+											</View>
+											<Text style={tw`text-white font-poppinsMedium text-sm`}>
+												Contact Support
+											</Text>
+										</View>
+										<SvgXml xml={iconRightArrow} />
+									</View>
+								</TouchableOpacity>
+								<TouchableOpacity style={tw`flex flex-col w-full gap-2 px-2`}>
+									<View
+										style={tw`flex flex-row w-full items-center justify-between`}
+									>
+										<View style={tw`flex flex-row items-center gap-4`}>
+											<View style={tw`p-2 bg-white/30 rounded-lg`}>
+												<SvgXml xml={iconPassword} />
+											</View>
+											<Text style={tw`text-white font-poppinsMedium text-sm`}>
+												Privacy Policy
+											</Text>
+										</View>
+										<SvgXml xml={iconRightArrow} />
+									</View>
+								</TouchableOpacity>
+								<TouchableOpacity style={tw`flex flex-col w-full gap-2 px-2`}>
+									<View
+										style={tw`flex flex-row w-full items-center justify-between`}
+									>
+										<View style={tw`flex flex-row items-center gap-4`}>
+											<View style={tw`p-2 bg-white/30 rounded-lg`}>
+												<SvgXml xml={iconTermsAndConditions} />
+											</View>
+											<Text style={tw`text-white font-poppinsMedium text-sm`}>
+												Terms & Conditions
+											</Text>
+										</View>
+										<SvgXml xml={iconRightArrow} />
+									</View>
+								</TouchableOpacity>
+							</View>
+						</RectangleGlassRow>
+						<RectangleGlassRow>
+							<View style={tw`flex flex-col w-full my-2 gap-4`}>
+								<TouchableOpacity style={tw`flex flex-col w-full gap-2 px-2`}>
+									<View
+										style={tw`flex flex-row w-full items-center justify-start gap-4`}
+									>
+										<View style={tw`p-2 bg-white/30 rounded-lg`}>
+											<SvgXml xml={iconLogout} />
+										</View>
+										<Text style={tw`text-white font-poppinsMedium text-sm`}>
+											Log Out
+										</Text>
+									</View>
+								</TouchableOpacity>
 							</View>
 						</RectangleGlassRow>
 					</View>
