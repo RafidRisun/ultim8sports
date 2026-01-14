@@ -12,21 +12,13 @@ import {
 import { useLinkBuilder, useTheme } from '@react-navigation/native';
 import { BlurView } from 'expo-blur';
 import { GlassView } from 'expo-glass-effect';
-import React, { useRef } from 'react';
-import {
-	Animated,
-	Easing,
-	Platform,
-	TouchableOpacity,
-	View,
-} from 'react-native';
+import { Platform, TouchableOpacity, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { SvgXml } from 'react-native-svg';
 import tw from '../lib/tailwind';
 
 export default function TabBar({ state, descriptors, navigation }) {
 	const { colors } = useTheme();
-	const tilt = useRef(new Animated.Value(0)).current;
 	const { buildHref } = useLinkBuilder();
 
 	const { bottom } = useSafeAreaInsets();
@@ -46,20 +38,12 @@ export default function TabBar({ state, descriptors, navigation }) {
 	// 	state.routes.map(route => route.name)
 	// );
 
-	const rotate = tilt.interpolate({
-		inputRange: [-1, 0, 1],
-		outputRange: ['-6deg', '0deg', '6deg'],
-	});
-
 	return (
 		<View style={tw`flex w-full items-center justify-center`}>
-			<Animated.View
+			<View
 				style={[
 					tw`flex flex-row items-center justify-between absolute bottom-4 mx-4 border border-white/20 border-t-white/60 border-b-white/40 blur-lg rounded-full overflow-hidden max-w-100`,
-					{
-						marginBottom: bottom,
-						transform: [{ perspective: 1000 }, { rotateY: rotate }],
-					},
+					{ marginBottom: bottom },
 				]}
 			>
 				{Platform.OS === 'ios' ? (
@@ -89,25 +73,6 @@ export default function TabBar({ state, descriptors, navigation }) {
 							target: route.key,
 							canPreventDefault: true,
 						});
-
-						// tilt direction based on tab position relative to center
-						const center = (state.routes.length - 1) / 2;
-						const dir = Math.sign(index - center) || 0;
-
-						Animated.sequence([
-							Animated.timing(tilt, {
-								toValue: dir,
-								duration: 110,
-								easing: Easing.out(Easing.quad),
-								useNativeDriver: true,
-							}),
-							Animated.timing(tilt, {
-								toValue: 0,
-								duration: 160,
-								easing: Easing.out(Easing.quad),
-								useNativeDriver: true,
-							}),
-						]).start();
 
 						if (!isFocused && !event.defaultPrevented) {
 							navigation.navigate(route.name, route.params);
@@ -153,7 +118,7 @@ export default function TabBar({ state, descriptors, navigation }) {
 						</TouchableOpacity>
 					);
 				})}
-			</Animated.View>
+			</View>
 		</View>
 	);
 }

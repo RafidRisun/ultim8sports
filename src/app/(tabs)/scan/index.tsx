@@ -8,17 +8,22 @@ import HeaderWithRoundBack from '@/src/components/HeaderWithRoundBack';
 import RectangleGlassRow from '@/src/components/RectangleGlassRow';
 import Wrapper from '@/src/components/Wrapper';
 import tw from '@/src/lib/tailwind';
+import { useRouter } from 'expo-router';
 import React from 'react';
 import { Text, TouchableOpacity, View } from 'react-native';
 import { SvgXml } from 'react-native-svg';
 
 export default function Scan() {
+	const router = useRouter();
 	return (
 		<Wrapper>
 			<HeaderWithRoundBack title="Add Card" />
 			<View style={tw`flex flex-col items-center justify-start gap-5 mt-8`}>
 				<RectangleGlassRow>
-					<TouchableOpacity style={tw`flex flex-row w-full gap-4`}>
+					<TouchableOpacity
+						style={tw`flex flex-row w-full gap-4`}
+						onPress={() => router.push('/scan/salesHistory')}
+					>
 						<View style={tw`p-2 bg-white/20 rounded-lg`}>
 							<SvgXml xml={iconSalesHistory} />
 						</View>
