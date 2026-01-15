@@ -58,8 +58,10 @@ export default function ManualCardInput() {
 											}
 											style={tw`text-white font-poppins h-full p-0 m-0`}
 										>
-											<Picker.Item label="Java" value="java" />
-											<Picker.Item label="JavaScript" value="js" />
+											<Picker.Item label="PSA 9" value="psa9" />
+											<Picker.Item label="PSA 10" value="psa10" />
+											<Picker.Item label="BGS 9.5" value="bgs95" />
+											<Picker.Item label="BGS 10" value="bgs10" />
 										</Picker>
 									</View>
 								</View>

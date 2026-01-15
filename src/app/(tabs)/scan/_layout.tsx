@@ -16,6 +16,10 @@ export default function ScanLayout() {
 				name="manualCardInput"
 				options={{ title: 'Manual Card Input', headerShown: false }}
 			/>
+			{/* <Stack.Screen
+				name="scanCard"
+				options={{ title: 'Scan Card', headerShown: false }}
+			/> */}
 		</Stack>
 	);
 }
