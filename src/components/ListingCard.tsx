@@ -13,7 +13,9 @@ export default function ListingCard() {
 		<RectangleGlassRow>
 			<TouchableOpacity
 				style={tw`flex flex-row w-full gap-4`}
-				onPress={() => {}}
+				onPress={() => {
+					router.push('/(common)/cardDetails');
+				}}
 			>
 				<Image
 					source={require('@/assets/images/card1.jpg')}
