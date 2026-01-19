@@ -1,15 +1,20 @@
 import { iconIncreaseChart } from '@/assets/icon';
 import tw from '@/src/lib/tailwind';
 import { Image } from 'expo-image';
+import { useRouter } from 'expo-router';
 import React from 'react';
 import { Text, TouchableOpacity, View } from 'react-native';
 import { SvgXml } from 'react-native-svg';
 import RectangleGlassRow from './RectangleGlassRow';
 
 export default function ListingCard() {
+	const router = useRouter();
 	return (
 		<RectangleGlassRow>
-			<TouchableOpacity style={tw`flex flex-row w-full gap-4`}>
+			<TouchableOpacity
+				style={tw`flex flex-row w-full gap-4`}
+				onPress={() => router.push('/cardDetails')}
+			>
 				<Image
 					source={require('@/assets/images/card1.jpg')}
 					style={tw`h-17 w-13 rounded-md`}
