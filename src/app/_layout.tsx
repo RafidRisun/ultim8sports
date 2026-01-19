@@ -15,9 +15,13 @@ export default function RootLayout() {
 	return (
 		<Stack screenOptions={{ headerShown: false }}>
 			<Stack.Screen name="(tabs)" />
-			<Stack.Screen name="cardDetails" />
+			<Stack.Screen name="cardDetailsConfirmation" />
 			<Stack.Screen name="scanCard" />
 			<Stack.Screen name="searchingCard" />
+			<Stack.Screen name="manualCardInput" />
+			<Stack.Screen name="salesHistory" />
+			<Stack.Screen name="payment" />
+			<Stack.Screen name="plans" />
 		</Stack>
 	);
 }

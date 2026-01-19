@@ -20,7 +20,7 @@ import { SvgXml } from 'react-native-svg';
 
 export default function ManualCardInput() {
 	//const height = useWindowDimensions().height;
-	const [selectedLanguage, setSelectedLanguage] = React.useState('java');
+	const [selectedLanguage, setSelectedLanguage] = useState('psa9');
 	const [date, setDate] = useState(new Date());
 	const [open, setOpen] = useState(false);
 	return (
@@ -38,12 +38,12 @@ export default function ManualCardInput() {
 						</View>
 						<RectangleGlassRow>
 							<View style={tw`flex flex-col w-full gap-5 p-2`}>
-								<CardInfoInput label="Player Name" width="w-full" />
+								<CardInfoInput label="Player Name" />
 								<View style={tw`flex flex-row w-full gap-3`}>
-									<CardInfoInput label="Year" width="flex-1" />
-									<CardInfoInput label="Number(#)" width="flex-1" />
+									<CardInfoInput label="Year" />
+									<CardInfoInput label="Number(#)" />
 								</View>
-								<CardInfoInput label="Series/Brand" width="w-full" />
+								<CardInfoInput label="Series/Brand" />
 								<View style={tw`flex flex-col gap-2 w-full`}>
 									<Text style={tw`text-white/90 text-xs font-poppinsLight`}>
 										Condition
@@ -74,8 +74,8 @@ export default function ManualCardInput() {
 									<Text style={tw`text-white/60 text-xs`}> {'(optional)'}</Text>
 								</Text>
 								<View style={tw`flex flex-row w-full gap-3`}>
-									<CardInfoInput label="Cost Basis ($)" width="flex-1" />
-									<CardInfoInput label="Asking Price ($)" width="flex-1" />
+									<CardInfoInput label="Cost Basis ($)" />
+									<CardInfoInput label="Asking Price ($)" />
 								</View>
 								<View style={tw`flex flex-col gap-2 w-full`}>
 									<Text style={tw`text-white/90 text-xs font-poppinsLight`}>

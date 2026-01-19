@@ -15,7 +15,7 @@ export default function SearchingCard() {
 	const router = useRouter();
 	useEffect(() => {
 		setTimeout(() => {
-			router.replace('/(common)/cardDetails');
+			router.replace('/(common)/cardDetailsConfirmation');
 		}, 4000);
 	}, []);
 
