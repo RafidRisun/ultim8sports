@@ -74,7 +74,10 @@ export default function Scan() {
 					</TouchableOpacity>
 				</RectangleGlassRow>
 				<RectangleGlassRow>
-					<TouchableOpacity style={tw`flex flex-row w-full gap-4`}>
+					<TouchableOpacity
+						style={tw`flex flex-row w-full gap-4`}
+						onPress={() => router.push('/screens/searchCard')}
+					>
 						<View style={tw`p-2 bg-white/20 rounded-lg`}>
 							<SvgXml xml={iconSearchCard} />
 						</View>

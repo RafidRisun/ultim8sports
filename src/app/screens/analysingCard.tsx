@@ -1,4 +1,3 @@
-import HeaderWithRoundBack from '@/src/components/HeaderWithRoundBack';
 import Wrapper from '@/src/components/Wrapper';
 import tw from '@/src/lib/tailwind';
 import { Image } from 'expo-image';
@@ -9,15 +8,20 @@ import { Animated, Easing, Text, View } from 'react-native';
 
 const AnimatedLinearGradient = Animated.createAnimatedComponent(LinearGradient);
 
-export default function SearchingCard() {
+export default function AnalysingCard() {
 	const { photoUri } = useLocalSearchParams();
 
 	const router = useRouter();
 	useEffect(() => {
-		setTimeout(() => {
-			router.replace('/(common)/cardDetailsConfirmation');
+		const routes = ['/screens/scanResult', '/screens/identifyFailed'] as const;
+		const chosen = routes[Math.random() < 0.5 ? 0 : 1];
+
+		const t = setTimeout(() => {
+			router.replace(chosen);
 		}, 4000);
-	}, []);
+
+		return () => clearTimeout(t);
+	}, [router]);
 
 	const scanAnim = useRef(new Animated.Value(0));
 	const [containerHeight, setContainerHeight] = useState<number>(0);
@@ -45,8 +49,7 @@ export default function SearchingCard() {
 
 	return (
 		<Wrapper>
-			<HeaderWithRoundBack title="" back={true} />
-			<View style={tw`flex-1 flex-col items-center justify-start gap-8`}>
+			<View style={tw`flex-1 flex-col items-center justify-start gap-8 pt-8`}>
 				<View
 					style={[
 						tw`w-50 h-70 rounded-lg mt-8 border-4 border-purple-500`,

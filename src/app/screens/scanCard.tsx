@@ -75,8 +75,8 @@ export default function ScanCard() {
 						format: SaveFormat.JPEG,
 					});
 					console.log('Cropped image:', result.uri);
-					router.push({
-						pathname: '/screens/searchingCard',
+					router.replace({
+						pathname: '/screens/analysingCard',
 						params: { photoUri: result.uri },
 					});
 					return;

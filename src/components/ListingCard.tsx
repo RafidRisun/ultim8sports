@@ -13,7 +13,7 @@ export default function ListingCard() {
 		<RectangleGlassRow>
 			<TouchableOpacity
 				style={tw`flex flex-row w-full gap-4`}
-				onPress={() => router.push('/cardDetailsConfirmation')}
+				onPress={() => router.push('/')}
 			>
 				<Image
 					source={require('@/assets/images/card1.jpg')}

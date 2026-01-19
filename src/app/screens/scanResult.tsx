@@ -1,17 +1,22 @@
 import { iconCalendar, iconPlus, iconPlusPurple } from '@/assets/icon';
-import CardDetailRow from '@/src/components/CardDetailRow';
+import CardInfoInput from '@/src/components/CardInfoInput';
 import HeaderWithRoundBack from '@/src/components/HeaderWithRoundBack';
 import RectangleGlassRow from '@/src/components/RectangleGlassRow';
 import Wrapper from '@/src/components/Wrapper';
 import tw from '@/src/lib/tailwind';
+import { Picker } from '@react-native-picker/picker';
 import { Image } from 'expo-image';
 import { LinearGradient } from 'expo-linear-gradient';
-import React from 'react';
+import React, { useState } from 'react';
 import { ScrollView, Text, TouchableOpacity, View } from 'react-native';
+import DatePicker from 'react-native-date-picker';
 import { LineChart } from 'react-native-gifted-charts';
 import { SvgXml } from 'react-native-svg';
 
-export default function CardDetailsConfirmation() {
+export default function ScanResult() {
+	const [selectedLanguage, setSelectedLanguage] = useState('psa9');
+	const [date, setDate] = useState(new Date());
+	const [open, setOpen] = useState(false);
 	return (
 		<Wrapper>
 			<HeaderWithRoundBack title="Card Details" back={true} />
@@ -68,13 +73,33 @@ export default function CardDetailsConfirmation() {
 					</RectangleGlassRow>
 					<RectangleGlassRow>
 						<View style={tw`flex flex-col w-full gap-5 p-2`}>
-							<CardDetailRow label="Player Name" content="LeBron James" />
-							<View style={tw`flex flex-row gap-5 flex-1`}>
-								<CardDetailRow label="Year" content="1996" />
-								<CardDetailRow label="Number (#)" content="23" />
+							<CardInfoInput label="Player Name" value="Michael Jordan" />
+							<View style={tw`flex flex-row w-full gap-3`}>
+								<CardInfoInput label="Year" value="1996" />
+								<CardInfoInput label="Number(#)" value="57" />
 							</View>
-							<CardDetailRow label="Series/Brand" content="Fleer" />
-							<CardDetailRow label="Condition" content="PSA 9" />
+							<CardInfoInput label="Series/Brand" value="Fleer" />
+							<View style={tw`flex flex-col gap-2 w-full`}>
+								<Text style={tw`text-white/90 text-xs font-poppinsLight`}>
+									Condition
+								</Text>
+								<View
+									style={tw`justify-center pl-2 w-full h-14 bg-[#1E1828] shadow-lg shadow-purple-100 border border-purple-400 rounded-md`}
+								>
+									<Picker
+										selectedValue={selectedLanguage}
+										onValueChange={(itemValue, itemIndex) =>
+											setSelectedLanguage(itemValue)
+										}
+										style={tw`text-white font-poppins h-full p-0 m-0`}
+									>
+										<Picker.Item label="PSA 9" value="psa9" />
+										<Picker.Item label="PSA 10" value="psa10" />
+										<Picker.Item label="BGS 9.5" value="bgs95" />
+										<Picker.Item label="BGS 10" value="bgs10" />
+									</Picker>
+								</View>
+							</View>
 						</View>
 					</RectangleGlassRow>
 					<RectangleGlassRow>
@@ -84,24 +109,37 @@ export default function CardDetailsConfirmation() {
 								<Text style={tw`text-white/60 text-xs`}> {'(optional)'}</Text>
 							</Text>
 							<View style={tw`flex flex-row w-full gap-3`}>
-								<CardDetailRow label="Cost Basis ($)" content="0.00 $" />
-								<CardDetailRow label="Asking Price ($)" content="0.00 $" />
+								<CardInfoInput label="Cost Basis ($)" />
+								<CardInfoInput label="Asking Price ($)" />
 							</View>
 							<View style={tw`flex flex-col gap-2 w-full`}>
 								<Text style={tw`text-white/90 text-xs font-poppinsLight`}>
 									Date of Purchase
 								</Text>
-								<View
+								<TouchableOpacity
 									style={tw`flex flex-row items-center justify-between px-4 w-full h-12 bg-[#1E1828] shadow-lg shadow-purple-100 border border-purple-400 rounded-md`}
+									onPress={() => setOpen(true)}
 								>
 									<Text style={tw`text-white font-poppins p-0 m-0`}>
-										08/11/2023
+										{date.toDateString()}
 									</Text>
 									<SvgXml xml={iconCalendar} />
-								</View>
+								</TouchableOpacity>
 							</View>
 						</View>
 					</RectangleGlassRow>
+					<DatePicker
+						modal
+						open={open}
+						date={date}
+						onConfirm={date => {
+							setOpen(false);
+							setDate(date);
+						}}
+						onCancel={() => {
+							setOpen(false);
+						}}
+					/>
 					<View style={tw`flex flex-row w-full px-4 gap-4`}>
 						<TouchableOpacity
 							style={tw`flex flex-row gap-2 flex-1 py-3 rounded-full mt-10 items-center justify-center border-b-2 border-l-2 border-r-2 border-purple-300 shadow-xl shadow-[#9E91BA] bg-black relative`}
