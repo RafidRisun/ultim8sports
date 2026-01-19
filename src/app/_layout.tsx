@@ -24,6 +24,8 @@ export default function RootLayout() {
 			<Stack.Screen name="plans" />
 			<Stack.Screen name="identifyFailed" />
 			<Stack.Screen name="searchCard" />
+			<Stack.Screen name="saleHistoryDetails" />
+			<Stack.Screen name="salesReport" />
 		</Stack>
 	);
 }

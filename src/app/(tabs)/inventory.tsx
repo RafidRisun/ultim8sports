@@ -8,14 +8,16 @@ import WrapperWithoutPX from '@/src/components/WrapperWithoutPX';
 import tw from '@/src/lib/tailwind';
 import MaskedView from '@react-native-masked-view/masked-view';
 import { LinearGradient } from 'expo-linear-gradient';
+import { useRouter } from 'expo-router';
 import React from 'react';
-import { ScrollView, Text, View } from 'react-native';
+import { ScrollView, Text, TouchableOpacity, View } from 'react-native';
 import { SvgXml } from 'react-native-svg';
 
 export default function Inventory() {
 	const [selectedTab, setSelectedTab] = React.useState<
 		'weekly' | 'monthly' | 'yearly'
 	>('weekly');
+	const router = useRouter();
 	return (
 		<WrapperWithoutPX>
 			<View style={tw`flex-1  w-full`}>
@@ -65,7 +67,12 @@ export default function Inventory() {
 							</View>
 						</View>
 						<RoundGlass>
-							<SvgXml xml={iconInventoryTopOption} />
+							<TouchableOpacity
+								style={tw`flex-1 w-full items-center justify-center`}
+								onPress={() => router.push('/screens/salesReport')}
+							>
+								<SvgXml xml={iconInventoryTopOption} />
+							</TouchableOpacity>
 						</RoundGlass>
 					</View>
 					<View style={tw`flex w-full gap-4 px-[4%] my-8`}>
