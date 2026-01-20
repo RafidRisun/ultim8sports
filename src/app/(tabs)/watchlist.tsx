@@ -205,7 +205,10 @@ export default function Watchlist() {
 										containerStyle={tw`w-full`}
 									>
 										<RectangleGlassRow>
-											<TouchableOpacity style={tw`flex flex-row w-full gap-4`}>
+											<TouchableOpacity
+												style={tw`flex flex-row w-full gap-4`}
+												onPress={() => router.push('/(common)/cardDetails')}
+											>
 												<Image
 													source={require('@/assets/images/card1.jpg')}
 													style={tw`h-17 w-13 rounded-md`}

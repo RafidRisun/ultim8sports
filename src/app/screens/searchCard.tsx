@@ -4,6 +4,7 @@ import RectangleGlassRow from '@/src/components/RectangleGlassRow';
 import Wrapper from '@/src/components/Wrapper';
 import tw from '@/src/lib/tailwind';
 import { Image } from 'expo-image';
+import { useRouter } from 'expo-router';
 import React from 'react';
 import {
 	FlatList,
@@ -15,6 +16,7 @@ import {
 import { SvgXml } from 'react-native-svg';
 
 export default function SearchCard() {
+	const router = useRouter();
 	return (
 		<Wrapper>
 			<HeaderWithRoundBack title="Search Card" back />
@@ -40,6 +42,9 @@ export default function SearchCard() {
 						<RectangleGlassRow key={item}>
 							<TouchableOpacity
 								style={tw`flex flex-row items-center justify-between w-full gap-4 pr-2`}
+								onPress={() => {
+									router.push('/(common)/cardDetails');
+								}}
 							>
 								<View style={tw`flex flex-row gap-4`}>
 									<Image
