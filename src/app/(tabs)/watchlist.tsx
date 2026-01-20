@@ -14,7 +14,6 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
 import React, { useState } from 'react';
 import {
-	FlatList,
 	ScrollView,
 	StyleSheet,
 	Text,
@@ -131,7 +130,7 @@ export default function Watchlist() {
 							<GestureHandlerRootView
 								style={tw`flex flex-col w-full justify-center items-center gap-2`}
 							>
-								<FlatList
+								{/* <FlatList
 									data={itemData}
 									keyExtractor={(_, index) => index.toString()}
 									style={tw`w-full`}
@@ -196,7 +195,66 @@ export default function Watchlist() {
 											</RectangleGlassRow>
 										</ReanimatedSwipeable>
 									)}
-								/>
+								/> */}
+								{itemData.map((item, index) => (
+									<ReanimatedSwipeable
+										key={index}
+										friction={2}
+										rightThreshold={10}
+										renderRightActions={RightAction}
+										containerStyle={tw`w-full`}
+									>
+										<RectangleGlassRow>
+											<TouchableOpacity style={tw`flex flex-row w-full gap-4`}>
+												<Image
+													source={require('@/assets/images/card1.jpg')}
+													style={tw`h-17 w-13 rounded-md`}
+													contentFit="cover"
+												/>
+												<View style={tw`flex flex-col gap-1`}>
+													<Text
+														style={tw`text-white font-poppinsSemiBold text-sm`}
+													>
+														{item.name}
+													</Text>
+													<Text
+														style={tw`text-gray-200 font-poppinsMedium text-xs`}
+													>
+														{item.series}
+													</Text>
+													<View style={tw`flex flex-row items-center gap-4`}>
+														<Text style={tw`text-white font-poppins text-lg`}>
+															{item.price}
+														</Text>
+														{item.change.startsWith('+') ? (
+															<View
+																style={tw`flex flex-row items-center gap-1 bg-green-600/20 px-2 py-0.5 rounded-md`}
+															>
+																<SvgXml xml={iconIncreaseChart} />
+																<Text
+																	style={tw`text-green-400 font-poppinsMedium text-xs`}
+																>
+																	{item.change}
+																</Text>
+															</View>
+														) : (
+															<View
+																style={tw`flex flex-row items-center gap-1 bg-red-600/20 px-2 py-0.5 rounded-md`}
+															>
+																<SvgXml xml={iconDecreaseChart} />
+																<Text
+																	style={tw`text-red-400 font-poppinsMedium text-xs`}
+																>
+																	{item.change}
+																</Text>
+															</View>
+														)}
+													</View>
+												</View>
+											</TouchableOpacity>
+										</RectangleGlassRow>
+									</ReanimatedSwipeable>
+								))}
 							</GestureHandlerRootView>
 						</View>
 					</View>

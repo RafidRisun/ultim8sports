@@ -30,6 +30,9 @@ export default function RootLayout() {
 			<Stack.Screen name="cardDetails" />
 			<Stack.Screen name="cardDetailsManual" />
 			<Stack.Screen name="confirmSale" />
+			<Stack.Screen name="profileEdit" />
+			<Stack.Screen name="changePasswordSettings" />
+			<Stack.Screen name="changeCurrency" />
 		</Stack>
 	);
 }

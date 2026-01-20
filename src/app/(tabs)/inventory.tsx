@@ -212,19 +212,16 @@ export default function Inventory() {
 							<Text style={tw`text-white font-poppinsMedium text-lg`}>
 								YOUR ITEMS
 							</Text>
-							<View
-								style={tw`flex flex-col w-full justify-center items-center gap-2`}
-							>
-								<ListingCard />
-								<ListingCard />
-								<ListingCard />
-								<ListingCard />
-								<ListingCard />
-								<ListingCard />
-								<ListingCard />
-								<ListingCard />
-								<ListingCard />
-							</View>
+							{listingData.map((item, index) => (
+								<ListingCard
+									key={index}
+									title={item.title}
+									brand={item.brand}
+									price={item.price}
+									change={item.change}
+									ebay={item.ebay}
+								/>
+							))}
 						</View>
 					</View>
 				</ScrollView>
@@ -232,6 +229,44 @@ export default function Inventory() {
 		</WrapperWithoutPX>
 	);
 }
+
+const listingData = [
+	{
+		title: 'Michael Jordan',
+		brand: '1986 Fleer',
+		price: '5,250',
+		change: '+8.2%',
+		ebay: true,
+	},
+	{
+		title: 'LeBron James',
+		brand: '2003 Topps Chrome',
+		price: '4,800',
+		change: '+6.5%',
+		ebay: true,
+	},
+	{
+		title: 'Kobe Bryant',
+		brand: '1996 Topps',
+		price: '3,900',
+		change: '+7.1%',
+		ebay: false,
+	},
+	{
+		title: 'Shaquille ONeal',
+		brand: '1992 Upper Deck',
+		price: '2,750',
+		change: '+5.9%',
+		ebay: false,
+	},
+	{
+		title: 'Tim Duncan',
+		brand: '1997 Topps',
+		price: '2,300',
+		change: '+4.8%',
+		ebay: true,
+	},
+];
 
 const dataWeekly = [
 	{ value: 600 },

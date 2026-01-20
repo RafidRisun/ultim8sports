@@ -21,6 +21,7 @@ import RectangleGlassRow from '@/src/components/RectangleGlassRow';
 import Wrapper from '@/src/components/Wrapper';
 import tw from '@/src/lib/tailwind';
 import { Image } from 'expo-image';
+import { useRouter } from 'expo-router';
 import React, { useState } from 'react';
 import { ScrollView, Switch, Text, TouchableOpacity, View } from 'react-native';
 import { SvgXml } from 'react-native-svg';
@@ -36,6 +37,8 @@ export default function Profile() {
 		setIsTwoFactorEnabled(previousState => !previousState);
 	const toggleGoogleSheetSwitch = () =>
 		setIsGoogleSheetConnected(previousState => !previousState);
+
+	const router = useRouter();
 	return (
 		<Wrapper>
 			<View style={tw`flex-1 w-full`}>
@@ -76,7 +79,10 @@ export default function Profile() {
 									</View>
 								</View>
 								<DividerPurple />
-								<TouchableOpacity style={tw`flex flex-col w-full gap-2 px-2`}>
+								<TouchableOpacity
+									style={tw`flex flex-col w-full gap-2 px-2`}
+									onPress={() => router.push('/screens/profile/profileEdit')}
+								>
 									<View
 										style={tw`flex flex-row w-full items-center justify-between`}
 									>
@@ -91,7 +97,12 @@ export default function Profile() {
 										<SvgXml xml={iconRightArrow} />
 									</View>
 								</TouchableOpacity>
-								<TouchableOpacity style={tw`flex flex-col w-full gap-2 px-2`}>
+								<TouchableOpacity
+									style={tw`flex flex-col w-full gap-2 px-2`}
+									onPress={() =>
+										router.push('/screens/profile/changePasswordSettings')
+									}
+								>
 									<View
 										style={tw`flex flex-row w-full items-center justify-between`}
 									>
@@ -172,7 +183,10 @@ export default function Profile() {
 										/>
 									</View>
 								</View>
-								<TouchableOpacity style={tw`flex flex-col w-full gap-2 px-2`}>
+								<TouchableOpacity
+									style={tw`flex flex-col w-full gap-2 px-2`}
+									onPress={() => router.push('/screens/profile/changeCurrency')}
+								>
 									<View
 										style={tw`flex flex-row w-full items-center justify-between`}
 									>

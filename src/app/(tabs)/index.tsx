@@ -10,13 +10,7 @@ import { Image } from 'expo-image';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
 import React from 'react';
-import {
-	FlatList,
-	ScrollView,
-	Text,
-	TouchableOpacity,
-	View,
-} from 'react-native';
+import { ScrollView, Text, TouchableOpacity, View } from 'react-native';
 import { SvgXml } from 'react-native-svg';
 
 export default function Home() {
@@ -154,24 +148,16 @@ export default function Home() {
 							<Text style={tw`text-white font-poppinsMedium text-lg`}>
 								Top Movers
 							</Text>
-							<View
-								style={tw`flex flex-col w-full justify-center items-center gap-2`}
-							>
-								<FlatList
-									data={listingData}
-									keyExtractor={(_, index) => index.toString()}
-									renderItem={({ item }) => (
-										<ListingCard
-											title={item.title}
-											brand={item.brand}
-											price={item.price}
-											change={item.change}
-											ebay={item.ebay}
-										/>
-									)}
-									contentContainerStyle={tw`w-full gap-4`}
+							{listingData.map((item, index) => (
+								<ListingCard
+									key={index}
+									title={item.title}
+									brand={item.brand}
+									price={item.price}
+									change={item.change}
+									ebay={item.ebay}
 								/>
-							</View>
+							))}
 						</View>
 					</View>
 				</ScrollView>
