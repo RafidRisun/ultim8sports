@@ -33,6 +33,12 @@ export default function RootLayout() {
 			<Stack.Screen name="profileEdit" />
 			<Stack.Screen name="changePasswordSettings" />
 			<Stack.Screen name="changeCurrency" />
+			<Stack.Screen name="faq" />
+			<Stack.Screen name="contactSupport" />
+			<Stack.Screen name="privacyPolicy" />
+			<Stack.Screen name="termsAndConditions" />
+			<Stack.Screen name="plan" />
+			<Stack.Screen name="billingHistory" />
 		</Stack>
 	);
 }

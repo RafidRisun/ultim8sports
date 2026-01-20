@@ -266,13 +266,21 @@ export default function Profile() {
 								</View>
 								<DividerPurple />
 								<View style={tw`flex flex-row w-full items-center`}>
-									<TouchableOpacity style={tw`flex-1 py-1 items-center`}>
+									<TouchableOpacity
+										style={tw`flex-1 py-1 items-center`}
+										onPress={() => router.push('/screens/profile/plan')}
+									>
 										<Text style={tw`text-blue-600 font-poppinsMedium text-xs`}>
 											Upgrade Plan
 										</Text>
 									</TouchableOpacity>
 									<View style={tw`w-0.75px bg-purple-700 h-full`} />
-									<TouchableOpacity style={tw`flex-1 py-1 items-center`}>
+									<TouchableOpacity
+										style={tw`flex-1 py-1 items-center`}
+										onPress={() =>
+											router.push('/screens/profile/billingHistory')
+										}
+									>
 										<Text style={tw`text-white font-poppinsMedium text-xs`}>
 											Billing History
 										</Text>
@@ -326,7 +334,10 @@ export default function Profile() {
 						</Text>
 						<RectangleGlassRow>
 							<View style={tw`flex flex-col w-full my-2 gap-4`}>
-								<TouchableOpacity style={tw`flex flex-col w-full gap-2 px-2`}>
+								<TouchableOpacity
+									style={tw`flex flex-col w-full gap-2 px-2`}
+									onPress={() => router.push('/screens/profile/faq')}
+								>
 									<View
 										style={tw`flex flex-row w-full items-center justify-between`}
 									>
@@ -341,7 +352,10 @@ export default function Profile() {
 										<SvgXml xml={iconRightArrow} />
 									</View>
 								</TouchableOpacity>
-								<TouchableOpacity style={tw`flex flex-col w-full gap-2 px-2`}>
+								<TouchableOpacity
+									style={tw`flex flex-col w-full gap-2 px-2`}
+									onPress={() => router.push('/screens/profile/contactSupport')}
+								>
 									<View
 										style={tw`flex flex-row w-full items-center justify-between`}
 									>
@@ -356,7 +370,10 @@ export default function Profile() {
 										<SvgXml xml={iconRightArrow} />
 									</View>
 								</TouchableOpacity>
-								<TouchableOpacity style={tw`flex flex-col w-full gap-2 px-2`}>
+								<TouchableOpacity
+									style={tw`flex flex-col w-full gap-2 px-2`}
+									onPress={() => router.push('/screens/profile/privacyPolicy')}
+								>
 									<View
 										style={tw`flex flex-row w-full items-center justify-between`}
 									>
@@ -371,7 +388,12 @@ export default function Profile() {
 										<SvgXml xml={iconRightArrow} />
 									</View>
 								</TouchableOpacity>
-								<TouchableOpacity style={tw`flex flex-col w-full gap-2 px-2`}>
+								<TouchableOpacity
+									style={tw`flex flex-col w-full gap-2 px-2`}
+									onPress={() =>
+										router.push('/screens/profile/termsAndConditions')
+									}
+								>
 									<View
 										style={tw`flex flex-row w-full items-center justify-between`}
 									>
