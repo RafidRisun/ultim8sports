@@ -1,15 +1,38 @@
+import {
+	iconAlert,
+	iconDollarSign,
+	iconGreenArrow,
+	iconRedArrow,
+	iconTrashGradient,
+} from '@/assets/icon';
+import BrightRoundedButton from '@/src/components/BrightRoundedButton';
 import HeaderWithRoundBack from '@/src/components/HeaderWithRoundBack';
 import RectangleGlass from '@/src/components/RectangleGlass';
 import RectangleGlassRow from '@/src/components/RectangleGlassRow';
 import Wrapper from '@/src/components/Wrapper';
 import tw from '@/src/lib/tailwind';
 import { Image } from 'expo-image';
+import { LinearGradient } from 'expo-linear-gradient';
 import React, { useState } from 'react';
-import { ScrollView, Text, TouchableOpacity, View } from 'react-native';
+import {
+	ScrollView,
+	Switch,
+	Text,
+	TextInput,
+	TouchableOpacity,
+	View,
+} from 'react-native';
 import { LineChart } from 'react-native-gifted-charts';
+import { SvgXml } from 'react-native-svg';
 
 export default function CardDetails() {
 	const [selectedGraph, setSelectedGraph] = useState<'1M' | '3M' | '1Y'>('1M');
+	const [priceAlert, setPriceAlert] = useState(false);
+	const togglePriceAlertSwitch = () =>
+		setPriceAlert(previousState => !previousState);
+	const [profitTarget, setProfitTarget] = useState('');
+	const [stopLoss, setStopLoss] = useState('');
+
 	return (
 		<Wrapper>
 			<HeaderWithRoundBack title="Card Details" back share />
@@ -159,6 +182,111 @@ export default function CardDetails() {
 								</View>
 							</RectangleGlass>
 						</View>
+					</View>
+					<RectangleGlass>
+						<View
+							style={tw`flex flex-row w-full items-center justify-between gap-2`}
+						>
+							<View style={tw`flex flex-row items-center gap-4`}>
+								<View style={tw`p-2 bg-white/30 rounded-lg`}>
+									<SvgXml xml={iconAlert} />
+								</View>
+								<View style={tw`flex flex-col`}>
+									<Text style={tw`text-white font-poppinsMedium text-sm`}>
+										Price Alert
+									</Text>
+									<Text
+										style={tw`${priceAlert ? 'text-green-500' : 'text-gray-300'} font-poppinsMedium text-xs`}
+									>
+										{priceAlert ? 'ACTIVE' : 'INACTIVE'}
+									</Text>
+								</View>
+							</View>
+							<Switch
+								trackColor={{ false: '#FFFFFF', true: '#A375FF' }}
+								thumbColor={priceAlert ? '#FFFFFF' : '#A375FF'}
+								// ios_backgroundColor="#3e3e3e"
+								onValueChange={togglePriceAlertSwitch}
+								value={priceAlert}
+							/>
+						</View>
+						{priceAlert && (
+							<View style={tw`mt-4 flex flex-col w-full gap-6`}>
+								<View style={tw`flex flex-col gap-2 w-full`}>
+									<View style={tw`flex flex-row items-center justify-between`}>
+										<View style={tw`flex flex-row items-center gap-2`}>
+											<SvgXml xml={iconGreenArrow} />
+											<Text
+												style={tw`text-green-500 text-xs font-poppinsLight`}
+											>
+												PROFIT TARGET
+											</Text>
+										</View>
+										<Text style={tw`text-gray-400 text-xs font-poppinsLight`}>
+											CURRENT: $14,200
+										</Text>
+									</View>
+									<View
+										style={tw`flex flex-row items-center gap-2 justify-center pl-4 w-full h-10 bg-[#1E1828] shadow-lg shadow-purple-100 border border-purple-400 rounded-md`}
+									>
+										<Text style={tw`text-white font-poppins`}>$</Text>
+										<TextInput
+											style={tw`flex-1 h-full text-white p-0 font-poppins`}
+											value={profitTarget}
+											onChangeText={setProfitTarget}
+											inputMode="numeric"
+										/>
+									</View>
+								</View>
+								<View style={tw`flex flex-col gap-2 w-full`}>
+									<View style={tw`flex flex-row items-center justify-between`}>
+										<View style={tw`flex flex-row items-center gap-2`}>
+											<SvgXml xml={iconRedArrow} />
+											<Text style={tw`text-red-500 text-xs font-poppinsLight`}>
+												STOP LOSS
+											</Text>
+										</View>
+										<Text style={tw`text-gray-400 text-xs font-poppinsLight`}>
+											CURRENT: $18,450
+										</Text>
+									</View>
+									<View
+										style={tw`flex flex-row items-center gap-2 justify-center pl-4 w-full h-10 bg-[#1E1828] shadow-lg shadow-purple-100 border border-purple-400 rounded-md`}
+									>
+										<Text style={tw`text-white font-poppins`}>$</Text>
+										<TextInput
+											style={tw`flex-1 h-full text-white p-0 font-poppins`}
+											value={stopLoss}
+											onChangeText={setStopLoss}
+											inputMode="numeric"
+										/>
+									</View>
+								</View>
+								<BrightRoundedButton text="Save Rules" action={() => {}} />
+							</View>
+						)}
+					</RectangleGlass>
+					<View style={tw`flex flex-row w-full px-4 gap-4`}>
+						<TouchableOpacity
+							style={tw`flex flex-row gap-2 flex-1 py-3 rounded-full mt-10 items-center justify-center border-b-2 border-l-2 border-r-2 border-purple-300 shadow-xl shadow-[#9E91BA] bg-black relative`}
+						>
+							<SvgXml xml={iconTrashGradient} />
+							<Text style={tw`text-purple-300 font-poppinsMedium text-lg`}>
+								Remove
+							</Text>
+						</TouchableOpacity>
+						<TouchableOpacity
+							style={tw`flex flex-row gap-2 flex-1 py-3 rounded-full mt-10 items-center justify-center border-b-2 border-l-2 border-r-2 border-slate-400 shadow-xl shadow-[#9E91BA] bg-black relative`}
+						>
+							<LinearGradient
+								colors={['#FFFFFF', '#8C52FF']}
+								style={tw`absolute inset-0 rounded-full`}
+							/>
+							<SvgXml xml={iconDollarSign} />
+							<Text style={tw`text-black font-poppinsMedium text-lg`}>
+								Sold
+							</Text>
+						</TouchableOpacity>
 					</View>
 				</View>
 			</ScrollView>
