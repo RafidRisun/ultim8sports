@@ -28,6 +28,8 @@ export default function RootLayout() {
 			<Stack.Screen name="salesReport" />
 			<Stack.Screen name="saleRecord" />
 			<Stack.Screen name="cardDetails" />
+			<Stack.Screen name="cardDetailsManual" />
+			<Stack.Screen name="confirmSale" />
 		</Stack>
 	);
 }

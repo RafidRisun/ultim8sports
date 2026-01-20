@@ -13,6 +13,7 @@ import Wrapper from '@/src/components/Wrapper';
 import tw from '@/src/lib/tailwind';
 import { Image } from 'expo-image';
 import { LinearGradient } from 'expo-linear-gradient';
+import { useRouter } from 'expo-router';
 import React, { useState } from 'react';
 import {
 	ScrollView,
@@ -32,6 +33,7 @@ export default function CardDetails() {
 		setPriceAlert(previousState => !previousState);
 	const [profitTarget, setProfitTarget] = useState('');
 	const [stopLoss, setStopLoss] = useState('');
+	const router = useRouter();
 
 	return (
 		<Wrapper>
@@ -277,6 +279,7 @@ export default function CardDetails() {
 						</TouchableOpacity>
 						<TouchableOpacity
 							style={tw`flex flex-row gap-2 flex-1 py-3 rounded-full mt-10 items-center justify-center border-b-2 border-l-2 border-r-2 border-slate-400 shadow-xl shadow-[#9E91BA] bg-black relative`}
+							onPress={() => router.push('/screens/confirmSale')}
 						>
 							<LinearGradient
 								colors={['#FFFFFF', '#8C52FF']}

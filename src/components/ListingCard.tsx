@@ -7,14 +7,30 @@ import { Text, TouchableOpacity, View } from 'react-native';
 import { SvgXml } from 'react-native-svg';
 import RectangleGlassRow from './RectangleGlassRow';
 
-export default function ListingCard() {
+export default function ListingCard({
+	title,
+	brand,
+	price,
+	change,
+	ebay,
+}: {
+	title: string;
+	brand: string;
+	price: string;
+	change: string;
+	ebay?: boolean;
+}) {
 	const router = useRouter();
 	return (
 		<RectangleGlassRow>
 			<TouchableOpacity
 				style={tw`flex flex-row w-full gap-4`}
 				onPress={() => {
-					router.push('/(common)/cardDetails');
+					if (ebay) {
+						router.push('/(common)/cardDetails');
+					} else {
+						router.push('/(common)/cardDetailsManual');
+					}
 				}}
 			>
 				<Image
@@ -24,19 +40,19 @@ export default function ListingCard() {
 				/>
 				<View style={tw`flex flex-col gap-1`}>
 					<Text style={tw`text-white font-poppinsSemiBold text-sm`}>
-						Michael Jordan
+						{title}
 					</Text>
 					<Text style={tw`text-gray-200 font-poppinsMedium text-xs`}>
-						1986 Fleer
+						{brand}
 					</Text>
 					<View style={tw`flex flex-row items-center gap-4`}>
-						<Text style={tw`text-white font-poppins text-lg`}>$5,250</Text>
+						<Text style={tw`text-white font-poppins text-lg`}>${price}</Text>
 						<View
 							style={tw`flex flex-row items-center gap-1 bg-green-600/20 px-2 py-0.5 rounded-md`}
 						>
 							<SvgXml xml={iconIncreaseChart} />
 							<Text style={tw`text-green-400 font-poppinsMedium text-xs`}>
-								+8.2%
+								{change}
 							</Text>
 						</View>
 					</View>
