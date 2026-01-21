@@ -2,12 +2,11 @@ import HeaderWithRoundBack from '@/src/components/HeaderWithRoundBack';
 import RectangleGlassRow from '@/src/components/RectangleGlassRow';
 import Wrapper from '@/src/components/Wrapper';
 import tw from '@/src/lib/tailwind';
-import { useRouter } from 'expo-router';
 import React from 'react';
 import { FlatList, Text, TouchableOpacity, View } from 'react-native';
 
 export default function BillingHistory() {
-	const router = useRouter();
+	// const router = useRouter();
 	return (
 		<Wrapper>
 			<HeaderWithRoundBack title="Billing History" back />

@@ -60,7 +60,7 @@ export default function AnalysingCard() {
 					<Image
 						source={{ uri: photoUri as string }}
 						style={{ width: '100%', height: '100%' }}
-						contentFit="contain"
+						contentFit="cover"
 					/>
 
 					<AnimatedLinearGradient

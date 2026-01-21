@@ -1,6 +1,6 @@
+import { Image } from 'expo-image';
 import { useRouter } from 'expo-router';
 import { useEffect } from 'react';
-import { Text } from 'react-native';
 import Animated, { FadeIn } from 'react-native-reanimated';
 import Wrapper from '../components/Wrapper';
 import tw from '../lib/tailwind';
@@ -24,9 +24,11 @@ export default function Index() {
 				entering={FadeIn.delay(500).duration(1000)}
 				style={tw`flex-1 justify-center items-center`}
 			>
-				<Text style={tw`text-white font-poppinsMedium text-2xl`}>
-					CAN I GET A UHHH
-				</Text>
+				<Image
+					source={require('@/assets/images/logo.png')}
+					style={{ width: 120, height: 120 }}
+					contentFit="contain"
+				/>
 			</Animated.View>
 		</Wrapper>
 	);

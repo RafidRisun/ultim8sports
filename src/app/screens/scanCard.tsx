@@ -87,7 +87,7 @@ export default function ScanCard() {
 
 			// Fallback: send original photo
 			router.push({
-				pathname: '/screens/searchingCard',
+				pathname: '/screens/analysingCard',
 				params: { photoUri: photo.uri },
 			});
 		} catch (err) {
