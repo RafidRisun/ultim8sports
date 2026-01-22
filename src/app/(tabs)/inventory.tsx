@@ -1,4 +1,4 @@
-import { iconInventoryTopOption } from '@/assets/icon';
+import { iconInventoryTopOption, iconShare } from '@/assets/icon';
 import ChartTabButtons from '@/src/components/ChartTabButtons';
 import ListingCard from '@/src/components/ListingCard';
 import MainAreaChart from '@/src/components/MainAreaChart';
@@ -153,13 +153,25 @@ export default function Inventory() {
 							style={tw`flex flex-row w-full items-center gap-4`}
 							onPress={() => router.push('/screens/salesReport')}
 						>
-							<RoundGlass>
+							<RoundGlass action={() => router.push('/screens/salesReport')}>
 								<View style={tw`flex-1 w-full items-center justify-center`}>
 									<SvgXml xml={iconInventoryTopOption} />
 								</View>
 							</RoundGlass>
 							<Text style={tw`text-white font-poppinsLight text-sm`}>
 								View Sales Reports
+							</Text>
+						</TouchableOpacity>
+						<TouchableOpacity
+							style={tw`flex flex-row flex-1 items-center gap-4`}
+						>
+							<RoundGlass>
+								<View style={tw`flex-1 w-full items-center justify-center`}>
+									<SvgXml xml={iconShare} />
+								</View>
+							</RoundGlass>
+							<Text style={tw`text-white font-poppinsLight text-sm`}>
+								Share Inventory in Sheet
 							</Text>
 						</TouchableOpacity>
 					</View>

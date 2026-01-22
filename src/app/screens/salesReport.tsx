@@ -37,7 +37,7 @@ export default function SalesReport() {
 					</RectangleGlass>
 				</View>
 				<RectangleGlassRow>
-					<View style={tw`flex flex-col w-full items-start gap-2`}>
+					<View style={tw`flex flex-col w-full items-start gap-2 px-2 py-1`}>
 						<Text style={tw`text-xs font-poppinsLight text-white`}>
 							TOTAL PROFIT
 						</Text>

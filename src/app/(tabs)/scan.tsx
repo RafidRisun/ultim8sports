@@ -1,5 +1,6 @@
 import {
 	iconManualCardEntry,
+	iconReport,
 	iconSalesHistory,
 	iconScanCard,
 	iconSearchCard,
@@ -87,6 +88,24 @@ export default function Scan() {
 							</Text>
 							<Text style={tw`text-white/60 text-sm font-poppinsLight`}>
 								Search and manage your cards
+							</Text>
+						</View>
+					</TouchableOpacity>
+				</RectangleGlassRow>
+				<RectangleGlassRow>
+					<TouchableOpacity
+						style={tw`flex flex-row w-full gap-4`}
+						onPress={() => router.push('/screens/salesReport')}
+					>
+						<View style={tw`p-2 aspect-square bg-white/20 rounded-lg`}>
+							<SvgXml xml={iconReport} />
+						</View>
+						<View style={tw`flex flex-col flex-1`}>
+							<Text style={tw`text-white font-poppinsMedium text-lg`}>
+								My Sales Report
+							</Text>
+							<Text style={tw`text-white/60 text-sm font-poppinsLight`}>
+								View your sales report
 							</Text>
 						</View>
 					</TouchableOpacity>

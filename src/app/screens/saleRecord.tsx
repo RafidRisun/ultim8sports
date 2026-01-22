@@ -11,7 +11,7 @@ import { ScrollView, Text, View } from 'react-native';
 export default function SaleRecord() {
 	return (
 		<Wrapper>
-			<HeaderWithRoundBack title="Record" back share />
+			<HeaderWithRoundBack title="Record" back />
 			<ScrollView style={tw`w-full`}>
 				<View style={tw`flex-1 w-full gap-6 pb-20`}>
 					<View style={tw`flex w-full items-center justify-center p-4`}>
