@@ -18,7 +18,7 @@ export default function AnalysingCard() {
 
 		const t = setTimeout(() => {
 			router.replace(chosen);
-		}, 4000);
+		}, 2000);
 
 		return () => clearTimeout(t);
 	}, [router]);
@@ -37,7 +37,7 @@ export default function AnalysingCard() {
 		const animation = Animated.loop(
 			Animated.timing(scanAnim.current, {
 				toValue: end,
-				duration: 2000,
+				duration: 1000,
 				easing: Easing.linear,
 				useNativeDriver: true,
 			}),
@@ -82,7 +82,7 @@ export default function AnalysingCard() {
 					style={tw`flex flex-col w-full items-center justify-center gap-4`}
 				>
 					<Text style={tw`text-2xl text-purple-300 font-poppinsSemiBold`}>
-						Analysing Card
+						Analyzing Card
 					</Text>
 					<Text style={tw`text-white text-sm font-poppinsSemiBold`}>
 						Identifying card and fetching details...

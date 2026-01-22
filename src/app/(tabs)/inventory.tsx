@@ -66,14 +66,15 @@ export default function Inventory() {
 								</Text>
 							</View>
 						</View>
-						<RoundGlass>
+						<View style={tw`h-11 w-11`} />
+						{/* <RoundGlass>
 							<TouchableOpacity
 								style={tw`flex-1 w-full items-center justify-center`}
 								onPress={() => router.push('/screens/salesReport')}
 							>
 								<SvgXml xml={iconInventoryTopOption} />
 							</TouchableOpacity>
-						</RoundGlass>
+						</RoundGlass> */}
 					</View>
 					<View style={tw`flex w-full gap-4 px-[4%] my-8`}>
 						<View style={tw`flex flex-col w-full`}>
@@ -144,6 +145,23 @@ export default function Inventory() {
 								</View>
 							</RectangleGlass>
 						</View>
+						{/* <RoundedLitButton
+							text="View Sales Reports"
+							action={() => router.push('/screens/salesReport')}
+						/> */}
+						<TouchableOpacity
+							style={tw`flex flex-row w-full items-center gap-4`}
+							onPress={() => router.push('/screens/salesReport')}
+						>
+							<RoundGlass>
+								<View style={tw`flex-1 w-full items-center justify-center`}>
+									<SvgXml xml={iconInventoryTopOption} />
+								</View>
+							</RoundGlass>
+							<Text style={tw`text-white font-poppinsLight text-sm`}>
+								View Sales Reports
+							</Text>
+						</TouchableOpacity>
 					</View>
 					<View style={[tw`w-full pt-7`, { marginBottom: -7 }]}>
 						<MainAreaChart

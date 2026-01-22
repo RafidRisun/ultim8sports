@@ -1,12 +1,15 @@
 import { iconCalendar, iconPlus, iconPlusPurple } from '@/assets/icon';
 import CardInfoInput from '@/src/components/CardInfoInput';
 import HeaderWithRoundBack from '@/src/components/HeaderWithRoundBack';
+import RectangleGlass from '@/src/components/RectangleGlass';
 import RectangleGlassRow from '@/src/components/RectangleGlassRow';
+import RoundedLitButton from '@/src/components/RoundedLitButton';
 import Wrapper from '@/src/components/Wrapper';
 import tw from '@/src/lib/tailwind';
 import { Picker } from '@react-native-picker/picker';
 import { Image } from 'expo-image';
 import { LinearGradient } from 'expo-linear-gradient';
+import { useRouter } from 'expo-router';
 import React, { useState } from 'react';
 import { ScrollView, Text, TouchableOpacity, View } from 'react-native';
 import DatePicker from 'react-native-date-picker';
@@ -14,6 +17,7 @@ import { LineChart } from 'react-native-gifted-charts';
 import { SvgXml } from 'react-native-svg';
 
 export default function ScanResult() {
+	const router = useRouter();
 	const [selectedLanguage, setSelectedLanguage] = useState('psa9');
 	const [date, setDate] = useState(new Date());
 	const [open, setOpen] = useState(false);
@@ -29,7 +33,7 @@ export default function ScanResult() {
 							contentFit="cover"
 						/>
 					</View>
-					<RectangleGlassRow>
+					<RectangleGlass>
 						<View style={tw`flex flex-row w-full gap-5 p-2`}>
 							<View style={tw`flex flex-col flex-1 gap-2`}>
 								<Text style={tw`text-white font-poppinsMedium text-xs`}>
@@ -70,7 +74,11 @@ export default function ScanResult() {
 								/>
 							</View>
 						</View>
-					</RectangleGlassRow>
+						<RoundedLitButton
+							text="View Market History"
+							action={() => router.push('/screens/salesHistory')}
+						/>
+					</RectangleGlass>
 					<RectangleGlassRow>
 						<View style={tw`flex flex-col w-full gap-5 p-2`}>
 							<CardInfoInput label="Player Name" value="Michael Jordan" />

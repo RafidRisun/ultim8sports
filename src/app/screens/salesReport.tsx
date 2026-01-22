@@ -13,7 +13,7 @@ export default function SalesReport() {
 	return (
 		<Wrapper>
 			<HeaderWithRoundBack title="Sales Report" back={true} />
-			<View style={tw`flex-1 flex-col items-center justify-start gap-6 pt-6`}>
+			<View style={tw`flex-1 flex-col items-center justify-start gap-2 pt-6`}>
 				<View style={tw`flex flex-row w-full items-center gap-2`}>
 					<RectangleGlass>
 						<View style={tw`flex flex-col w-full items-start gap-2`}>
@@ -28,22 +28,32 @@ export default function SalesReport() {
 					<RectangleGlass>
 						<View style={tw`flex flex-col w-full items-start gap-2`}>
 							<Text style={tw`text-xs font-poppinsLight text-white`}>
-								MARKET VALUE
+								GROSS SALES
 							</Text>
-							<View style={tw`flex flex-row items-center gap-4`}>
-								<Text style={tw`text-green-500 font-poppinsMedium text-lg`}>
-									$12,200
-								</Text>
-								<View style={tw`flex px-2 py-1 bg-green-600/20 rounded-full`}>
-									<Text style={tw`text-green-400 font-poppinsMedium text-xs`}>
-										+8.2%
-									</Text>
-								</View>
-							</View>
+							<Text style={tw`text-white font-poppinsMedium text-lg`}>
+								$13,200
+							</Text>
 						</View>
 					</RectangleGlass>
 				</View>
-				<View style={tw`flex flex-col w-full pb-40 gap-4`}>
+				<RectangleGlassRow>
+					<View style={tw`flex flex-col w-full items-start gap-2`}>
+						<Text style={tw`text-xs font-poppinsLight text-white`}>
+							TOTAL PROFIT
+						</Text>
+						<View style={tw`flex flex-row items-center gap-4`}>
+							<Text style={tw`text-green-500 font-poppinsMedium text-lg`}>
+								$12,200
+							</Text>
+							<View style={tw`flex px-2 py-1 bg-green-600/20 rounded-full`}>
+								<Text style={tw`text-green-400 font-poppinsMedium text-xs`}>
+									+8.2%
+								</Text>
+							</View>
+						</View>
+					</View>
+				</RectangleGlassRow>
+				<View style={tw`flex flex-col w-full pb-40 py-4 gap-4`}>
 					<Text style={tw`text-white font-poppinsMedium text-lg`}>
 						YOUR SOLD ITEMS
 					</Text>

@@ -22,24 +22,6 @@ export default function Scan() {
 				<RectangleGlassRow>
 					<TouchableOpacity
 						style={tw`flex flex-row w-full gap-4`}
-						onPress={() => router.push('/screens/salesHistory')}
-					>
-						<View style={tw`p-2 bg-white/20 rounded-lg`}>
-							<SvgXml xml={iconSalesHistory} />
-						</View>
-						<View style={tw`flex flex-col flex-1`}>
-							<Text style={tw`text-white font-poppinsMedium text-lg`}>
-								Sales History
-							</Text>
-							<Text style={tw`text-white/60 font-poppinsLight text-sm`}>
-								View and manage your sales history
-							</Text>
-						</View>
-					</TouchableOpacity>
-				</RectangleGlassRow>
-				<RectangleGlassRow>
-					<TouchableOpacity
-						style={tw`flex flex-row w-full gap-4`}
 						onPress={() => router.push('/screens/scanCard')}
 					>
 						<View style={tw`p-2 bg-white/20 rounded-lg`}>
@@ -51,6 +33,24 @@ export default function Scan() {
 							</Text>
 							<Text style={tw`text-white/60 font-poppinsLight text-sm`}>
 								Scan your card to add it quickly
+							</Text>
+						</View>
+					</TouchableOpacity>
+				</RectangleGlassRow>
+				<RectangleGlassRow>
+					<TouchableOpacity
+						style={tw`flex flex-row w-full gap-4`}
+						onPress={() => router.push('/screens/salesHistory')}
+					>
+						<View style={tw`p-2 bg-white/20 rounded-lg`}>
+							<SvgXml xml={iconSalesHistory} />
+						</View>
+						<View style={tw`flex flex-col flex-1`}>
+							<Text style={tw`text-white font-poppinsMedium text-lg`}>
+								Sales History
+							</Text>
+							<Text style={tw`text-white/60 font-poppinsLight text-sm`}>
+								View sales history
 							</Text>
 						</View>
 					</TouchableOpacity>
