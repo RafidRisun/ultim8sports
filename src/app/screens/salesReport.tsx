@@ -6,14 +6,61 @@ import tw from '@/src/lib/tailwind';
 import { Image } from 'expo-image';
 import { useRouter } from 'expo-router';
 import React from 'react';
-import { FlatList, Text, TouchableOpacity, View } from 'react-native';
+import {
+	FlatList,
+	ScrollView,
+	Text,
+	TouchableOpacity,
+	View,
+} from 'react-native';
 
 export default function SalesReport() {
 	const router = useRouter();
+	const [selectedFilter, setSelectedFilter] = React.useState<
+		'1M' | '3M' | '1Y' | 'ALL'
+	>('1M');
 	return (
 		<Wrapper>
 			<HeaderWithRoundBack title="Sales Report" back={true} />
-			<View style={tw`flex-1 flex-col items-center justify-start gap-2 pt-6`}>
+			<View style={tw`flex-1 flex-col items-center justify-start gap-2`}>
+				<View style={tw`flex w-full items-center justify-center py-2`}>
+					<ScrollView horizontal showsHorizontalScrollIndicator={false}>
+						<View style={tw`flex flex-row items-center justify-center gap-2`}>
+							<TouchableOpacity
+								style={tw`flex p-2 ${selectedFilter === '1M' ? 'bg-gray-700 rounded-lg' : ''}`}
+								onPress={() => setSelectedFilter('1M')}
+							>
+								<Text style={tw`text-white text-xs font-poppinsSemiBold`}>
+									Last 30 Days
+								</Text>
+							</TouchableOpacity>
+							<TouchableOpacity
+								style={tw`flex p-2 ${selectedFilter === '3M' ? 'bg-gray-700 rounded-lg' : ''}`}
+								onPress={() => setSelectedFilter('3M')}
+							>
+								<Text style={tw`text-white text-xs font-poppinsSemiBold`}>
+									Last 3 Months
+								</Text>
+							</TouchableOpacity>
+							<TouchableOpacity
+								style={tw`flex p-2 ${selectedFilter === '1Y' ? 'bg-gray-700 rounded-lg' : ''}`}
+								onPress={() => setSelectedFilter('1Y')}
+							>
+								<Text style={tw`text-white text-xs font-poppinsSemiBold`}>
+									Last 1 Year
+								</Text>
+							</TouchableOpacity>
+							<TouchableOpacity
+								style={tw`flex p-2 ${selectedFilter === 'ALL' ? 'bg-gray-700 rounded-lg' : ''}`}
+								onPress={() => setSelectedFilter('ALL')}
+							>
+								<Text style={tw`text-white text-xs font-poppinsSemiBold`}>
+									All Time
+								</Text>
+							</TouchableOpacity>
+						</View>
+					</ScrollView>
+				</View>
 				<View style={tw`flex flex-row w-full items-center gap-2`}>
 					<RectangleGlass>
 						<View style={tw`flex flex-col w-full items-start gap-2`}>
