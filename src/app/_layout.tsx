@@ -1,5 +1,7 @@
 import { useFonts } from 'expo-font';
 import { Stack } from 'expo-router';
+import { Provider } from 'react-redux';
+import store from '../redux/store';
 
 export default function RootLayout() {
 	const [loaded] = useFonts({
@@ -13,32 +15,15 @@ export default function RootLayout() {
 	if (!loaded) return null;
 
 	return (
-		<Stack screenOptions={{ headerShown: false }}>
-			<Stack.Screen name="(tabs)" />
-			<Stack.Screen name="scanResult" />
-			<Stack.Screen name="scanCard" />
-			<Stack.Screen name="analysingCard" />
-			<Stack.Screen name="manualCardInput" />
-			<Stack.Screen name="salesHistory" />
-			<Stack.Screen name="payment" />
-			<Stack.Screen name="plans" />
-			<Stack.Screen name="identifyFailed" />
-			<Stack.Screen name="searchCard" />
-			<Stack.Screen name="saleHistoryDetails" />
-			<Stack.Screen name="salesReport" />
-			<Stack.Screen name="saleRecord" />
-			<Stack.Screen name="cardDetails" />
-			<Stack.Screen name="cardDetailsManual" />
-			<Stack.Screen name="confirmSale" />
-			<Stack.Screen name="profileEdit" />
-			<Stack.Screen name="changePasswordSettings" />
-			<Stack.Screen name="changeCurrency" />
-			<Stack.Screen name="faq" />
-			<Stack.Screen name="contactSupport" />
-			<Stack.Screen name="privacyPolicy" />
-			<Stack.Screen name="termsAndConditions" />
-			<Stack.Screen name="plan" />
-			<Stack.Screen name="billingHistory" />
-		</Stack>
+		<Provider store={store}>
+			<Stack screenOptions={{ headerShown: false }}>
+				<Stack.Screen name="(tabs)" />
+				<Stack.Screen name="(common)" />
+				<Stack.Screen name="auth" />
+				<Stack.Screen name="subscription" />
+				<Stack.Screen name="profile" />
+				<Stack.Screen name="scan" />
+			</Stack>
+		</Provider>
 	);
 }

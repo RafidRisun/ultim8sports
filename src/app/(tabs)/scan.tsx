@@ -23,7 +23,7 @@ export default function Scan() {
 				<RectangleGlassRow>
 					<TouchableOpacity
 						style={tw`flex flex-row w-full gap-4`}
-						onPress={() => router.push('/screens/scanCard')}
+						onPress={() => router.push('/scan/scanCard')}
 					>
 						<View style={tw`p-2 bg-white/20 rounded-lg`}>
 							<SvgXml xml={iconScanCard} />
@@ -41,7 +41,7 @@ export default function Scan() {
 				<RectangleGlassRow>
 					<TouchableOpacity
 						style={tw`flex flex-row w-full gap-4`}
-						onPress={() => router.push('/screens/salesHistory')}
+						onPress={() => router.push('/scan/salesHistory')}
 					>
 						<View style={tw`p-2 bg-white/20 rounded-lg`}>
 							<SvgXml xml={iconSalesHistory} />
@@ -59,7 +59,7 @@ export default function Scan() {
 				<RectangleGlassRow>
 					<TouchableOpacity
 						style={tw`flex flex-row w-full gap-4`}
-						onPress={() => router.push('/screens/manualCardInput')}
+						onPress={() => router.push('/scan/manualCardInput')}
 					>
 						<View style={tw`p-2 bg-white/20 rounded-lg`}>
 							<SvgXml xml={iconManualCardEntry} />
@@ -77,7 +77,7 @@ export default function Scan() {
 				<RectangleGlassRow>
 					<TouchableOpacity
 						style={tw`flex flex-row w-full gap-4`}
-						onPress={() => router.push('/screens/searchCard')}
+						onPress={() => router.push('/scan/searchCard')}
 					>
 						<View style={tw`p-2 bg-white/20 rounded-lg`}>
 							<SvgXml xml={iconSearchCard} />
@@ -95,7 +95,7 @@ export default function Scan() {
 				<RectangleGlassRow>
 					<TouchableOpacity
 						style={tw`flex flex-row w-full gap-4`}
-						onPress={() => router.push('/screens/salesReport')}
+						onPress={() => router.push('/scan/salesReport')}
 					>
 						<View style={tw`p-2 aspect-square bg-white/20 rounded-lg`}>
 							<SvgXml xml={iconReport} />

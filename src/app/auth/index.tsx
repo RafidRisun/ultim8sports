@@ -8,9 +8,11 @@ import {
 import KeyboardAvoidingWrapper from '@/src/components/KeyboardAvoidingWrapper';
 import RoundedLitButton from '@/src/components/RoundedLitButton';
 import tw from '@/src/lib/tailwind';
+import { useLoginMutation } from '@/src/redux/api/authApi/authApi';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Link, router } from 'expo-router';
 import React, { useState } from 'react';
-import { Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { Alert, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { SvgXml } from 'react-native-svg';
 
 export default function SignIn() {
@@ -21,6 +23,38 @@ export default function SignIn() {
 	const [password, setPassword] = useState('');
 
 	const [passwordVisible, setPasswordVisible] = useState(false);
+
+	const [login, { isLoading, isError, data, error }] = useLoginMutation();
+
+	const handleLogin = async () => {
+		try {
+			const data = {
+				email,
+				password,
+			};
+			console.log(data);
+
+			const response = await login(data).unwrap();
+			console.log('Login successful:', response);
+			AsyncStorage.setItem('loggedInUser', response.data.user.name);
+			// await SecureStore.setItemAsync('authToken', response.data.token);
+			AsyncStorage.setItem('authToken', response.data.token);
+
+			//router.push('/Drawer/tabs/home');
+			router.push('/subscription/plans');
+		} catch (error: any) {
+			console.log(error);
+			Alert.alert('Error', error?.message || 'Login failed. Please try again.');
+		}
+	};
+
+	if (isLoading) {
+		return (
+			<View style={tw`flex-1 items-center justify-center bg-black`}>
+				<Text style={tw`text-white`}>Logging in...</Text>
+			</View>
+		);
+	}
 
 	return (
 		<KeyboardAvoidingWrapper>
@@ -87,12 +121,7 @@ export default function SignIn() {
 						Forgot Password?
 					</Link>
 				</View>
-				<RoundedLitButton
-					text="Sign In"
-					action={() => {
-						router.replace('/(common)/plans');
-					}}
-				/>
+				<RoundedLitButton text="Sign In" action={handleLogin} />
 				<Text
 					style={tw` w-full text-center pt-6 text-gray-400 font-poppins text-xs`}
 				>

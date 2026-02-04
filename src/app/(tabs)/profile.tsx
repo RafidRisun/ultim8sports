@@ -81,7 +81,7 @@ export default function Profile() {
 								<DividerPurple />
 								<TouchableOpacity
 									style={tw`flex flex-col w-full gap-2 px-2`}
-									onPress={() => router.push('/screens/profile/profileEdit')}
+									onPress={() => router.push('/profile/profileEdit')}
 								>
 									<View
 										style={tw`flex flex-row w-full items-center justify-between`}
@@ -99,9 +99,7 @@ export default function Profile() {
 								</TouchableOpacity>
 								<TouchableOpacity
 									style={tw`flex flex-col w-full gap-2 px-2`}
-									onPress={() =>
-										router.push('/screens/profile/changePasswordSettings')
-									}
+									onPress={() => router.push('/profile/changePasswordSettings')}
 								>
 									<View
 										style={tw`flex flex-row w-full items-center justify-between`}
@@ -185,7 +183,7 @@ export default function Profile() {
 								</View>
 								<TouchableOpacity
 									style={tw`flex flex-col w-full gap-2 px-2`}
-									onPress={() => router.push('/screens/profile/changeCurrency')}
+									onPress={() => router.push('/profile/changeCurrency')}
 								>
 									<View
 										style={tw`flex flex-row w-full items-center justify-between`}
@@ -268,7 +266,7 @@ export default function Profile() {
 								<View style={tw`flex flex-row w-full items-center`}>
 									<TouchableOpacity
 										style={tw`flex-1 py-1 items-center`}
-										onPress={() => router.push('/screens/profile/plan')}
+										onPress={() => router.push('/profile/plan')}
 									>
 										<Text style={tw`text-blue-600 font-poppinsMedium text-xs`}>
 											Upgrade Plan
@@ -277,9 +275,7 @@ export default function Profile() {
 									<View style={tw`w-0.75px bg-purple-700 h-full`} />
 									<TouchableOpacity
 										style={tw`flex-1 py-1 items-center`}
-										onPress={() =>
-											router.push('/screens/profile/billingHistory')
-										}
+										onPress={() => router.push('/profile/billingHistory')}
 									>
 										<Text style={tw`text-white font-poppinsMedium text-xs`}>
 											Billing History
@@ -336,7 +332,7 @@ export default function Profile() {
 							<View style={tw`flex flex-col w-full my-2 gap-4`}>
 								<TouchableOpacity
 									style={tw`flex flex-col w-full gap-2 px-2`}
-									onPress={() => router.push('/screens/profile/faq')}
+									onPress={() => router.push('/profile/faq')}
 								>
 									<View
 										style={tw`flex flex-row w-full items-center justify-between`}
@@ -354,7 +350,7 @@ export default function Profile() {
 								</TouchableOpacity>
 								<TouchableOpacity
 									style={tw`flex flex-col w-full gap-2 px-2`}
-									onPress={() => router.push('/screens/profile/contactSupport')}
+									onPress={() => router.push('/profile/contactSupport')}
 								>
 									<View
 										style={tw`flex flex-row w-full items-center justify-between`}
@@ -372,7 +368,7 @@ export default function Profile() {
 								</TouchableOpacity>
 								<TouchableOpacity
 									style={tw`flex flex-col w-full gap-2 px-2`}
-									onPress={() => router.push('/screens/profile/privacyPolicy')}
+									onPress={() => router.push('/profile/privacyPolicy')}
 								>
 									<View
 										style={tw`flex flex-row w-full items-center justify-between`}
@@ -390,9 +386,7 @@ export default function Profile() {
 								</TouchableOpacity>
 								<TouchableOpacity
 									style={tw`flex flex-col w-full gap-2 px-2`}
-									onPress={() =>
-										router.push('/screens/profile/termsAndConditions')
-									}
+									onPress={() => router.push('/profile/termsAndConditions')}
 								>
 									<View
 										style={tw`flex flex-row w-full items-center justify-between`}
