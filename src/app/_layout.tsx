@@ -18,11 +18,12 @@ export default function RootLayout() {
 		<Provider store={store}>
 			<Stack screenOptions={{ headerShown: false }}>
 				<Stack.Screen name="(tabs)" />
-				<Stack.Screen name="(common)" />
+				<Stack.Screen name="cardDetails" />
 				<Stack.Screen name="auth" />
 				<Stack.Screen name="subscription" />
 				<Stack.Screen name="profile" />
 				<Stack.Screen name="scan" />
+				<Stack.Screen name="inventory" />
 			</Stack>
 		</Provider>
 	);

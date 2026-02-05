@@ -42,7 +42,7 @@ export default function SalesHistory() {
 						<RectangleGlassRow key={item}>
 							<TouchableOpacity
 								style={tw`flex flex-row items-center justify-between w-full gap-4 pr-2`}
-								onPress={() => router.push('/screens/saleHistoryDetails')}
+								onPress={() => router.push('/scan/saleHistoryDetails')}
 							>
 								<View style={tw`flex flex-row gap-4`}>
 									<Image

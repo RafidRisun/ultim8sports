@@ -27,9 +27,9 @@ export default function ListingCard({
 				style={tw`flex flex-row w-full gap-4`}
 				onPress={() => {
 					if (ebay) {
-						router.push('/(common)/cardDetails');
+						router.push('/cardDetails/cardDetails');
 					} else {
-						router.push('/(common)/cardDetailsManual');
+						router.push('/cardDetails/cardDetailsManual');
 					}
 				}}
 			>

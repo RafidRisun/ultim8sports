@@ -76,7 +76,7 @@ export default function ScanResult() {
 						</View>
 						<RoundedLitButton
 							text="View Market History"
-							action={() => router.push('/screens/salesHistory')}
+							action={() => router.push('/scan/salesHistory')}
 						/>
 					</RectangleGlass>
 					<RectangleGlassRow>

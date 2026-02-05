@@ -10,7 +10,7 @@ import { SvgXml } from 'react-native-svg';
 
 export default function Plans() {
 	const [selectedPlan, setSelectedPlan] = React.useState<'monthly' | 'yearly'>(
-		'monthly'
+		'monthly',
 	);
 	return (
 		<Wrapper>
@@ -113,7 +113,7 @@ export default function Plans() {
 													{benefit}
 												</Text>
 											</View>
-									  ))
+										))
 									: yearlyPlan.benefits.map((benefit, index) => (
 											<View
 												key={index}
@@ -124,7 +124,7 @@ export default function Plans() {
 													{benefit}
 												</Text>
 											</View>
-									  ))}
+										))}
 							</View>
 						</View>
 					</View>
@@ -133,7 +133,7 @@ export default function Plans() {
 			<BrightRoundedButton
 				text="Start 7-Date Free Trial"
 				action={() => {
-					router.push('/payment');
+					router.push('/subscription/payment');
 				}}
 			/>
 		</Wrapper>

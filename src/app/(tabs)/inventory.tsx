@@ -151,9 +151,9 @@ export default function Inventory() {
 						/> */}
 						<TouchableOpacity
 							style={tw`flex flex-row w-full items-center gap-4`}
-							onPress={() => router.push('/screens/salesReport')}
+							onPress={() => router.push('/inventory/salesReport')}
 						>
-							<RoundGlass action={() => router.push('/screens/salesReport')}>
+							<RoundGlass action={() => router.push('/inventory/salesReport')}>
 								<View style={tw`flex-1 w-full items-center justify-center`}>
 									<SvgXml xml={iconInventoryTopOption} />
 								</View>

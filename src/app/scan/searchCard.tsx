@@ -43,7 +43,7 @@ export default function SearchCard() {
 							<TouchableOpacity
 								style={tw`flex flex-row items-center justify-between w-full gap-4 pr-2`}
 								onPress={() => {
-									router.push('/(common)/cardDetails');
+									router.push('/cardDetails/cardDetails');
 								}}
 							>
 								<View style={tw`flex flex-row gap-4`}>

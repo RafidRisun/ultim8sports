@@ -31,13 +31,13 @@ export default function IdentifyFailed() {
 					<RoundedLitButton
 						text="Scan Again"
 						action={() => {
-							router.replace('/screens/scanCard');
+							router.replace('/scan/scanCard');
 						}}
 					/>
 					<BrightRoundedButton
 						text="Enter Manually"
 						action={() => {
-							router.push('/screens/manualCardInput');
+							router.push('/scan/manualCardInput');
 						}}
 					/>
 				</View>
