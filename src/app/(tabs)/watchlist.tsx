@@ -207,7 +207,7 @@ export default function Watchlist() {
 										<RectangleGlassRow>
 											<TouchableOpacity
 												style={tw`flex flex-row w-full gap-4`}
-												onPress={() => router.push('/(common)/cardDetails')}
+												onPress={() => router.push('/cardDetails/cardDetails')}
 											>
 												<Image
 													source={require('@/assets/images/card1.jpg')}

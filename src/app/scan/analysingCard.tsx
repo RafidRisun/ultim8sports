@@ -13,7 +13,7 @@ export default function AnalysingCard() {
 
 	const router = useRouter();
 	useEffect(() => {
-		const routes = ['/screens/scanResult', '/screens/identifyFailed'] as const;
+		const routes = ['/scan/scanResult', '/scan/identifyFailed'] as const;
 		const chosen = routes[Math.random() < 0.5 ? 0 : 1];
 
 		const t = setTimeout(() => {

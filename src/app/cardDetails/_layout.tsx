@@ -6,6 +6,7 @@ export default function CardDetailsLayout() {
 		<Stack screenOptions={{ headerShown: false }}>
 			<Stack.Screen name="cardDetails" />
 			<Stack.Screen name="cardDetailsManual" />
+			<Stack.Screen name="confirmSale" />
 		</Stack>
 	);
 }

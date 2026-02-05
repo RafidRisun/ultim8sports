@@ -76,7 +76,7 @@ export default function ScanCard() {
 					});
 					console.log('Cropped image:', result.uri);
 					router.replace({
-						pathname: '/screens/analysingCard',
+						pathname: '/scan/analysingCard',
 						params: { photoUri: result.uri },
 					});
 					return;
@@ -87,7 +87,7 @@ export default function ScanCard() {
 
 			// Fallback: send original photo
 			router.push({
-				pathname: '/screens/analysingCard',
+				pathname: '/scan/analysingCard',
 				params: { photoUri: photo.uri },
 			});
 		} catch (err) {
