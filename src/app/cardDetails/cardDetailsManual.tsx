@@ -98,31 +98,3 @@ export default function CardDetailsManual() {
 		</Wrapper>
 	);
 }
-
-const oneMonthData = [
-	{ label: 'Week 1', value: 12000 },
-	{ label: 'Week 2', value: 12500 },
-	{ label: 'Week 3', value: 13000 },
-	{ label: 'Week 4', value: 14000 },
-];
-
-const threeMonthData = [
-	{ label: 'Jan', value: 11000 },
-	{ label: 'Feb', value: 11500 },
-	{ label: 'Mar', value: 13000 },
-];
-
-const oneYearData = [
-	{ label: 'Jan', value: 10000 },
-	{ label: 'Feb', value: 10500 },
-	{ label: 'Mar', value: 11000 },
-	{ label: 'Apr', value: 12000 },
-	{ label: 'May', value: 12500 },
-	{ label: 'Jun', value: 13000 },
-	{ label: 'Jul', value: 13500 },
-	{ label: 'Aug', value: 14000 },
-	{ label: 'Sep', value: 14500 },
-	{ label: 'Oct', value: 15000 },
-	{ label: 'Nov', value: 15500 },
-	{ label: 'Dec', value: 16000 },
-];

@@ -36,12 +36,12 @@ export default function SignIn() {
 
 			const response = await login(data).unwrap();
 			console.log('Login successful:', response);
-			AsyncStorage.setItem('loggedInUser', response.data.user.name);
+			AsyncStorage.setItem('loggedInUser', response.data.user.email);
 			// await SecureStore.setItemAsync('authToken', response.data.token);
 			AsyncStorage.setItem('authToken', response.data.token);
 
 			//router.push('/Drawer/tabs/home');
-			router.push('/subscription/plans');
+			router.replace('/subscription/plans');
 		} catch (error: any) {
 			console.log(error);
 			Alert.alert('Error', error?.message || 'Login failed. Please try again.');
