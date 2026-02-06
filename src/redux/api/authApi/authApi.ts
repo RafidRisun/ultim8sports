@@ -51,13 +51,12 @@ export const authApi = api.injectEndpoints({
 			}),
 			invalidatesTags: ['auth'],
 		}),
-		validateToken: builder.mutation<any, any>({
+		validateToken: builder.query<any, string>({
 			query: data => ({
 				url: '/check-token?token=' + data,
-				method: 'POST',
-				body: data,
+				method: 'GET',
 			}),
-			invalidatesTags: ['auth'],
+			providesTags: ['auth'],
 		}),
 		logout: builder.mutation<any, void>({
 			query: () => ({
@@ -74,6 +73,6 @@ export const {
 	useResendOtpMutation,
 	useLoginMutation,
 	useResetPasswordMutation,
-	useValidateTokenMutation,
+	useValidateTokenQuery,
 	useLogoutMutation,
 } = authApi;

@@ -1,4 +1,3 @@
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Image } from 'expo-image';
 import { useRouter } from 'expo-router';
 import { useEffect } from 'react';
@@ -11,20 +10,10 @@ import store from '../redux/store';
 export default function Index() {
 	const router = useRouter();
 
-	const checkLoginStatus = async () => {
-		setTimeout(async () => {
-			await AsyncStorage.getItem('loggedInUser').then(loggedInUser => {
-				if (loggedInUser) {
-					router.replace('/subscription/plans');
-				} else {
-					router.replace('/auth');
-				}
-			});
-		}, 1800);
-	};
-
 	useEffect(() => {
-		checkLoginStatus();
+		setTimeout(() => {
+			router.replace('/auth/loginCheck');
+		}, 1800);
 	}, []);
 
 	return (
