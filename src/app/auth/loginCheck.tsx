@@ -7,13 +7,22 @@ import { ActivityIndicator, View } from 'react-native';
 
 export default function LoginCheck() {
 	const router = useRouter();
-	const [token, setToken] = useState<string | null>(null);
+	const [token, setToken] = useState<string | null | undefined>(undefined);
+
+	// useEffect(() => {
+	// 	(async () => {
+	// 		const t = await AsyncStorage.getItem('authToken');
+	// 		setToken(t);
+	// 	})();
+	// }, []);
 
 	useEffect(() => {
-		(async () => {
+		async function loadToken() {
 			const t = await AsyncStorage.getItem('authToken');
 			setToken(t);
-		})();
+		}
+
+		loadToken();
 	}, []);
 
 	const { data: validateToken, isLoading } = useValidateTokenQuery(
@@ -24,7 +33,9 @@ export default function LoginCheck() {
 	);
 
 	useEffect(() => {
-		if (token === null) return; // still loading token
+		// `undefined` means token is still being loaded; `null` means loaded but not present
+		if (token === undefined) return; // still loading token
+
 		if (!isLoading) {
 			if (validateToken?.status === true) {
 				router.replace('/(tabs)');

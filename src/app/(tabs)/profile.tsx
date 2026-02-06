@@ -20,6 +20,8 @@ import HeaderWithRoundBack from '@/src/components/HeaderWithRoundBack';
 import RectangleGlassRow from '@/src/components/RectangleGlassRow';
 import Wrapper from '@/src/components/Wrapper';
 import tw from '@/src/lib/tailwind';
+import { useLogoutMutation } from '@/src/redux/api/authApi/authApi';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Image } from 'expo-image';
 import { useRouter } from 'expo-router';
 import React, { useState } from 'react';
@@ -39,6 +41,24 @@ export default function Profile() {
 		setIsGoogleSheetConnected(previousState => !previousState);
 
 	const router = useRouter();
+
+	const [logout, { isLoading: isLogoutLoading }] = useLogoutMutation();
+
+	const handleLogout = async () => {
+		try {
+			const res = await logout().unwrap();
+			if (res.status === true) {
+				// Clear any stored user data or tokens here if needed
+				await AsyncStorage.removeItem('authToken');
+				router.replace('/auth');
+			} else {
+				console.error('Logout failed:', res.message);
+			}
+		} catch (error) {
+			console.error('Logout failed:', error);
+		}
+	};
+
 	return (
 		<Wrapper>
 			<View style={tw`flex-1 w-full`}>
@@ -406,7 +426,11 @@ export default function Profile() {
 						</RectangleGlassRow>
 						<RectangleGlassRow>
 							<View style={tw`flex flex-col w-full my-2 gap-4`}>
-								<TouchableOpacity style={tw`flex flex-col w-full gap-2 px-2`}>
+								<TouchableOpacity
+									style={tw`flex flex-col w-full gap-2 px-2`}
+									onPress={handleLogout}
+									disabled={isLogoutLoading}
+								>
 									<View
 										style={tw`flex flex-row w-full items-center justify-start gap-4`}
 									>
