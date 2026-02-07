@@ -5,14 +5,22 @@ import {
 	iconLock,
 	iconVisiblity,
 } from '@/assets/icon';
+import ErrorCard from '@/src/components/ErrorCard';
 import KeyboardAvoidingWrapper from '@/src/components/KeyboardAvoidingWrapper';
 import RoundedLitButton from '@/src/components/RoundedLitButton';
+import Wrapper from '@/src/components/Wrapper';
 import tw from '@/src/lib/tailwind';
 import { useLoginMutation } from '@/src/redux/api/authApi/authApi';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Link, router } from 'expo-router';
 import React, { useState } from 'react';
-import { Alert, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import {
+	ActivityIndicator,
+	Text,
+	TextInput,
+	TouchableOpacity,
+	View,
+} from 'react-native';
 import { SvgXml } from 'react-native-svg';
 
 export default function SignIn() {
@@ -44,15 +52,18 @@ export default function SignIn() {
 			router.replace('/subscription/plans');
 		} catch (error: any) {
 			console.log(error);
-			Alert.alert('Error', error?.message || 'Login failed. Please try again.');
 		}
 	};
 
 	if (isLoading) {
 		return (
-			<View style={tw`flex-1 items-center justify-center bg-black`}>
-				<Text style={tw`text-white`}>Logging in...</Text>
-			</View>
+			<Wrapper>
+				<View
+					style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}
+				>
+					<ActivityIndicator size="large" color="#fff" />
+				</View>
+			</Wrapper>
 		);
 	}
 
@@ -122,6 +133,20 @@ export default function SignIn() {
 					</Link>
 				</View>
 				<RoundedLitButton text="Sign In" action={handleLogin} />
+				{isError && (
+					// <View
+					// 	style={tw`mt-4 p-3 bg-red-500/20 border border-red-500 rounded`}
+					// >
+					// 	<Text style={tw`text-red-500 text-center`}>
+					// 		{(error as any)?.message ||
+					// 			'Login failed. Please check your credentials and try again.'}
+					// 	</Text>
+					// </View>
+					<ErrorCard>
+						{(error as any)?.message ||
+							'Login failed. Please check your credentials and try again.'}
+					</ErrorCard>
+				)}
 				<Text
 					style={tw` w-full text-center pt-6 text-gray-400 font-poppins text-xs`}
 				>

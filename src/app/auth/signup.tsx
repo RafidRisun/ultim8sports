@@ -6,12 +6,16 @@ import {
 	iconLock,
 	iconVisiblity,
 } from '@/assets/icon';
+import ErrorCard from '@/src/components/ErrorCard';
 import KeyboardAvoidingWrapper from '@/src/components/KeyboardAvoidingWrapper';
 import RoundedLitButton from '@/src/components/RoundedLitButton';
+import Wrapper from '@/src/components/Wrapper';
 import tw from '@/src/lib/tailwind';
-import { Link } from 'expo-router';
+import { useUserRegisterMutation } from '@/src/redux/api/authApi/authApi';
+import { Link, useRouter } from 'expo-router';
 import React, { useState } from 'react';
 import {
+	ActivityIndicator,
 	ScrollView,
 	Text,
 	TextInput,
@@ -21,6 +25,7 @@ import {
 import { SvgXml } from 'react-native-svg';
 
 export default function SignUp() {
+	const router = useRouter();
 	const [fullNameFocused, setFullNameFocused] = useState(false);
 	const [emailFocused, setEmailFocused] = useState(false);
 	const [passwordFocused, setPasswordFocused] = useState(false);
@@ -34,6 +39,41 @@ export default function SignUp() {
 	const [passwordVisible, setPasswordVisible] = useState(false);
 	const [confirmPasswordVisible, setConfirmPasswordVisible] = useState(false);
 
+	const [signup, { isLoading, isError, data, error }] =
+		useUserRegisterMutation();
+
+	const handleSignUp = async () => {
+		try {
+			const data = {
+				full_name: fullName,
+				email,
+				password,
+				password_confirmation: confirmPassword,
+				termsAccepted,
+			};
+			console.log(data);
+			const response = await signup(data).unwrap();
+			if (response.status === true) {
+				console.log('Sign Up successful:', response);
+				router.push('/auth/otp');
+			}
+		} catch (error: any) {
+			console.log(error);
+		}
+	};
+
+	if (isLoading) {
+		return (
+			<Wrapper>
+				<View
+					style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}
+				>
+					<ActivityIndicator size="large" color="#fff" />
+				</View>
+			</Wrapper>
+		);
+	}
+
 	return (
 		<KeyboardAvoidingWrapper>
 			<ScrollView style={tw`flex-1 w-full my-10`}>
@@ -42,7 +82,7 @@ export default function SignUp() {
 						Sign Up
 					</Text>
 					<Text style={tw`text-gray-400 font-poppins text-xs`}>
-						Give correct information to create NEXUS account
+						Give correct information to create Ultim8Sport account
 					</Text>
 				</View>
 				<View style={tw`flex flex-col w-full gap-4`}>
@@ -159,7 +199,18 @@ export default function SignUp() {
 							<Text style={tw`text-purple-300`}>Terms and Conditions</Text>
 						</Text>
 					</View>
-					<RoundedLitButton text="Sign Up" action={() => {}} />
+					<RoundedLitButton
+						text="Sign Up"
+						action={() => {
+							handleSignUp();
+						}}
+					/>
+					{isError && (
+						<ErrorCard>
+							{(error as any)?.message ||
+								'Sign Up failed. Please check your credentials and try again.'}
+						</ErrorCard>
+					)}
 					<Text
 						style={tw` w-full text-center pt-6 text-gray-400 font-poppins text-xs`}
 					>
