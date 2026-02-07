@@ -55,7 +55,10 @@ export default function SignUp() {
 			const response = await signup(data).unwrap();
 			if (response.status === true) {
 				console.log('Sign Up successful:', response);
-				router.push('/auth/otp');
+				router.push({
+					pathname: '/auth/otp',
+					params: { operation: 'signup' },
+				});
 			}
 		} catch (error: any) {
 			console.log(error);

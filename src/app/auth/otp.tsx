@@ -1,13 +1,53 @@
 import BackButton from '@/src/components/BackButton';
+import ErrorCard from '@/src/components/ErrorCard';
 import KeyboardAvoidingWrapper from '@/src/components/KeyboardAvoidingWrapper';
 import RoundedLitButton from '@/src/components/RoundedLitButton';
+import Wrapper from '@/src/components/Wrapper';
 import tw from '@/src/lib/tailwind';
-import { router } from 'expo-router';
+import { useOtpVerifyMutation } from '@/src/redux/api/authApi/authApi';
+import { router, useLocalSearchParams } from 'expo-router';
 import React from 'react';
-import { Text, View } from 'react-native';
+import { ActivityIndicator, Text, View } from 'react-native';
 import { OtpInput } from 'react-native-otp-entry';
 
 export default function OTP() {
+	const operation = useLocalSearchParams().operation as
+		| 'signup'
+		| 'forgotPassword';
+	const [otp, setOtp] = React.useState('');
+
+	const [verify, { isLoading, isError, data, error }] = useOtpVerifyMutation();
+
+	const handleVerify = async () => {
+		try {
+			const response = await verify({ otp }).unwrap();
+			if (response.status === true) {
+				console.log('OTP verification successful:', response);
+				if (operation === 'signup') {
+					router.push('/auth');
+				} else if (operation === 'forgotPassword') {
+					router.push('/auth/createNewPassword');
+				}
+			} else {
+				console.log('OTP verification failed:', response);
+			}
+		} catch (error: any) {
+			console.log('OTP verification error:', error);
+		}
+	};
+
+	if (isLoading) {
+		return (
+			<Wrapper>
+				<View
+					style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}
+				>
+					<ActivityIndicator size="large" color="#fff" />
+				</View>
+			</Wrapper>
+		);
+	}
+
 	return (
 		<KeyboardAvoidingWrapper>
 			<BackButton />
@@ -24,7 +64,7 @@ export default function OTP() {
 					<Text style={tw`text-white pl-2`}>Verify OTP</Text>
 					<OtpInput
 						numberOfDigits={6}
-						onTextChange={text => console.log(text)}
+						onTextChange={setOtp}
 						focusColor="#8C52FF"
 						theme={{
 							pinCodeTextStyle: {
@@ -39,9 +79,15 @@ export default function OTP() {
 				<RoundedLitButton
 					text="Verify"
 					action={() => {
-						router.push('/auth/createNewPassword');
+						handleVerify();
 					}}
 				/>
+				{isError && (
+					<ErrorCard>
+						{(error as any)?.message ||
+							'OTP verification failed. Please try again.'}
+					</ErrorCard>
+				)}
 			</View>
 		</KeyboardAvoidingWrapper>
 	);
