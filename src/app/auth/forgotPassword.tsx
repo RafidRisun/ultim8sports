@@ -1,17 +1,52 @@
 import { iconEmail } from '@/assets/icon';
 import BackButton from '@/src/components/BackButton';
+import ErrorCard from '@/src/components/ErrorCard';
 import KeyboardAvoidingWrapper from '@/src/components/KeyboardAvoidingWrapper';
 import RoundedLitButton from '@/src/components/RoundedLitButton';
+import Wrapper from '@/src/components/Wrapper';
 import tw from '@/src/lib/tailwind';
+import { useForgotPasswordMutation } from '@/src/redux/api/authApi/authApi';
 import { router } from 'expo-router';
 import React, { useState } from 'react';
-import { Text, TextInput, View } from 'react-native';
+import { ActivityIndicator, Text, TextInput, View } from 'react-native';
 import { SvgXml } from 'react-native-svg';
 
 export default function ForgotPassword() {
 	const [emailFocused, setEmailFocused] = useState(false);
 
 	const [email, setEmail] = useState('');
+
+	const [emailOtp, { isLoading, isError, data, error }] =
+		useForgotPasswordMutation();
+
+	const handleEmailOtp = async () => {
+		try {
+			const response = await emailOtp({ email }).unwrap();
+			if (response.status === true) {
+				console.log('Forgot password OTP sent successfully:', response);
+				router.push({
+					pathname: '/auth/otp',
+					params: { operation: 'forgotPassword' },
+				});
+			} else {
+				console.log('Forgot password OTP failed:', response);
+			}
+		} catch (error: any) {
+			console.log('Forgot password OTP error:', error);
+		}
+	};
+
+	if (isLoading) {
+		return (
+			<Wrapper>
+				<View
+					style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}
+				>
+					<ActivityIndicator size="large" color="#fff" />
+				</View>
+			</Wrapper>
+		);
+	}
 
 	return (
 		<KeyboardAvoidingWrapper>
@@ -47,12 +82,12 @@ export default function ForgotPassword() {
 					</View>
 				</View>
 
-				<RoundedLitButton
-					text="Get Code"
-					action={() => {
-						router.push('/auth/otp');
-					}}
-				/>
+				<RoundedLitButton text="Get Code" action={handleEmailOtp} />
+				{isError && (
+					<ErrorCard>
+						{(error as any)?.message || 'An error occurred. Please try again.'}
+					</ErrorCard>
+				)}
 			</View>
 		</KeyboardAvoidingWrapper>
 	);

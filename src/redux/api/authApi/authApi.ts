@@ -75,4 +75,5 @@ export const {
 	useResetPasswordMutation,
 	useValidateTokenQuery,
 	useLogoutMutation,
+	useForgotPasswordMutation,
 } = authApi;
