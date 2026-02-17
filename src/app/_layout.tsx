@@ -18,7 +18,7 @@ export default function RootLayout() {
 		<Provider store={store}>
 			<Stack screenOptions={{ headerShown: false }}>
 				<Stack.Screen name="(tabs)" />
-				<Stack.Screen name="cardDetails" />
+				<Stack.Screen name="card" />
 				<Stack.Screen name="auth" />
 				<Stack.Screen name="subscription" />
 				<Stack.Screen name="profile" />

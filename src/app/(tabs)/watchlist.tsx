@@ -125,7 +125,7 @@ export default function Watchlist() {
 						</ScrollView>
 						<View style={tw`flex flex-col w-full pb-40 gap-4`}>
 							<Text style={tw`text-white font-poppinsMedium text-lg`}>
-								YOUR ITEMS
+								YOUR WATCHLIST
 							</Text>
 							<GestureHandlerRootView
 								style={tw`flex flex-col w-full justify-center items-center gap-2`}
@@ -207,7 +207,7 @@ export default function Watchlist() {
 										<RectangleGlassRow>
 											<TouchableOpacity
 												style={tw`flex flex-row w-full gap-4`}
-												onPress={() => router.push('/cardDetails/cardDetails')}
+												onPress={() => router.push('/card/cardDetails')}
 											>
 												<Image
 													source={require('@/assets/images/card1.jpg')}

@@ -1,10 +1,20 @@
 import { iconLock, iconVisiblity } from '@/assets/icon';
+import ErrorCard from '@/src/components/ErrorCard';
 import KeyboardAvoidingWrapper from '@/src/components/KeyboardAvoidingWrapper';
 import RoundedLitButton from '@/src/components/RoundedLitButton';
+import Wrapper from '@/src/components/Wrapper';
 import tw from '@/src/lib/tailwind';
+import { useResetPasswordMutation } from '@/src/redux/api/authApi/authApi';
 import { router } from 'expo-router';
 import React, { useState } from 'react';
-import { Text, TextInput, TouchableOpacity, View } from 'react-native';
+import {
+	ActivityIndicator,
+	Alert,
+	Text,
+	TextInput,
+	TouchableOpacity,
+	View,
+} from 'react-native';
 import { SvgXml } from 'react-native-svg';
 
 export default function CreateNewPassword() {
@@ -16,6 +26,45 @@ export default function CreateNewPassword() {
 
 	const [passwordVisible, setPasswordVisible] = useState(false);
 	const [confirmPasswordVisible, setConfirmPasswordVisible] = useState(false);
+
+	const [resetPassword, { isLoading, isError, data, error }] =
+		useResetPasswordMutation();
+
+	const handleResetPassword = async () => {
+		if (password !== confirmPassword) {
+			// Handle password mismatch error
+			Alert.alert('Error', 'Passwords do not match. Please try again.');
+			return;
+		}
+
+		try {
+			const data = {
+				password: password,
+				password_confirmation: confirmPassword,
+			};
+			const response = await resetPassword(data).unwrap();
+			if (response.status === true) {
+				console.log('Password reset successfully:', response);
+				router.push('/auth');
+			} else {
+				console.log('Password reset failed:', response);
+			}
+		} catch (error: any) {
+			console.log('Password reset error:', error);
+		}
+	};
+
+	if (isLoading) {
+		return (
+			<Wrapper>
+				<View
+					style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}
+				>
+					<ActivityIndicator size="large" color="#fff" />
+				</View>
+			</Wrapper>
+		);
+	}
 
 	return (
 		<KeyboardAvoidingWrapper>
@@ -87,9 +136,15 @@ export default function CreateNewPassword() {
 				<RoundedLitButton
 					text="Set Password"
 					action={() => {
-						router.push('/auth');
+						handleResetPassword();
 					}}
 				/>
+				{isError && (
+					<ErrorCard>
+						{(error as any)?.message ||
+							'Password Reset failed. Please try again.'}
+					</ErrorCard>
+				)}
 			</View>
 		</KeyboardAvoidingWrapper>
 	);

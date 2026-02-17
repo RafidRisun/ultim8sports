@@ -5,6 +5,7 @@ import RoundedLitButton from '@/src/components/RoundedLitButton';
 import Wrapper from '@/src/components/Wrapper';
 import tw from '@/src/lib/tailwind';
 import { useOtpVerifyMutation } from '@/src/redux/api/authApi/authApi';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { router, useLocalSearchParams } from 'expo-router';
 import React from 'react';
 import { ActivityIndicator, Text, View } from 'react-native';
@@ -23,6 +24,7 @@ export default function OTP() {
 			const response = await verify({ otp }).unwrap();
 			if (response.status === true) {
 				console.log('OTP verification successful:', response);
+				AsyncStorage.setItem('authToken', response.data.token);
 				if (operation === 'signup') {
 					router.push('/auth');
 				} else if (operation === 'forgotPassword') {
