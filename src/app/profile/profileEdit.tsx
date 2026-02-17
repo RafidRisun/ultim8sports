@@ -30,26 +30,6 @@ export default function ProfileEdit() {
 
 	const handleSave = async () => {
 		try {
-			// const data = {
-			// 	full_name: fullName,
-			// 	email,
-			// 	avatar_url: image,
-			// };
-			// console.log(data);
-			// const response = await updateProfile(data).unwrap();
-			// console.log('Profile updated successfully:', response);
-			// Alert.alert('Success', 'Profile updated successfully');
-			// if (response?.data?.user) {
-			// 	setFullName(response.data.user.full_name);
-			// 	setEmail(response.data.user.email);
-			// 	setImage(response.data.user.avatar_url);
-			// }
-			// try {
-			// 	if (refetch) await refetch();
-			// } catch (e) {
-			// 	console.log('Refetch failed', e);
-			// }
-
 			const formData = new FormData();
 
 			formData.append('full_name', fullName);

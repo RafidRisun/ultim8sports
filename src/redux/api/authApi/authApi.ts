@@ -65,6 +65,14 @@ export const authApi = api.injectEndpoints({
 			}),
 			invalidatesTags: ['auth'],
 		}),
+		updatePassword: builder.mutation<any, any>({
+			query: data => ({
+				url: '/update-password',
+				method: 'POST',
+				body: data,
+			}),
+			invalidatesTags: ['auth'],
+		}),
 	}),
 });
 export const {
@@ -76,4 +84,5 @@ export const {
 	useValidateTokenQuery,
 	useLogoutMutation,
 	useForgotPasswordMutation,
+	useUpdatePasswordMutation,
 } = authApi;

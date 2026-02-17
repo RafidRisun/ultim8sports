@@ -3,8 +3,9 @@ import BrightRoundedButton from '@/src/components/BrightRoundedButton';
 import HeaderWithRoundBack from '@/src/components/HeaderWithRoundBack';
 import Wrapper from '@/src/components/Wrapper';
 import tw from '@/src/lib/tailwind';
+import { useUpdatePasswordMutation } from '@/src/redux/api/authApi/authApi';
 import React, { useState } from 'react';
-import { Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { Alert, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { SvgXml } from 'react-native-svg';
 
 export default function ChangePasswordSettings() {
@@ -14,6 +15,34 @@ export default function ChangePasswordSettings() {
 	const [newPassword, setNewPassword] = useState('');
 	const [confirmPasswordVisible, setConfirmPasswordVisible] = useState(false);
 	const [confirmPassword, setConfirmPassword] = useState('');
+	const [changePassword, { isLoading, isError, error }] =
+		useUpdatePasswordMutation();
+
+	const handleChangePassword = async () => {
+		if (newPassword !== confirmPassword) {
+			Alert.alert('Error', 'New password and confirm password do not match');
+			return;
+		}
+		try {
+			const response = await changePassword({
+				current_password: password,
+				password: newPassword,
+				password_confirmation: confirmPassword,
+			}).unwrap();
+			console.log('Password changed successfully:', response);
+			Alert.alert('Success', 'Password changed successfully');
+			setPassword('');
+			setNewPassword('');
+			setConfirmPassword('');
+		} catch (error: any) {
+			console.log('Failed to change password:', error);
+			Alert.alert(
+				'Failed to change password',
+				error?.message || 'Something went wrong. Please try again later.',
+			);
+		}
+	};
+
 	return (
 		<Wrapper>
 			<HeaderWithRoundBack title="Change Password" back />
@@ -82,7 +111,10 @@ export default function ChangePasswordSettings() {
 					</View>
 				</View>
 			</View>
-			<BrightRoundedButton text="Update" action={() => {}} />
+			<BrightRoundedButton
+				text={isLoading ? 'Updating...' : 'Update'}
+				action={handleChangePassword}
+			/>
 		</Wrapper>
 	);
 }
