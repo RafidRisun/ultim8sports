@@ -223,6 +223,14 @@ const dataMonthly = [
 	{ value: 4300 },
 	{ value: 3900 },
 	{ value: 5000 },
+	{ value: 2000 },
+	{ value: 4000 },
+	{ value: 1500 },
+	{ value: 3200 },
+	{ value: 2800 },
+	{ value: 4300 },
+	{ value: 3900 },
+	{ value: 5000 },
 ];
 
 const dataYearly = [
