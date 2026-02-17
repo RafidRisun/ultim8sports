@@ -32,13 +32,28 @@ export default function LoginCheck() {
 		},
 	);
 
+	async function storeAvatar(avatarUrl?: string | null) {
+		try {
+			if (avatarUrl) {
+				await AsyncStorage.setItem('user_avatar', avatarUrl);
+			} else {
+				await AsyncStorage.removeItem('user_avatar');
+			}
+		} catch (e) {
+			console.error('Failed to store avatar:', e);
+		}
+	}
+
 	useEffect(() => {
 		// `undefined` means token is still being loaded; `null` means loaded but not present
 		if (token === undefined) return; // still loading token
 
 		if (!isLoading) {
 			if (validateToken?.status === true) {
-				router.replace('/(tabs)');
+				// console.log(validateToken?.data?.avatar);
+				storeAvatar(validateToken?.data?.avatar_url).then(() => {
+					router.replace('/(tabs)');
+				});
 			} else {
 				router.replace('/auth');
 			}

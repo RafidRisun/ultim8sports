@@ -5,11 +5,12 @@ import MainAreaChart from '@/src/components/MainAreaChart';
 import RoundGlass from '@/src/components/RoundGlass';
 import WrapperWithoutPX from '@/src/components/WrapperWithoutPX';
 import tw from '@/src/lib/tailwind';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import MaskedView from '@react-native-masked-view/masked-view';
 import { Image } from 'expo-image';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { ScrollView, Text, TouchableOpacity, View } from 'react-native';
 import { SvgXml } from 'react-native-svg';
 
@@ -18,6 +19,31 @@ export default function Home() {
 		'weekly' | 'monthly' | 'yearly'
 	>('weekly');
 	const router = useRouter();
+
+	const [userAvatar, setUserAvatar] = React.useState<string | null>(null);
+
+	async function getUserAvatar() {
+		try {
+			const avatar = await AsyncStorage.getItem('user_avatar');
+			if (avatar) {
+				setUserAvatar(avatar);
+			}
+			console.log('Retrieved avatar from AsyncStorage:', avatar);
+			// console.log('userAvatar state updated:', userAvatar);
+		} catch (error) {
+			console.error('Failed to get user avatar:', error);
+			return null;
+		}
+	}
+
+	useEffect(() => {
+		getUserAvatar();
+	}, []);
+
+	useEffect(() => {
+		console.log('userAvatar state updated:', userAvatar);
+	}, [userAvatar]);
+
 	return (
 		<WrapperWithoutPX>
 			<View style={tw`flex-1  w-full`}>
@@ -29,7 +55,11 @@ export default function Home() {
 							onPress={() => router.navigate('/(tabs)/profile')}
 						>
 							<Image
-								source={require('@/assets/images/profile photo.jpg')}
+								source={
+									userAvatar
+										? { uri: userAvatar }
+										: require('@/assets/images/default_avatar.png')
+								}
 								style={tw`h-11 w-11 rounded-full`}
 								contentFit="cover"
 							/>
