@@ -55,7 +55,7 @@ export default function TabBar({ state, descriptors, navigation }) {
 		<View style={tw`flex w-full items-center justify-center`}>
 			<Animated.View
 				style={[
-					tw`flex flex-row items-center justify-between absolute bottom-4 mx-4 border border-white/20 border-t-white/60 border-b-white/40 blur-lg rounded-full overflow-hidden max-w-100`,
+					tw`flex flex-row items-center justify-between absolute bottom-4 mx-4 border border-white/20 border-t-white/60 border-b-white/40 blur-lg rounded-full overflow-hidden max-w-100 gap-6`,
 					{
 						marginBottom: bottom,
 						transform: [{ perspective: 1000 }, { rotateY: rotate }],
