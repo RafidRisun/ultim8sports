@@ -1,7 +1,12 @@
-import { iconIncrease, iconNotfication } from '@/assets/icon';
+import {
+	iconInventoryTopOption,
+	iconNotfication,
+	iconShare,
+} from '@/assets/icon';
 import ChartTabButtons from '@/src/components/ChartTabButtons';
 import ListingCard from '@/src/components/ListingCard';
 import MainAreaChart from '@/src/components/MainAreaChart';
+import RectangleGlass from '@/src/components/RectangleGlass';
 import RoundGlass from '@/src/components/RoundGlass';
 import WrapperWithoutPX from '@/src/components/WrapperWithoutPX';
 import tw from '@/src/lib/tailwind';
@@ -20,6 +25,9 @@ export default function Home() {
 	>('weekly');
 	const router = useRouter();
 
+	const [loadMoreInventory, setLoadMoreInventory] = React.useState(false);
+	const [loadMoreMovers, setLoadMoreMovers] = React.useState(false);
+
 	const [userAvatar, setUserAvatar] = React.useState<string | null>(null);
 
 	async function getUserAvatar() {
@@ -28,7 +36,7 @@ export default function Home() {
 			if (avatar) {
 				setUserAvatar(avatar);
 			}
-			console.log('Retrieved avatar from AsyncStorage:', avatar);
+			// console.log('Retrieved avatar from AsyncStorage:', avatar);
 			// console.log('userAvatar state updated:', userAvatar);
 		} catch (error) {
 			console.error('Failed to get user avatar:', error);
@@ -39,10 +47,6 @@ export default function Home() {
 	useEffect(() => {
 		getUserAvatar();
 	}, []);
-
-	useEffect(() => {
-		console.log('userAvatar state updated:', userAvatar);
-	}, [userAvatar]);
 
 	return (
 		<WrapperWithoutPX>
@@ -68,48 +72,106 @@ export default function Home() {
 							<SvgXml xml={iconNotfication} />
 						</RoundGlass>
 					</View>
-					<View style={tw`flex gap-2`}>
-						<MaskedView
-							style={tw`flex-1 h-12`}
-							maskElement={
-								<View
-									style={{
-										// Transparent background because mask is based off alpha channel.
-										backgroundColor: 'transparent',
-										flex: 1,
-										justifyContent: 'center',
-										alignItems: 'center',
-									}}
-								>
-									<Text
+					<View style={tw`flex w-full gap-4 px-[4%] mb-8`}>
+						<View style={tw`flex flex-col w-full `}>
+							<Text
+								style={tw`text-xs font-poppinsLight text-white text-center`}
+							>
+								TOTAL PORTFOLIO VALUE
+							</Text>
+							<MaskedView
+								style={tw`flex-1 h-12`}
+								maskElement={
+									<View
 										style={{
-											fontSize: 36,
-											color: 'black',
-											fontWeight: 'bold',
+											// Transparent background because mask is based off alpha channel.
+											backgroundColor: 'transparent',
+											flex: 1,
+											justifyContent: 'center',
+											alignItems: 'center',
 										}}
 									>
-										$23,450
+										<Text
+											style={{
+												fontSize: 36,
+												color: 'black',
+												fontWeight: 'bold',
+											}}
+										>
+											$23,450
+										</Text>
+									</View>
+								}
+							>
+								<LinearGradient
+									// Background Linear Gradient
+									colors={['#FFFFFF', '#8C52FF']}
+									style={{ flex: 1, height: '100%' }}
+								/>
+							</MaskedView>
+						</View>
+						<View style={tw`flex flex-row w-full items-center gap-2`}>
+							<RectangleGlass>
+								<View style={tw`flex flex-col w-full items-start gap-2`}>
+									<Text style={tw`text-xs font-poppinsLight text-white`}>
+										TOTAL INVESTED
+									</Text>
+									<Text style={tw`text-white font-poppinsMedium text-lg`}>
+										$12,200
 									</Text>
 								</View>
-							}
-						>
-							<LinearGradient
-								// Background Linear Gradient
-								colors={['#FFFFFF', '#8C52FF']}
-								style={{ flex: 1, height: '100%' }}
-							/>
-						</MaskedView>
-						<View
-							style={tw`flex flex-row w-full justify-center items-center gap-2`}
-						>
-							<SvgXml xml={iconIncrease} />
-							<Text style={tw`text-sm font-poppinsMedium text-white`}>
-								+$11,250 (5.4%)
-							</Text>
-							<Text style={tw`text-xs font-poppinsLight text-white`}>
-								vs last 30 days
-							</Text>
+							</RectangleGlass>
+							<RectangleGlass>
+								<View style={tw`flex flex-col w-full items-start gap-2`}>
+									<Text style={tw`text-xs font-poppinsLight text-white`}>
+										MARKET VALUE
+									</Text>
+									<View style={tw`flex flex-row items-center gap-4`}>
+										<Text style={tw`text-green-500 font-poppinsMedium text-lg`}>
+											$12,200
+										</Text>
+										<View
+											style={tw`flex px-2 py-1 bg-green-600/20 rounded-full`}
+										>
+											<Text
+												style={tw`text-green-400 font-poppinsMedium text-xs`}
+											>
+												+8.2%
+											</Text>
+										</View>
+									</View>
+								</View>
+							</RectangleGlass>
 						</View>
+						{/* <RoundedLitButton
+							text="View Sales Reports"
+							action={() => router.push('/screens/salesReport')}
+						/> */}
+						<TouchableOpacity
+							style={tw`flex flex-row w-full items-center gap-4`}
+							onPress={() => router.push('/inventory/salesReport')}
+						>
+							<RoundGlass action={() => router.push('/inventory/salesReport')}>
+								<View style={tw`flex-1 w-full items-center justify-center`}>
+									<SvgXml xml={iconInventoryTopOption} />
+								</View>
+							</RoundGlass>
+							<Text style={tw`text-white font-poppinsLight text-sm`}>
+								View Sales Reports
+							</Text>
+						</TouchableOpacity>
+						<TouchableOpacity
+							style={tw`flex flex-row flex-1 items-center gap-4`}
+						>
+							<RoundGlass>
+								<View style={tw`flex-1 w-full items-center justify-center`}>
+									<SvgXml xml={iconShare} />
+								</View>
+							</RoundGlass>
+							<Text style={tw`text-white font-poppinsLight text-sm`}>
+								Share Inventory in Sheet
+							</Text>
+						</TouchableOpacity>
 					</View>
 					<View style={[tw`w-full pt-7`, { marginBottom: -7 }]}>
 						<MainAreaChart
@@ -176,9 +238,9 @@ export default function Home() {
 						/>
 						<View style={tw`flex flex-col w-full px-4 gap-4`}>
 							<Text style={tw`text-white font-poppinsMedium text-lg`}>
-								Top Movers
+								YOUR ITEMS
 							</Text>
-							{listingData.map((item, index) => (
+							{listingData.slice(0, 3).map((item, index) => (
 								<ListingCard
 									key={index}
 									title={item.title}
@@ -188,6 +250,91 @@ export default function Home() {
 									ebay={item.ebay}
 								/>
 							))}
+							{loadMoreInventory ? (
+								<>
+									{listingData.map((item, index) => (
+										<ListingCard
+											key={index + listingData.length}
+											title={item.title}
+											brand={item.brand}
+											price={item.price}
+											change={item.change}
+											ebay={item.ebay}
+										/>
+									))}
+									<TouchableOpacity
+										style={tw`w-full py-3 rounded-lg border border-white/20`}
+										onPress={() => setLoadMoreInventory(false)}
+									>
+										<Text
+											style={tw`text-center text-white/60 font-poppinsMedium`}
+										>
+											Show Less
+										</Text>
+									</TouchableOpacity>
+								</>
+							) : (
+								<TouchableOpacity
+									style={tw`w-full py-3 rounded-lg border border-white/20`}
+									onPress={() => setLoadMoreInventory(true)}
+								>
+									<Text
+										style={tw`text-center text-white/60 font-poppinsMedium`}
+									>
+										Load More
+									</Text>
+								</TouchableOpacity>
+							)}
+						</View>
+						<View style={tw`flex flex-col w-full px-4 gap-4`}>
+							<Text style={tw`text-white font-poppinsMedium text-lg`}>
+								Top Movers
+							</Text>
+							{listingData.slice(0, 3).map((item, index) => (
+								<ListingCard
+									key={index}
+									title={item.title}
+									brand={item.brand}
+									price={item.price}
+									change={item.change}
+									ebay={item.ebay}
+								/>
+							))}
+							{loadMoreMovers ? (
+								<>
+									{listingData.map((item, index) => (
+										<ListingCard
+											key={index + listingData.length}
+											title={item.title}
+											brand={item.brand}
+											price={item.price}
+											change={item.change}
+											ebay={item.ebay}
+										/>
+									))}
+									<TouchableOpacity
+										style={tw`w-full py-3 rounded-lg border border-white/20`}
+										onPress={() => setLoadMoreMovers(false)}
+									>
+										<Text
+											style={tw`text-center text-white/60 font-poppinsMedium`}
+										>
+											Show Less
+										</Text>
+									</TouchableOpacity>
+								</>
+							) : (
+								<TouchableOpacity
+									style={tw`w-full py-3 rounded-lg border border-white/20`}
+									onPress={() => setLoadMoreMovers(true)}
+								>
+									<Text
+										style={tw`text-center text-white/60 font-poppinsMedium`}
+									>
+										Load More
+									</Text>
+								</TouchableOpacity>
+							)}
 						</View>
 					</View>
 				</ScrollView>

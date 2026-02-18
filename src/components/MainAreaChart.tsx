@@ -51,15 +51,15 @@ export default function MainAreaChart({
 									? dataMonthly
 									: dataYearly;
 						// find last occurrence index of this value in the active dataset
-						let lastIdx = -1;
-						for (let i = dataset.length - 1; i >= 0; i--) {
-							if (dataset[i].value === value) {
-								lastIdx = i;
-								break;
-							}
-						}
-						const isLast = lastIdx === dataset.length - 1;
-						const isOneBeforeLast = lastIdx === dataset.length - 2;
+						// let lastIdx = -1;
+						// for (let i = dataset.length - 1; i >= 0; i--) {
+						// 	if (dataset[i].value === value) {
+						// 		lastIdx = i;
+						// 		break;
+						// 	}
+						// }
+						// const isLast = lastIdx === dataset.length - 1;
+						// const isOneBeforeLast = lastIdx === dataset.length - 2;
 
 						return (
 							<View
@@ -70,7 +70,7 @@ export default function MainAreaChart({
 									borderRadius: 100,
 									justifyContent: 'center',
 									paddingLeft: 16,
-									left: isLast ? -100 : isOneBeforeLast ? -50 : 0,
+									// left: isLast ? -100 : isOneBeforeLast ? -50 : 0,
 								}}
 							>
 								<Text style={{ color: 'white', fontWeight: 'bold' }}>

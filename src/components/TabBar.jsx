@@ -3,9 +3,8 @@ import {
 	iconHomeUnfocused,
 	iconProfileFocused,
 	iconProfileUnfocused,
-	iconScan,
-	iconWalletFocused,
-	iconWalletUnfocused,
+	iconScanFocused,
+	iconScanUnfocused,
 	iconWatchlistFocued,
 	iconWatchListUnfocused,
 } from '@/assets/icon';
@@ -33,9 +32,10 @@ export default function TabBar({ state, descriptors, navigation }) {
 
 	const homeFocused = iconHomeFocused;
 	const homeUnfocused = iconHomeUnfocused;
-	const walletFocused = iconWalletFocused;
-	const walletUnfocused = iconWalletUnfocused;
-	const scan = iconScan;
+	// const walletFocused = iconWalletFocused;
+	// const walletUnfocused = iconWalletUnfocused;
+	const scanUnfocused = iconScanUnfocused;
+	const scanFocused = iconScanFocused;
 	const watchListFocused = iconWatchlistFocued;
 	const watchListUnfocused = iconWatchListUnfocused;
 	const profileFocused = iconProfileFocused;
@@ -138,10 +138,9 @@ export default function TabBar({ state, descriptors, navigation }) {
 							{route.name === 'index' && (
 								<SvgXml xml={isFocused ? homeFocused : homeUnfocused} />
 							)}
-							{route.name === 'inventory' && (
-								<SvgXml xml={isFocused ? walletFocused : walletUnfocused} />
+							{route.name === 'scan' && (
+								<SvgXml xml={isFocused ? scanFocused : scanUnfocused} />
 							)}
-							{route.name === 'scan' && <SvgXml xml={scan} />}
 							{route.name === 'watchlist' && (
 								<SvgXml
 									xml={isFocused ? watchListFocused : watchListUnfocused}

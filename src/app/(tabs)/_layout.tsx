@@ -9,10 +9,10 @@ export default function TabLayout() {
 				name="index"
 				options={{ title: 'Home', headerShown: false }}
 			/>
-			<Tabs.Screen
+			{/* <Tabs.Screen
 				name="inventory"
 				options={{ title: 'Inventory', headerShown: false }}
-			/>
+			/> */}
 			<Tabs.Screen
 				name="scan"
 				options={{ title: 'Scan', headerShown: false }}
