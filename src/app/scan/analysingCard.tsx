@@ -14,6 +14,9 @@ const AnimatedLinearGradient = Animated.createAnimatedComponent(LinearGradient);
 
 export default function AnalysingCard() {
 	const { photoUri } = useLocalSearchParams();
+	const [status, setStatus] = useState(
+		'Identifying card and fetching details...',
+	);
 
 	const [aiSearch, { isLoading, error }] = useAiSearchMutation();
 	const [
@@ -45,16 +48,20 @@ export default function AnalysingCard() {
 		try {
 			const result = await aiSearch(formData).unwrap();
 			console.log('AI Search Result:', result);
+			setStatus('Card Identified. Fetching latest market details...');
 			if (result?.data?.total_cards_found > 0) {
-				triggerScrape({
-					year: result.data.cards[0].year,
-					condition: result.data.cards[0].condition,
-					number: result.data.cards[0].number,
-					search_title: result.data.cards[0].search_title,
-				});
-				if (scrapeData) {
-					console.log('Scrape Data:', scrapeData);
+				try {
+					const scrapeResult = await triggerScrape({
+						year: result.data.cards[0].year,
+						condition: result.data.cards[0].condition,
+						number: result.data.cards[0].number,
+						search_title: result.data.cards[0].search_title,
+					}).unwrap();
+					console.log('Scrape Result:', scrapeResult);
 					router.replace('/scan/scanResult');
+				} catch (scrapeError) {
+					console.error('Scrape Error:', scrapeError);
+					router.replace('/scan/identifyFailed');
 				}
 			} else {
 				router.replace('/scan/identifyFailed');
@@ -130,7 +137,7 @@ export default function AnalysingCard() {
 						Analyzing Card
 					</Text>
 					<Text style={tw`text-white text-sm font-poppinsSemiBold`}>
-						Identifying card and fetching details...
+						{status}
 					</Text>
 				</View>
 			</View>

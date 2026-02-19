@@ -90,6 +90,8 @@ export default function SignIn() {
 						<SvgXml xml={iconEmail} />
 						<TextInput
 							style={tw`flex-1 h-full px-4 text-white`}
+							keyboardType="email-address"
+							autoCapitalize="none"
 							onChangeText={setEmail}
 							value={email}
 							onFocus={() => setEmailFocused(true)}
@@ -111,6 +113,7 @@ export default function SignIn() {
 						<SvgXml xml={iconLock} />
 						<TextInput
 							style={tw`flex-1 h-full px-4 text-white`}
+							autoCapitalize="none"
 							secureTextEntry={!passwordVisible}
 							onChangeText={setPassword}
 							value={password}

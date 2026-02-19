@@ -122,6 +122,8 @@ export default function SignUp() {
 							<SvgXml xml={iconEmail} />
 							<TextInput
 								style={tw`flex-1 h-full px-4 text-white`}
+								keyboardType="email-address"
+								autoCapitalize="none"
 								onChangeText={setEmail}
 								value={email}
 								onFocus={() => setEmailFocused(true)}
