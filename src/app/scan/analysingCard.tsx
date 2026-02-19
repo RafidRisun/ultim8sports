@@ -1,5 +1,9 @@
 import Wrapper from '@/src/components/Wrapper';
 import tw from '@/src/lib/tailwind';
+import {
+	useAiSearchMutation,
+	useLazyStartScrapeQuery,
+} from '@/src/redux/api/scanApi/scanApi';
 import { Image } from 'expo-image';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useLocalSearchParams, useRouter } from 'expo-router';
@@ -11,17 +15,58 @@ const AnimatedLinearGradient = Animated.createAnimatedComponent(LinearGradient);
 export default function AnalysingCard() {
 	const { photoUri } = useLocalSearchParams();
 
+	const [aiSearch, { isLoading, error }] = useAiSearchMutation();
+	const [
+		triggerScrape,
+		{ data: scrapeData, isLoading: isScrapeLoading, error: scrapeError },
+	] = useLazyStartScrapeQuery();
+
 	const router = useRouter();
+	// useEffect(() => {
+	// 	const routes = ['/scan/scanResult', '/scan/identifyFailed'] as const;
+	// 	const chosen = routes[Math.random() < 0.5 ? 0 : 1];
+
+	// 	const t = setTimeout(() => {
+	// 		router.replace(chosen);
+	// 	}, 2000);
+
+	// 	return () => clearTimeout(t);
+	// }, [router]);
+
+	async function handleAiSearch(photoUri: string | string[] | undefined) {
+		if (!photoUri || typeof photoUri !== 'string') return;
+		const formData = new FormData();
+		const fileExtension = photoUri.split('.').pop();
+		formData.append('card_image[0]', {
+			uri: photoUri,
+			name: `card.${fileExtension}`,
+			type: `image/${fileExtension}`,
+		} as any);
+		try {
+			const result = await aiSearch(formData).unwrap();
+			console.log('AI Search Result:', result);
+			if (result?.data?.total_cards_found > 0) {
+				triggerScrape({
+					year: result.data.cards[0].year,
+					condition: result.data.cards[0].condition,
+					number: result.data.cards[0].number,
+					search_title: result.data.cards[0].search_title,
+				});
+				if (scrapeData) {
+					console.log('Scrape Data:', scrapeData);
+					router.replace('/scan/scanResult');
+				}
+			} else {
+				router.replace('/scan/identifyFailed');
+			}
+		} catch (error) {
+			console.error('AI Search Error:', error);
+		}
+	}
+
 	useEffect(() => {
-		const routes = ['/scan/scanResult', '/scan/identifyFailed'] as const;
-		const chosen = routes[Math.random() < 0.5 ? 0 : 1];
-
-		const t = setTimeout(() => {
-			router.replace(chosen);
-		}, 2000);
-
-		return () => clearTimeout(t);
-	}, [router]);
+		handleAiSearch(photoUri);
+	}, [photoUri]);
 
 	const scanAnim = useRef(new Animated.Value(0));
 	const [containerHeight, setContainerHeight] = useState<number>(0);

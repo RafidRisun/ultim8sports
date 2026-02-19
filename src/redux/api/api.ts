@@ -68,5 +68,5 @@ export const api = createApi({
 	reducerPath: 'api',
 	baseQuery: baseQueryWithRath,
 	endpoints: () => ({}),
-	tagTypes: ['auth', 'profile'],
+	tagTypes: ['auth', 'profile', 'aiSearch'],
 });
