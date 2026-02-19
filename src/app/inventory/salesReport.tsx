@@ -27,7 +27,7 @@ export default function SalesReport() {
 					<ScrollView horizontal showsHorizontalScrollIndicator={false}>
 						<View style={tw`flex flex-row items-center justify-center gap-2`}>
 							<TouchableOpacity
-								style={tw`flex p-2 ${selectedFilter === '1M' ? 'bg-gray-700 rounded-lg' : ''}`}
+								style={tw`flex p-2 ${selectedFilter === '1M' ? 'bg-gray-700/65 rounded-lg' : ''}`}
 								onPress={() => setSelectedFilter('1M')}
 							>
 								<Text style={tw`text-white text-xs font-poppinsSemiBold`}>
@@ -35,7 +35,7 @@ export default function SalesReport() {
 								</Text>
 							</TouchableOpacity>
 							<TouchableOpacity
-								style={tw`flex p-2 ${selectedFilter === '3M' ? 'bg-gray-700 rounded-lg' : ''}`}
+								style={tw`flex p-2 ${selectedFilter === '3M' ? 'bg-gray-700/65 rounded-lg' : ''}`}
 								onPress={() => setSelectedFilter('3M')}
 							>
 								<Text style={tw`text-white text-xs font-poppinsSemiBold`}>
@@ -43,7 +43,7 @@ export default function SalesReport() {
 								</Text>
 							</TouchableOpacity>
 							<TouchableOpacity
-								style={tw`flex p-2 ${selectedFilter === '1Y' ? 'bg-gray-700 rounded-lg' : ''}`}
+								style={tw`flex p-2 ${selectedFilter === '1Y' ? 'bg-gray-700/65 rounded-lg' : ''}`}
 								onPress={() => setSelectedFilter('1Y')}
 							>
 								<Text style={tw`text-white text-xs font-poppinsSemiBold`}>
@@ -51,7 +51,7 @@ export default function SalesReport() {
 								</Text>
 							</TouchableOpacity>
 							<TouchableOpacity
-								style={tw`flex p-2 ${selectedFilter === 'ALL' ? 'bg-gray-700 rounded-lg' : ''}`}
+								style={tw`flex p-2 ${selectedFilter === 'ALL' ? 'bg-gray-700/65 rounded-lg' : ''}`}
 								onPress={() => setSelectedFilter('ALL')}
 							>
 								<Text style={tw`text-white text-xs font-poppinsSemiBold`}>

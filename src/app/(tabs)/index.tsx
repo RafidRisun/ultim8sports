@@ -48,6 +48,13 @@ export default function Home() {
 		getUserAvatar();
 	}, []);
 
+	// const combinedData = [
+	// 	{ type: 'yourItemsHeader' },
+	// 	...yourItems.map(item => ({ ...item, type: 'yourItems' })),
+	// 	{ type: 'topMoversHeader' },
+	// 	...topMovers.map(item => ({ ...item, type: 'topMovers' })),
+	// ];
+
 	return (
 		<WrapperWithoutPX>
 			<View style={tw`flex-1  w-full`}>
@@ -173,7 +180,7 @@ export default function Home() {
 							</Text>
 						</TouchableOpacity>
 					</View>
-					<View style={[tw`w-full pt-7`, { marginBottom: -7 }]}>
+					<View style={[tw`w-full pt-7`, { marginBottom: -46.5 }]}>
 						<MainAreaChart
 							selectedTab={selectedTab}
 							dataWeekly={dataWeekly}
@@ -187,51 +194,6 @@ export default function Home() {
 							locations={[0, 1]}
 							style={tw`absolute inset-0 opacity-30`}
 						/>
-
-						<View
-							style={tw`flex flex-row w-full items-center justify-between px-4`}
-						>
-							{selectedTab === 'weekly' &&
-								['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map(day => (
-									<Text
-										key={day}
-										style={tw`text-white/60 font-poppinsLight text-xs`}
-									>
-										{day}
-									</Text>
-								))}
-							{selectedTab === 'monthly' &&
-								['1', '5', '10', '15', '20', '25', '30'].map(date => (
-									<Text
-										key={date}
-										style={tw`text-white/60 font-poppinsLight text-xs`}
-									>
-										{date}
-									</Text>
-								))}
-							{selectedTab === 'yearly' &&
-								[
-									'Jan',
-									'Feb',
-									'Mar',
-									'Apr',
-									'May',
-									'Jun',
-									'Jul',
-									'Aug',
-									'Sep',
-									'Oct',
-									'Nov',
-									'Dec',
-								].map(month => (
-									<Text
-										key={month}
-										style={tw`text-white/60 font-poppinsLight text-xs`}
-									>
-										{month}
-									</Text>
-								))}
-						</View>
 						<ChartTabButtons
 							selectedTab={selectedTab}
 							setSelectedTab={setSelectedTab}
@@ -240,7 +202,7 @@ export default function Home() {
 							<Text style={tw`text-white font-poppinsMedium text-lg`}>
 								YOUR ITEMS
 							</Text>
-							{listingData.slice(0, 3).map((item, index) => (
+							{yourItems.slice(0, 3).map((item, index) => (
 								<ListingCard
 									key={index}
 									title={item.title}
@@ -251,28 +213,16 @@ export default function Home() {
 								/>
 							))}
 							{loadMoreInventory ? (
-								<>
-									{listingData.map((item, index) => (
-										<ListingCard
-											key={index + listingData.length}
-											title={item.title}
-											brand={item.brand}
-											price={item.price}
-											change={item.change}
-											ebay={item.ebay}
-										/>
-									))}
-									<TouchableOpacity
-										style={tw`w-full py-3 rounded-lg border border-white/20`}
-										onPress={() => setLoadMoreInventory(false)}
+								<TouchableOpacity
+									style={tw`w-full py-3 rounded-lg border border-white/20`}
+									onPress={() => setLoadMoreInventory(false)}
+								>
+									<Text
+										style={tw`text-center text-white/60 font-poppinsMedium`}
 									>
-										<Text
-											style={tw`text-center text-white/60 font-poppinsMedium`}
-										>
-											Show Less
-										</Text>
-									</TouchableOpacity>
-								</>
+										Show Less
+									</Text>
+								</TouchableOpacity>
 							) : (
 								<TouchableOpacity
 									style={tw`w-full py-3 rounded-lg border border-white/20`}
@@ -290,7 +240,7 @@ export default function Home() {
 							<Text style={tw`text-white font-poppinsMedium text-lg`}>
 								Top Movers
 							</Text>
-							{listingData.slice(0, 3).map((item, index) => (
+							{topMovers.slice(0, 3).map((item, index) => (
 								<ListingCard
 									key={index}
 									title={item.title}
@@ -301,28 +251,16 @@ export default function Home() {
 								/>
 							))}
 							{loadMoreMovers ? (
-								<>
-									{listingData.map((item, index) => (
-										<ListingCard
-											key={index + listingData.length}
-											title={item.title}
-											brand={item.brand}
-											price={item.price}
-											change={item.change}
-											ebay={item.ebay}
-										/>
-									))}
-									<TouchableOpacity
-										style={tw`w-full py-3 rounded-lg border border-white/20`}
-										onPress={() => setLoadMoreMovers(false)}
+								<TouchableOpacity
+									style={tw`w-full py-3 rounded-lg border border-white/20`}
+									onPress={() => setLoadMoreMovers(false)}
+								>
+									<Text
+										style={tw`text-center text-white/60 font-poppinsMedium`}
 									>
-										<Text
-											style={tw`text-center text-white/60 font-poppinsMedium`}
-										>
-											Show Less
-										</Text>
-									</TouchableOpacity>
-								</>
+										Show Less
+									</Text>
+								</TouchableOpacity>
 							) : (
 								<TouchableOpacity
 									style={tw`w-full py-3 rounded-lg border border-white/20`}
@@ -343,7 +281,45 @@ export default function Home() {
 	);
 }
 
-const listingData = [
+const yourItems = [
+	{
+		title: 'Michael Jordan',
+		brand: '1986 Fleer',
+		price: '5,250',
+		change: '+8.2%',
+		ebay: true,
+	},
+	{
+		title: 'LeBron James',
+		brand: '2003 Topps Chrome',
+		price: '4,800',
+		change: '+6.5%',
+		ebay: true,
+	},
+	{
+		title: 'Kobe Bryant',
+		brand: '1996 Topps',
+		price: '3,900',
+		change: '+7.1%',
+		ebay: false,
+	},
+	{
+		title: 'Shaquille ONeal',
+		brand: '1992 Upper Deck',
+		price: '2,750',
+		change: '+5.9%',
+		ebay: false,
+	},
+	{
+		title: 'Tim Duncan',
+		brand: '1997 Topps',
+		price: '2,300',
+		change: '+4.8%',
+		ebay: true,
+	},
+];
+
+const topMovers = [
 	{
 		title: 'Michael Jordan',
 		brand: '1986 Fleer',
@@ -382,45 +358,36 @@ const listingData = [
 ];
 
 const dataWeekly = [
-	{ value: 600 },
-	{ value: 3000 },
-	{ value: 1000 },
-	{ value: 2200 },
-	{ value: 600 },
-	{ value: 3000 },
-	{ value: 1600 },
+	{ value: 120, label: 'Mon' },
+	{ value: 150, label: 'Tue' },
+	{ value: 90, label: 'Wed' },
+	{ value: 200, label: 'Thu' },
+	{ value: 170, label: 'Fri' },
+	{ value: 220, label: 'Sat' },
+	{ value: 130, label: 'Sun' },
 ];
 
 const dataMonthly = [
-	{ value: 2000 },
-	{ value: 4000 },
-	{ value: 1500 },
-	{ value: 3200 },
-	{ value: 2800 },
-	{ value: 4300 },
-	{ value: 3900 },
-	{ value: 5000 },
-	{ value: 2000 },
-	{ value: 4000 },
-	{ value: 1500 },
-	{ value: 3200 },
-	{ value: 2800 },
-	{ value: 4300 },
-	{ value: 3900 },
-	{ value: 5000 },
+	{ value: 800, label: '1' },
+	{ value: 1200, label: '5' },
+	{ value: 900, label: '10' },
+	{ value: 1500, label: '15' },
+	{ value: 1300, label: '20' },
+	{ value: 1700, label: '25' },
+	{ value: 1600, label: '30' },
 ];
 
 const dataYearly = [
-	{ value: 1500 },
-	{ value: 2500 },
-	{ value: 3500 },
-	{ value: 4500 },
-	{ value: 3000 },
-	{ value: 4000 },
-	{ value: 5000 },
-	{ value: 6000 },
-	{ value: 5500 },
-	{ value: 6500 },
-	{ value: 7000 },
-	{ value: 8000 },
+	{ value: 5000, label: 'Jan' },
+	{ value: 7000, label: 'Feb' },
+	{ value: 6000, label: 'Mar' },
+	{ value: 8000, label: 'Apr' },
+	{ value: 7500, label: 'May' },
+	{ value: 9000, label: 'Jun' },
+	{ value: 8500, label: 'Jul' },
+	{ value: 9500, label: 'Aug' },
+	{ value: 9000, label: 'Sep' },
+	{ value: 10000, label: 'Oct' },
+	{ value: 11000, label: 'Nov' },
+	{ value: 10500, label: 'Dec' },
 ];
