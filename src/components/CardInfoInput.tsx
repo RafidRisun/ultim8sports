@@ -5,9 +5,13 @@ import tw from '../lib/tailwind';
 export default function CardInfoInput({
 	label,
 	value,
+	onChange,
+	type,
 }: {
 	label: string;
 	value?: string;
+	onChange?: (value: string) => void;
+	type?: 'default' | 'numeric';
 }) {
 	return (
 		<View style={tw`flex flex-col gap-2 flex-1`}>
@@ -18,6 +22,8 @@ export default function CardInfoInput({
 				<TextInput
 					style={tw`flex-1 h-full text-white p-0 font-poppins`}
 					value={value}
+					onChangeText={onChange}
+					keyboardType={type === 'numeric' ? 'numeric' : 'default'}
 				/>
 			</View>
 		</View>

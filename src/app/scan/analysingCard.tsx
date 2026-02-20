@@ -14,9 +14,7 @@ const AnimatedLinearGradient = Animated.createAnimatedComponent(LinearGradient);
 
 export default function AnalysingCard() {
 	const { photoUri } = useLocalSearchParams();
-	const [status, setStatus] = useState(
-		'Identifying card and fetching details...',
-	);
+	const [status, setStatus] = useState('Identifying card');
 
 	const [aiSearch, { isLoading, error }] = useAiSearchMutation();
 	const [
@@ -47,7 +45,7 @@ export default function AnalysingCard() {
 		} as any);
 		try {
 			const result = await aiSearch(formData).unwrap();
-			console.log('AI Search Result:', result);
+			// console.log('AI Search Result:', result);
 			setStatus('Card Identified. Fetching latest market details...');
 			if (result?.data?.total_cards_found > 0) {
 				try {
@@ -61,7 +59,7 @@ export default function AnalysingCard() {
 						number: result.data.cards[0].number,
 						search_title: result.data.cards[0].search_title,
 					}).unwrap();
-					console.log('Scrape Result:', scrapeResult);
+					// console.log('Scrape Result:', scrapeResult);
 					router.replace({
 						pathname: '/scan/scanResult',
 						params: {

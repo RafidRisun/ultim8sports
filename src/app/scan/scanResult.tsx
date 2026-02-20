@@ -6,11 +6,12 @@ import RectangleGlassRow from '@/src/components/RectangleGlassRow';
 import RoundedLitButton from '@/src/components/RoundedLitButton';
 import Wrapper from '@/src/components/Wrapper';
 import tw from '@/src/lib/tailwind';
+import { useAddCardMutation } from '@/src/redux/api/scanApi/scanApi';
 import { Image } from 'expo-image';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import React, { useEffect, useState } from 'react';
-import { ScrollView, Text, TouchableOpacity, View } from 'react-native';
+import { Alert, ScrollView, Text, TouchableOpacity, View } from 'react-native';
 import DatePicker from 'react-native-date-picker';
 import { LineChart } from 'react-native-gifted-charts';
 import { SvgXml } from 'react-native-svg';
@@ -21,10 +22,14 @@ export default function ScanResult() {
 	const [parsedScrapeData, setParsedScrapeData] = useState<any>(null);
 
 	const [playerName, setPlayerName] = useState('');
+	const [setName, setSetName] = useState('');
 	const [year, setYear] = useState('');
 	const [number, setNumber] = useState('');
 	const [condition, setCondition] = useState('');
 	const [brand, setBrand] = useState('');
+	const [costbasis, setCostBasis] = useState('0');
+	const [askingPrice, setAskingPrice] = useState('0');
+	// const [purchaseDate, setPurchaseDate] = useState(new Date());
 
 	useEffect(() => {
 		if (cardData) {
@@ -32,8 +37,9 @@ export default function ScanResult() {
 				const parsed =
 					typeof cardData === 'string' ? JSON.parse(cardData) : cardData;
 				setParsedCardData(parsed);
-				console.log('Received cardData:', parsed);
+				// console.log('Received cardData:', parsed);
 				setPlayerName(parsed.card_name || '');
+				setSetName(parsed.set_name || '');
 				setYear(parsed.year || '');
 				setNumber(parsed.number || '');
 				setCondition(parsed.condition || '');
@@ -56,10 +62,50 @@ export default function ScanResult() {
 		}
 	}, [cardData, scrapeData]);
 
+	const [addCard, { isLoading: isAddingCard }] = useAddCardMutation();
+
 	const router = useRouter();
 	const [selectedLanguage, setSelectedLanguage] = useState('psa9');
 	const [date, setDate] = useState(new Date());
 	const [open, setOpen] = useState(false);
+
+	async function handleAddCard() {
+		const formData = new FormData();
+		formData.append('image', {
+			uri: photoUri as string,
+			name: `card.jpg`,
+			type: `image/jpeg`,
+		} as any);
+		formData.append('search_title', parsedCardData?.search_title || '');
+		formData.append('card_store_type', 'Inventory');
+		formData.append('year', year);
+		formData.append('number', number);
+		formData.append('condition', condition);
+		formData.append('brand', brand);
+		formData.append('card_name', playerName);
+		formData.append('set_name', setName);
+		formData.append('cost_basis', costbasis);
+		formData.append('asking_price', askingPrice);
+		formData.append('purhcase_date', date.toISOString().split('T')[0] || '');
+		formData.append('card_input_type', 'Scan');
+		try {
+			console.log('FormData:', formData);
+			const response = await addCard(formData)
+				.unwrap()
+				.then(result => {
+					Alert.alert('Card added successfully:', JSON.stringify(result));
+					router.replace('/(tabs)');
+				})
+				.catch(error => {
+					console.log('Add Card Error:', error);
+					console.log(response);
+					Alert.alert('Failed to add card:', JSON.stringify(error));
+				});
+		} catch (error) {
+			Alert.alert('An error occurred:', JSON.stringify(error));
+		}
+	}
+
 	return (
 		<Wrapper>
 			<HeaderWithRoundBack title="Card Details" back={true} />
@@ -120,12 +166,34 @@ export default function ScanResult() {
 					</RectangleGlass>
 					<RectangleGlassRow>
 						<View style={tw`flex flex-col w-full gap-5 p-2`}>
-							<CardInfoInput label="Player Name" value={playerName} />
+							<CardInfoInput
+								label="Player Name"
+								value={playerName}
+								onChange={setPlayerName}
+							/>
+							<CardInfoInput
+								label="Set Name"
+								value={setName}
+								onChange={setSetName}
+							/>
 							<View style={tw`flex flex-row w-full gap-3`}>
-								<CardInfoInput label="Year" value={year} />
-								<CardInfoInput label="Number(#)" value={number} />
+								<CardInfoInput
+									label="Year"
+									value={year}
+									onChange={setYear}
+									type="numeric"
+								/>
+								<CardInfoInput
+									label="Serial(#)"
+									value={number}
+									onChange={setNumber}
+								/>
 							</View>
-							<CardInfoInput label="Series/Brand" value={brand} />
+							<CardInfoInput
+								label="Series/Brand"
+								value={brand}
+								onChange={setBrand}
+							/>
 							{/* <View style={tw`flex flex-col gap-2 w-full`}>
 								<Text style={tw`text-white/90 text-xs font-poppinsLight`}>
 									Condition
@@ -147,7 +215,11 @@ export default function ScanResult() {
 									</Picker>
 								</View>
 							</View> */}
-							<CardInfoInput label="Condition" value={condition} />
+							<CardInfoInput
+								label="Condition"
+								value={condition}
+								onChange={setCondition}
+							/>
 						</View>
 					</RectangleGlassRow>
 					<RectangleGlassRow>
@@ -157,8 +229,18 @@ export default function ScanResult() {
 								<Text style={tw`text-white/60 text-xs`}> {'(optional)'}</Text>
 							</Text>
 							<View style={tw`flex flex-row w-full gap-3`}>
-								<CardInfoInput label="Cost Basis ($)" />
-								<CardInfoInput label="Asking Price ($)" />
+								<CardInfoInput
+									label="Cost Basis ($)"
+									value={costbasis}
+									onChange={setCostBasis}
+									type="numeric"
+								/>
+								<CardInfoInput
+									label="Asking Price ($)"
+									value={askingPrice}
+									onChange={setAskingPrice}
+									type="numeric"
+								/>
 							</View>
 							<View style={tw`flex flex-col gap-2 w-full`}>
 								<Text style={tw`text-white/90 text-xs font-poppinsLight`}>
@@ -169,7 +251,7 @@ export default function ScanResult() {
 									onPress={() => setOpen(true)}
 								>
 									<Text style={tw`text-white font-poppins p-0 m-0`}>
-										{date.toDateString()}
+										{`${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`}
 									</Text>
 									<SvgXml xml={iconCalendar} />
 								</TouchableOpacity>
@@ -177,6 +259,7 @@ export default function ScanResult() {
 						</View>
 					</RectangleGlassRow>
 					<DatePicker
+						mode="date"
 						modal
 						open={open}
 						date={date}
@@ -199,6 +282,7 @@ export default function ScanResult() {
 						</TouchableOpacity>
 						<TouchableOpacity
 							style={tw`flex flex-row gap-2 flex-1 py-3 rounded-full mt-10 items-center justify-center border-b-2 border-l-2 border-r-2 border-slate-400 shadow-xl shadow-[#9E91BA] bg-black relative`}
+							onPress={handleAddCard}
 						>
 							<LinearGradient
 								colors={['#FFFFFF', '#8C52FF']}
