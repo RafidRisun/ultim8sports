@@ -51,6 +51,10 @@ export default function AnalysingCard() {
 			setStatus('Card Identified. Fetching latest market details...');
 			if (result?.data?.total_cards_found > 0) {
 				try {
+					// console.log('year:', result.data.cards[0].year);
+					// console.log('condition:', result.data.cards[0].condition);
+					// console.log('number:', result.data.cards[0].number);
+					// console.log('search_title:', result.data.cards[0].search_title);
 					const scrapeResult = await triggerScrape({
 						year: result.data.cards[0].year,
 						condition: result.data.cards[0].condition,
@@ -58,7 +62,14 @@ export default function AnalysingCard() {
 						search_title: result.data.cards[0].search_title,
 					}).unwrap();
 					console.log('Scrape Result:', scrapeResult);
-					router.replace('/scan/scanResult');
+					router.replace({
+						pathname: '/scan/scanResult',
+						params: {
+							cardData: JSON.stringify(result.data.cards[0]),
+							scrapeData: JSON.stringify(scrapeResult),
+							photoUri: photoUri,
+						},
+					});
 				} catch (scrapeError) {
 					console.error('Scrape Error:', scrapeError);
 					router.replace('/scan/identifyFailed');

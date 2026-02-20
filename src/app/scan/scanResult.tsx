@@ -6,17 +6,56 @@ import RectangleGlassRow from '@/src/components/RectangleGlassRow';
 import RoundedLitButton from '@/src/components/RoundedLitButton';
 import Wrapper from '@/src/components/Wrapper';
 import tw from '@/src/lib/tailwind';
-import { Picker } from '@react-native-picker/picker';
 import { Image } from 'expo-image';
 import { LinearGradient } from 'expo-linear-gradient';
-import { useRouter } from 'expo-router';
-import React, { useState } from 'react';
+import { useLocalSearchParams, useRouter } from 'expo-router';
+import React, { useEffect, useState } from 'react';
 import { ScrollView, Text, TouchableOpacity, View } from 'react-native';
 import DatePicker from 'react-native-date-picker';
 import { LineChart } from 'react-native-gifted-charts';
 import { SvgXml } from 'react-native-svg';
 
 export default function ScanResult() {
+	const { cardData, scrapeData, photoUri } = useLocalSearchParams();
+	const [parsedCardData, setParsedCardData] = useState<any>(null);
+	const [parsedScrapeData, setParsedScrapeData] = useState<any>(null);
+
+	const [playerName, setPlayerName] = useState('');
+	const [year, setYear] = useState('');
+	const [number, setNumber] = useState('');
+	const [condition, setCondition] = useState('');
+	const [brand, setBrand] = useState('');
+
+	useEffect(() => {
+		if (cardData) {
+			try {
+				const parsed =
+					typeof cardData === 'string' ? JSON.parse(cardData) : cardData;
+				setParsedCardData(parsed);
+				console.log('Received cardData:', parsed);
+				setPlayerName(parsed.card_name || '');
+				setYear(parsed.year || '');
+				setNumber(parsed.number || '');
+				setCondition(parsed.condition || '');
+				setBrand(parsed.brand || '');
+			} catch (e) {
+				console.error('Failed to parse cardData:', e);
+				setParsedCardData(null);
+			}
+		}
+		if (scrapeData) {
+			try {
+				const parsed =
+					typeof scrapeData === 'string' ? JSON.parse(scrapeData) : scrapeData;
+				setParsedScrapeData(parsed);
+				console.log('Received scrapeData:', parsed);
+			} catch (e) {
+				console.error('Failed to parse scrapeData:', e);
+				setParsedScrapeData(null);
+			}
+		}
+	}, [cardData, scrapeData]);
+
 	const router = useRouter();
 	const [selectedLanguage, setSelectedLanguage] = useState('psa9');
 	const [date, setDate] = useState(new Date());
@@ -28,7 +67,7 @@ export default function ScanResult() {
 				<View style={tw`flex-1 w-full gap-4 pb-20`}>
 					<View style={tw`flex w-full items-center justify-center p-4`}>
 						<Image
-							source={require('@/assets/images/card1.jpg')}
+							source={{ uri: photoUri as string }}
 							style={tw`w-60 rounded-md h-70`}
 							contentFit="cover"
 						/>
@@ -81,13 +120,13 @@ export default function ScanResult() {
 					</RectangleGlass>
 					<RectangleGlassRow>
 						<View style={tw`flex flex-col w-full gap-5 p-2`}>
-							<CardInfoInput label="Player Name" value="Michael Jordan" />
+							<CardInfoInput label="Player Name" value={playerName} />
 							<View style={tw`flex flex-row w-full gap-3`}>
-								<CardInfoInput label="Year" value="1996" />
-								<CardInfoInput label="Number(#)" value="57" />
+								<CardInfoInput label="Year" value={year} />
+								<CardInfoInput label="Number(#)" value={number} />
 							</View>
-							<CardInfoInput label="Series/Brand" value="Fleer" />
-							<View style={tw`flex flex-col gap-2 w-full`}>
+							<CardInfoInput label="Series/Brand" value={brand} />
+							{/* <View style={tw`flex flex-col gap-2 w-full`}>
 								<Text style={tw`text-white/90 text-xs font-poppinsLight`}>
 									Condition
 								</Text>
@@ -107,7 +146,8 @@ export default function ScanResult() {
 										<Picker.Item label="BGS 10" value="bgs10" />
 									</Picker>
 								</View>
-							</View>
+							</View> */}
+							<CardInfoInput label="Condition" value={condition} />
 						</View>
 					</RectangleGlassRow>
 					<RectangleGlassRow>
