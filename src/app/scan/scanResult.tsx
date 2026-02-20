@@ -30,6 +30,10 @@ export default function ScanResult() {
 	const [costbasis, setCostBasis] = useState('0');
 	const [askingPrice, setAskingPrice] = useState('0');
 	// const [purchaseDate, setPurchaseDate] = useState(new Date());
+	const [estimatedValue, setEstimatedValue] = useState('0');
+	const [analysis, setAnalysis] = useState('0');
+	const [sign, setSign] = useState('+');
+	const [lastUpdate, setLastUpdate] = useState('');
 
 	useEffect(() => {
 		if (cardData) {
@@ -54,7 +58,15 @@ export default function ScanResult() {
 				const parsed =
 					typeof scrapeData === 'string' ? JSON.parse(scrapeData) : scrapeData;
 				setParsedScrapeData(parsed);
-				console.log('Received scrapeData:', parsed);
+				// console.log('Received scrapeData:', parsed);
+				setEstimatedValue(parsed.data.estimated_market_value.last_sold_price);
+				setAnalysis(
+					parsed.data.estimated_market_value.get_price_analysis.percentage,
+				);
+				setSign(parsed.data.estimated_market_value.get_price_analysis.sign);
+				setLastUpdate(
+					parsed.data.estimated_market_value.get_price_analysis.last_update,
+				);
 			} catch (e) {
 				console.error('Failed to parse scrapeData:', e);
 				setParsedScrapeData(null);
@@ -125,14 +137,16 @@ export default function ScanResult() {
 									ESTIMATED MARKET VALUE
 								</Text>
 								<Text style={tw`text-white font-poppinsBold text-3xl`}>
-									$1,250
+									${estimatedValue}
 								</Text>
 								<View style={tw`flex flex-row items-center gap-2`}>
-									<Text style={tw`text-green-500 font-poppinsMedium text-sm`}>
-										+5.25%
+									<Text
+										style={tw`${sign === '+' ? 'text-green-500' : 'text-red-500'} font-poppinsMedium text-sm`}
+									>
+										{analysis}
 									</Text>
 									<Text style={tw`text-white/70 font-poppinsLight text-xs`}>
-										Since last week
+										Updated {lastUpdate}
 									</Text>
 								</View>
 							</View>
