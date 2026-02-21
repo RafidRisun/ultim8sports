@@ -144,7 +144,7 @@ export default function ScanResult() {
 				const parsed =
 					typeof scrapeData === 'string' ? JSON.parse(scrapeData) : scrapeData;
 				setParsedScrapeData(parsed);
-				console.log('Received scrapeData:', parsed);
+				// console.log('Received scrapeData:', parsed);
 				setEstimatedValue(parsed.data.estimated_market_value.last_sold_price);
 				setAnalysis(
 					parsed.data.estimated_market_value.get_price_analysis.percentage,
@@ -161,8 +161,8 @@ export default function ScanResult() {
 					})
 					.filter((item: Data | null): item is Data => item !== null);
 				setData(chartData);
-				console.log('Chart Data:', chartData);
-				console.log('Chart Data Length:', chartData.length);
+				// console.log('Chart Data:', chartData);
+				// console.log('Chart Data Length:', chartData.length);
 			} catch (e) {
 				console.error('Failed to parse scrapeData:', e);
 				setParsedScrapeData(null);
@@ -175,7 +175,7 @@ export default function ScanResult() {
 	const [addCard, { isLoading: isAddingCard }] = useAddCardMutation();
 
 	const router = useRouter();
-	const [selectedLanguage, setSelectedLanguage] = useState('psa9');
+	// const [selectedLanguage, setSelectedLanguage] = useState('psa9');
 	const [date, setDate] = useState(new Date());
 	const [open, setOpen] = useState(false);
 
@@ -203,7 +203,7 @@ export default function ScanResult() {
 			const response = await addCard(formData)
 				.unwrap()
 				.then(result => {
-					Alert.alert('Card added successfully:', JSON.stringify(result));
+					Alert.alert('Card added successfully!');
 					router.replace('/(tabs)');
 				})
 				.catch(error => {
@@ -282,7 +282,12 @@ export default function ScanResult() {
 						</View>
 						<RoundedLitButton
 							text="View Market History"
-							action={() => router.push('/scan/salesHistory')}
+							action={() =>
+								router.push({
+									pathname: '/scan/salesHistory',
+									params: { scrapeData: JSON.stringify(parsedScrapeData) },
+								})
+							}
 						/>
 					</RectangleGlass>
 					<RectangleGlassRow>

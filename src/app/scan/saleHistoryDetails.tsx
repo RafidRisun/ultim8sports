@@ -6,10 +6,27 @@ import tw from '@/src/lib/tailwind';
 import MaskedView from '@react-native-masked-view/masked-view';
 import { Image } from 'expo-image';
 import { LinearGradient } from 'expo-linear-gradient';
-import React from 'react';
+import { useLocalSearchParams } from 'expo-router';
+import React, { useEffect, useState } from 'react';
 import { ScrollView, Text, View } from 'react-native';
 
 export default function SaleHistoryDetails() {
+	const saleData = useLocalSearchParams().saleData;
+	const [parsedSaleData, setParsedSaleData] = useState<any>(null);
+
+	useEffect(() => {
+		if (saleData) {
+			try {
+				const parsedData =
+					typeof saleData === 'string' ? JSON.parse(saleData) : saleData;
+				setParsedSaleData(parsedData);
+				console.log('Parsed saleData:', parsedData);
+			} catch (e) {
+				console.error('Failed to parse saleData:', e);
+			}
+		}
+	}, [saleData]);
+
 	return (
 		<Wrapper>
 			<HeaderWithRoundBack title="Sale Details" back />
@@ -17,7 +34,7 @@ export default function SaleHistoryDetails() {
 				<View style={tw`flex-1 w-full gap-4 pb-50`}>
 					<View style={tw`flex w-full items-center justify-center p-4`}>
 						<Image
-							source={require('@/assets/images/card1.jpg')}
+							source={{ uri: parsedSaleData?.image_url }}
 							style={tw`w-60 rounded-md h-70`}
 							contentFit="cover"
 						/>
@@ -25,7 +42,7 @@ export default function SaleHistoryDetails() {
 					<Text
 						style={tw`text-white font-poppinsMedium text-center text-lg px-4`}
 					>
-						2003 TOPPS CHROME REFRACTOR #111 LEBRON JAMES ROOKIE RC PSA 10
+						{parsedSaleData?.card_title || 'Card Title Unavailable'}
 					</Text>
 					<View>
 						<Text
@@ -52,7 +69,7 @@ export default function SaleHistoryDetails() {
 											fontWeight: 'bold',
 										}}
 									>
-										$23,450
+										${parsedSaleData?.price || '0'}
 									</Text>
 								</View>
 							}
@@ -66,9 +83,18 @@ export default function SaleHistoryDetails() {
 					</View>
 					<RectangleGlassRow>
 						<View style={tw`flex flex-col w-full gap-5 p-3`}>
-							<CardDetailRow label="Current Market Value" content="$123,450" />
-							<CardDetailRow label="Sale Date" content="Jan 15, 2024" />
-							<CardDetailRow label="Listing Type" content="Auction" />
+							<CardDetailRow
+								label="Current Market Value"
+								content={`$${parsedSaleData?.price || '0'}`}
+							/>
+							<CardDetailRow
+								label="Sale Date"
+								content={parsedSaleData?.sold_date || 'Unknown'}
+							/>
+							<CardDetailRow
+								label="Status"
+								content={parsedSaleData?.status || 'Unknown'}
+							/>
 						</View>
 					</RectangleGlassRow>
 				</View>
