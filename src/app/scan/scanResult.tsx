@@ -42,16 +42,25 @@ export default function ScanResult() {
 	const [sign, setSign] = useState('+');
 	const [lastUpdate, setLastUpdate] = useState('');
 	const [data, setData] = useState<Data[]>([]);
+	const [isScrapeLoading, setIsScrapeLoading] = useState(false);
 
-	const [triggerScrape, { isLoading: isScrapeLoading }] =
-		useLazyStartScrapeQuery();
+	const [triggerScrape, { isLoading }] = useLazyStartScrapeQuery();
 
 	// Track if initial load has completed to only trigger scrape on user edits
 	const initialLoadComplete = useRef(false);
 
+	useEffect(() => {
+		if (isLoading) {
+			setIsScrapeLoading(true);
+		} else {
+			setIsScrapeLoading(false);
+		}
+	}, [isLoading]);
+
 	async function handleTriggerScrape() {
-		const search_title = `${year} ${brand} ${playerName} ${number}`;
+		const search_title = `${year} ${brand} ${setName} ${playerName} ${number} ${condition}`;
 		console.log('Triggering scrape with search_title:', search_title);
+		setIsScrapeLoading(true);
 		try {
 			const scrapeResult = await triggerScrape({ search_title }).unwrap();
 			console.log('Scrapeee Result:', scrapeResult);
@@ -83,8 +92,9 @@ export default function ScanResult() {
 						})
 						.filter((item: Data | null): item is Data => item !== null);
 					setData(chartData);
-					console.log('Chart Data:', chartData);
-					console.log('Chart Data Length:', chartData.length);
+					// console.log('Chart Data:', chartData);
+					// console.log('Chart Data Length:', chartData.length);
+					setIsScrapeLoading(false);
 				} catch (e) {
 					console.error('Failed to parse scrapeData:', e);
 					setParsedScrapeData(null);
@@ -251,9 +261,9 @@ export default function ScanResult() {
 										isAnimated
 										areaChart
 										data={data}
-										startFillColor={'#00FF00'}
+										startFillColor={sign === '+' ? '#00FF00' : '#FF0000'}
 										startOpacity={0.3}
-										endFillColor1={'#00FF00'}
+										endFillColor1={sign === '+' ? '#00FF00' : '#FF0000'}
 										endOpacity={0.3}
 										hideDataPoints
 										curved
@@ -261,7 +271,7 @@ export default function ScanResult() {
 										initialSpacing={0}
 										hideAxesAndRules
 										hideYAxisText
-										color={'#00FF00'}
+										color={sign === '+' ? '#00FF00' : '#FF0000'}
 										yAxisLabelWidth={0}
 										xAxisLabelsHeight={0}
 										height={70}
@@ -344,6 +354,7 @@ export default function ScanResult() {
 								label="Condition"
 								value={condition}
 								onChange={setCondition}
+								onBlur={handleTriggerScrape}
 							/>
 						</View>
 					</RectangleGlassRow>
