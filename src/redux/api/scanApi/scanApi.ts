@@ -19,9 +19,6 @@ export const scanApi = api.injectEndpoints({
 				url: '/start-scrape',
 				method: 'GET',
 				params: {
-					year: params.year,
-					condition: params.condition,
-					number: params.number,
 					search_title: params.search_title,
 				},
 			}),
@@ -36,7 +33,7 @@ export const scanApi = api.injectEndpoints({
 				},
 				body: formData,
 			}),
-			invalidatesTags: ['Cards'],
+			invalidatesTags: ['aiSearch'],
 		}),
 	}),
 });
@@ -47,8 +44,5 @@ export const {
 } = scanApi;
 
 type Params = {
-	year: number;
-	condition: string;
-	number: string;
 	search_title: string;
 };

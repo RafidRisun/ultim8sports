@@ -52,11 +52,11 @@ export default function AnalysingCard() {
 					// console.log('year:', result.data.cards[0].year);
 					// console.log('condition:', result.data.cards[0].condition);
 					// console.log('number:', result.data.cards[0].number);
-					// console.log('search_title:', result.data.cards[0].search_title);
+					console.log('search_title:', result.data.cards[0].search_title);
 					const scrapeResult = await triggerScrape({
-						year: result.data.cards[0].year,
-						condition: result.data.cards[0].condition,
-						number: result.data.cards[0].number,
+						// year: result.data.cards[0].year,
+						// condition: result.data.cards[0].condition,
+						// number: result.data.cards[0].number,
 						search_title: result.data.cards[0].search_title,
 					}).unwrap();
 					// console.log('Scrape Result:', scrapeResult);

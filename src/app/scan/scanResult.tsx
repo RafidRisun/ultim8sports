@@ -6,21 +6,28 @@ import RectangleGlassRow from '@/src/components/RectangleGlassRow';
 import RoundedLitButton from '@/src/components/RoundedLitButton';
 import Wrapper from '@/src/components/Wrapper';
 import tw from '@/src/lib/tailwind';
-import { useAddCardMutation } from '@/src/redux/api/scanApi/scanApi';
+import {
+	useAddCardMutation,
+	useLazyStartScrapeQuery,
+} from '@/src/redux/api/scanApi/scanApi';
 import { Image } from 'expo-image';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useLocalSearchParams, useRouter } from 'expo-router';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Alert, ScrollView, Text, TouchableOpacity, View } from 'react-native';
 import DatePicker from 'react-native-date-picker';
 import { LineChart } from 'react-native-gifted-charts';
 import { SvgXml } from 'react-native-svg';
 
+type Data = {
+	value: number;
+};
+
 export default function ScanResult() {
 	const { cardData, scrapeData, photoUri } = useLocalSearchParams();
 	const [parsedCardData, setParsedCardData] = useState<any>(null);
 	const [parsedScrapeData, setParsedScrapeData] = useState<any>(null);
-
+	const [searchTitle, setSearchTitle] = useState('');
 	const [playerName, setPlayerName] = useState('');
 	const [setName, setSetName] = useState('');
 	const [year, setYear] = useState('');
@@ -34,6 +41,70 @@ export default function ScanResult() {
 	const [analysis, setAnalysis] = useState('0');
 	const [sign, setSign] = useState('+');
 	const [lastUpdate, setLastUpdate] = useState('');
+	const [data, setData] = useState<Data[]>([]);
+
+	const [triggerScrape, { isLoading: isScrapeLoading }] =
+		useLazyStartScrapeQuery();
+
+	// Track if initial load has completed to only trigger scrape on user edits
+	const initialLoadComplete = useRef(false);
+
+	async function handleTriggerScrape() {
+		const search_title = `${year} ${brand} ${playerName} ${number}`;
+		console.log('Triggering scrape with search_title:', search_title);
+		try {
+			const scrapeResult = await triggerScrape({ search_title }).unwrap();
+			console.log('Scrapeee Result:', scrapeResult);
+			if (
+				scrapeResult &&
+				scrapeResult.data &&
+				scrapeResult.data.total_count > 0
+			) {
+				try {
+					const parsed =
+						typeof scrapeResult === 'string'
+							? JSON.parse(scrapeResult)
+							: scrapeResult;
+					setParsedScrapeData(parsed);
+					// console.log('Received scrapeData:', parsed);
+					setEstimatedValue(parsed.data.estimated_market_value.last_sold_price);
+					setAnalysis(
+						parsed.data.estimated_market_value.get_price_analysis.percentage,
+					);
+					setSign(parsed.data.estimated_market_value.get_price_analysis.sign);
+					setLastUpdate(
+						parsed.data.estimated_market_value.get_price_analysis.last_update,
+					);
+					const chartData: Data[] = parsed.data.ebay_response
+						.map((item: any) => {
+							const price = parseFloat(item.price);
+							if (isNaN(price)) return null;
+							return { value: price };
+						})
+						.filter((item: Data | null): item is Data => item !== null);
+					setData(chartData);
+					console.log('Chart Data:', chartData);
+					console.log('Chart Data Length:', chartData.length);
+				} catch (e) {
+					console.error('Failed to parse scrapeData:', e);
+					setParsedScrapeData(null);
+				}
+			}
+			if (scrapeResult?.data?.total_count === 0) {
+				Alert.alert(
+					'No market data found',
+					'We were unable to find any market data for this card. Please check the details and try again.',
+				);
+				setEstimatedValue('0');
+				setAnalysis('0');
+				setSign('+');
+				setLastUpdate('');
+				setData([]);
+			}
+		} catch (scrapeError) {
+			console.error('Scrape Error:', scrapeError);
+		}
+	}
 
 	useEffect(() => {
 		if (cardData) {
@@ -41,24 +112,29 @@ export default function ScanResult() {
 				const parsed =
 					typeof cardData === 'string' ? JSON.parse(cardData) : cardData;
 				setParsedCardData(parsed);
-				// console.log('Received cardData:', parsed);
+				console.log('Received cardData:', parsed);
 				setPlayerName(parsed.card_name || '');
 				setSetName(parsed.set_name || '');
 				setYear(parsed.year || '');
 				setNumber(parsed.number || '');
 				setCondition(parsed.condition || '');
 				setBrand(parsed.brand || '');
+				setSearchTitle(parsed.search_title || '');
 			} catch (e) {
 				console.error('Failed to parse cardData:', e);
 				setParsedCardData(null);
 			}
 		}
-		if (scrapeData) {
+		if (
+			scrapeData &&
+			(typeof scrapeData === 'string' ? JSON.parse(scrapeData) : scrapeData)
+				.data.total_count > 0
+		) {
 			try {
 				const parsed =
 					typeof scrapeData === 'string' ? JSON.parse(scrapeData) : scrapeData;
 				setParsedScrapeData(parsed);
-				// console.log('Received scrapeData:', parsed);
+				console.log('Received scrapeData:', parsed);
 				setEstimatedValue(parsed.data.estimated_market_value.last_sold_price);
 				setAnalysis(
 					parsed.data.estimated_market_value.get_price_analysis.percentage,
@@ -67,11 +143,23 @@ export default function ScanResult() {
 				setLastUpdate(
 					parsed.data.estimated_market_value.get_price_analysis.last_update,
 				);
+				const chartData: Data[] = parsed.data.ebay_response
+					.map((item: any) => {
+						const price = parseFloat(item.price);
+						if (isNaN(price)) return null;
+						return { value: price };
+					})
+					.filter((item: Data | null): item is Data => item !== null);
+				setData(chartData);
+				console.log('Chart Data:', chartData);
+				console.log('Chart Data Length:', chartData.length);
 			} catch (e) {
 				console.error('Failed to parse scrapeData:', e);
 				setParsedScrapeData(null);
 			}
 		}
+		// Mark initial load as complete after first render
+		initialLoadComplete.current = true;
 	}, [cardData, scrapeData]);
 
 	const [addCard, { isLoading: isAddingCard }] = useAddCardMutation();
@@ -136,9 +224,15 @@ export default function ScanResult() {
 								<Text style={tw`text-white font-poppinsMedium text-xs`}>
 									ESTIMATED MARKET VALUE
 								</Text>
-								<Text style={tw`text-white font-poppinsBold text-3xl`}>
-									${estimatedValue}
-								</Text>
+								{isScrapeLoading ? (
+									<Text style={tw`text-white font-poppinsMedium text-lg`}>
+										Loading...
+									</Text>
+								) : (
+									<Text style={tw`text-white font-poppinsBold text-3xl`}>
+										${estimatedValue}
+									</Text>
+								)}
 								<View style={tw`flex flex-row items-center gap-2`}>
 									<Text
 										style={tw`${sign === '+' ? 'text-green-500' : 'text-red-500'} font-poppinsMedium text-sm`}
@@ -151,26 +245,29 @@ export default function ScanResult() {
 								</View>
 							</View>
 							<View style={tw`pt-2`}>
-								<LineChart
-									isAnimated
-									areaChart
-									data={baseballData}
-									startFillColor={'#00FF00'}
-									startOpacity={0.3}
-									endFillColor1={'#00FF00'}
-									endOpacity={0.3}
-									hideDataPoints
-									curved
-									adjustToWidth
-									initialSpacing={0}
-									hideAxesAndRules
-									hideYAxisText
-									color={'#00FF00'}
-									yAxisLabelWidth={0}
-									xAxisLabelsHeight={0}
-									height={70}
-									width={100}
-								/>
+								{data.length > 0 && (
+									<LineChart
+										key={`chart-${data.length}`}
+										isAnimated
+										areaChart
+										data={data}
+										startFillColor={'#00FF00'}
+										startOpacity={0.3}
+										endFillColor1={'#00FF00'}
+										endOpacity={0.3}
+										hideDataPoints
+										curved
+										adjustToWidth
+										initialSpacing={0}
+										hideAxesAndRules
+										hideYAxisText
+										color={'#00FF00'}
+										yAxisLabelWidth={0}
+										xAxisLabelsHeight={0}
+										height={70}
+										width={100}
+									/>
+								)}
 							</View>
 						</View>
 						<RoundedLitButton
@@ -183,30 +280,44 @@ export default function ScanResult() {
 							<CardInfoInput
 								label="Player Name"
 								value={playerName}
-								onChange={setPlayerName}
+								onChange={value => {
+									setPlayerName(value);
+								}}
+								onBlur={handleTriggerScrape}
 							/>
 							<CardInfoInput
 								label="Set Name"
 								value={setName}
-								onChange={setSetName}
+								onChange={value => {
+									setSetName(value);
+								}}
 							/>
 							<View style={tw`flex flex-row w-full gap-3`}>
 								<CardInfoInput
 									label="Year"
 									value={year}
-									onChange={setYear}
+									onChange={value => {
+										setYear(value);
+									}}
 									type="numeric"
+									onBlur={handleTriggerScrape}
 								/>
 								<CardInfoInput
 									label="Serial(#)"
 									value={number}
-									onChange={setNumber}
+									onChange={value => {
+										setNumber(value);
+									}}
+									onBlur={handleTriggerScrape}
 								/>
 							</View>
 							<CardInfoInput
 								label="Series/Brand"
 								value={brand}
-								onChange={setBrand}
+								onChange={value => {
+									setBrand(value);
+								}}
+								onBlur={handleTriggerScrape}
 							/>
 							{/* <View style={tw`flex flex-col gap-2 w-full`}>
 								<Text style={tw`text-white/90 text-xs font-poppinsLight`}>
@@ -313,18 +424,3 @@ export default function ScanResult() {
 		</Wrapper>
 	);
 }
-
-const baseballData = [
-	{ value: 30, label: 'Jan' },
-	{ value: 50, label: 'Feb' },
-	{ value: 45, label: 'Mar' },
-	{ value: 160, label: 'Apr' },
-	{ value: 90, label: 'May' },
-	{ value: 130, label: 'Jun' },
-	{ value: 170, label: 'Jul' },
-	{ value: 200, label: 'Aug' },
-	{ value: 180, label: 'Sep' },
-	{ value: 220, label: 'Oct' },
-	{ value: 240, label: 'Nov' },
-	{ value: 260, label: 'Dec' },
-];

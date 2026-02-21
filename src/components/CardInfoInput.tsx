@@ -6,11 +6,13 @@ export default function CardInfoInput({
 	label,
 	value,
 	onChange,
+	onBlur,
 	type,
 }: {
 	label: string;
 	value?: string;
 	onChange?: (value: string) => void;
+	onBlur?: () => void;
 	type?: 'default' | 'numeric';
 }) {
 	return (
@@ -24,6 +26,7 @@ export default function CardInfoInput({
 					value={value}
 					onChangeText={onChange}
 					keyboardType={type === 'numeric' ? 'numeric' : 'default'}
+					onBlur={onBlur}
 				/>
 			</View>
 		</View>
