@@ -41,7 +41,7 @@ export default function Scan() {
 				<RectangleGlassRow>
 					<TouchableOpacity
 						style={tw`flex flex-row w-full gap-4`}
-						onPress={() => router.push('/scan/salesHistory')}
+						onPress={() => router.push('/scan/salesHistoryGeneral')}
 					>
 						<View style={tw`p-2 bg-white/20 rounded-lg`}>
 							<SvgXml xml={iconSalesHistory} />

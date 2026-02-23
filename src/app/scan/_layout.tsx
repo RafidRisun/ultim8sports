@@ -7,6 +7,7 @@ export default function ScanLayout() {
 			<Stack.Screen name="manualCardInput" />
 			<Stack.Screen name="scanCard" />
 			<Stack.Screen name="salesHistory" />
+			<Stack.Screen name="salesHistoryGeneral" />
 			<Stack.Screen name="searchCard" />
 			<Stack.Screen name="analysingCard" />
 			<Stack.Screen name="identifyFailed" />

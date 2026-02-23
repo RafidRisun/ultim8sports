@@ -231,6 +231,14 @@ export default function ScanResult() {
 					<RectangleGlass>
 						<View style={tw`flex flex-row w-full gap-5 p-2`}>
 							<View style={tw`flex flex-col flex-1 gap-2`}>
+								<TouchableOpacity
+									style={tw`py-1 px-2 bg-slate-500/30 rounded-lg items-center`}
+									onPress={handleTriggerScrape}
+								>
+									<Text style={tw`text-white font-poppinsLight text-xs`}>
+										Refresh
+									</Text>
+								</TouchableOpacity>
 								<Text style={tw`text-white font-poppinsMedium text-xs`}>
 									ESTIMATED MARKET VALUE
 								</Text>
@@ -298,7 +306,6 @@ export default function ScanResult() {
 								onChange={value => {
 									setPlayerName(value);
 								}}
-								onBlur={handleTriggerScrape}
 							/>
 							<CardInfoInput
 								label="Set Name"
@@ -315,7 +322,6 @@ export default function ScanResult() {
 										setYear(value);
 									}}
 									type="numeric"
-									onBlur={handleTriggerScrape}
 								/>
 								<CardInfoInput
 									label="Serial(#)"
@@ -323,7 +329,6 @@ export default function ScanResult() {
 									onChange={value => {
 										setNumber(value);
 									}}
-									onBlur={handleTriggerScrape}
 								/>
 							</View>
 							<CardInfoInput
@@ -332,7 +337,6 @@ export default function ScanResult() {
 								onChange={value => {
 									setBrand(value);
 								}}
-								onBlur={handleTriggerScrape}
 							/>
 							{/* <View style={tw`flex flex-col gap-2 w-full`}>
 								<Text style={tw`text-white/90 text-xs font-poppinsLight`}>
@@ -359,7 +363,6 @@ export default function ScanResult() {
 								label="Condition"
 								value={condition}
 								onChange={setCondition}
-								onBlur={handleTriggerScrape}
 							/>
 						</View>
 					</RectangleGlassRow>
@@ -421,19 +424,34 @@ export default function ScanResult() {
 								Watchlist
 							</Text>
 						</TouchableOpacity>
-						<TouchableOpacity
-							style={tw`flex flex-row gap-2 flex-1 py-3 rounded-full mt-10 items-center justify-center border-b-2 border-l-2 border-r-2 border-slate-400 shadow-xl shadow-[#9E91BA] bg-black relative`}
-							onPress={handleAddCard}
-						>
-							<LinearGradient
-								colors={['#FFFFFF', '#8C52FF']}
-								style={tw`absolute inset-0 rounded-full`}
-							/>
-							<SvgXml xml={iconPlus} />
-							<Text style={tw`text-black font-poppinsMedium text-lg`}>
-								Add Card
-							</Text>
-						</TouchableOpacity>
+						{isAddingCard ? (
+							<TouchableOpacity
+								style={tw`flex flex-row gap-2 flex-1 py-3 rounded-full mt-10 items-center justify-center border-b-2 border-l-2 border-r-2 border-slate-400 shadow-xl shadow-[#9E91BA] bg-black relative`}
+								onPress={handleAddCard}
+							>
+								<LinearGradient
+									colors={['#FFFFFF', '#8C52FF']}
+									style={tw`absolute inset-0 rounded-full opacity-45`}
+								/>
+								<Text style={tw`text-black font-poppinsMedium text-lg`}>
+									Adding Card
+								</Text>
+							</TouchableOpacity>
+						) : (
+							<TouchableOpacity
+								style={tw`flex flex-row gap-2 flex-1 py-3 rounded-full mt-10 items-center justify-center border-b-2 border-l-2 border-r-2 border-slate-400 shadow-xl shadow-[#9E91BA] bg-black relative`}
+								onPress={handleAddCard}
+							>
+								<LinearGradient
+									colors={['#FFFFFF', '#8C52FF']}
+									style={tw`absolute inset-0 rounded-full`}
+								/>
+								<SvgXml xml={iconPlus} />
+								<Text style={tw`text-black font-poppinsMedium text-lg`}>
+									Add Card
+								</Text>
+							</TouchableOpacity>
+						)}
 					</View>
 				</View>
 			</ScrollView>

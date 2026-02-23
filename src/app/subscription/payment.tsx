@@ -141,7 +141,7 @@ export default function Payment() {
 					<BrightRoundedButton
 						text="Done"
 						action={() => {
-							router.replace('/(tabs)');
+							router.replace('/auth/loginCheck');
 						}}
 					/>
 				</View>
