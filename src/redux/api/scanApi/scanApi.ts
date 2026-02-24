@@ -24,24 +24,9 @@ export const scanApi = api.injectEndpoints({
 			}),
 			providesTags: ['aiSearch'],
 		}),
-		addCard: builder.mutation<any, any>({
-			query: formData => ({
-				url: '/user/cards',
-				method: 'POST',
-				headers: {
-					'Content-Type': 'multipart/form-data',
-				},
-				body: formData,
-			}),
-			invalidatesTags: ['aiSearch'],
-		}),
 	}),
 });
-export const {
-	useAiSearchMutation,
-	useLazyStartScrapeQuery,
-	useAddCardMutation,
-} = scanApi;
+export const { useAiSearchMutation, useLazyStartScrapeQuery } = scanApi;
 
 type Params = {
 	search_title: string;

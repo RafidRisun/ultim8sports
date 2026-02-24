@@ -6,14 +6,12 @@ import RectangleGlassRow from '@/src/components/RectangleGlassRow';
 import RoundedLitButton from '@/src/components/RoundedLitButton';
 import Wrapper from '@/src/components/Wrapper';
 import tw from '@/src/lib/tailwind';
-import {
-	useAddCardMutation,
-	useLazyStartScrapeQuery,
-} from '@/src/redux/api/scanApi/scanApi';
+import { useAddCardMutation } from '@/src/redux/api/inventoryApi';
+import { useLazyStartScrapeQuery } from '@/src/redux/api/scanApi/scanApi';
 import { Image } from 'expo-image';
 import * as ImagePicker from 'expo-image-picker';
 import { LinearGradient } from 'expo-linear-gradient';
-import { useRouter } from 'expo-router';
+import { useLocalSearchParams, useRouter } from 'expo-router';
 import React, { useEffect, useState } from 'react';
 import {
 	Alert,
@@ -56,6 +54,21 @@ export default function ManualCardInput() {
 	const [costbasis, setCostBasis] = useState('0');
 	const [askingPrice, setAskingPrice] = useState('0');
 	const [parsedScrapeData, setParsedScrapeData] = useState<any>(null);
+
+	const { item } = useLocalSearchParams();
+	// console.log('Received item param:', item);
+
+	useEffect(() => {
+		if (item) {
+			const parsedItem = JSON.parse(item as string);
+			console.log('Parsed Item:', parsedItem);
+			setPlayerName(parsedItem.card_name || '');
+			setSetName(parsedItem.set_name || '');
+			setYear(parsedItem.year || '');
+			setNumber(parsedItem.number || '');
+			setCondition(parsedItem.condition || '');
+		}
+	}, [item]);
 
 	const pickImage = async () => {
 		const permissionResult =

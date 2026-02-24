@@ -6,10 +6,8 @@ import RectangleGlassRow from '@/src/components/RectangleGlassRow';
 import RoundedLitButton from '@/src/components/RoundedLitButton';
 import Wrapper from '@/src/components/Wrapper';
 import tw from '@/src/lib/tailwind';
-import {
-	useAddCardMutation,
-	useLazyStartScrapeQuery,
-} from '@/src/redux/api/scanApi/scanApi';
+import { useAddCardMutation } from '@/src/redux/api/inventoryApi';
+import { useLazyStartScrapeQuery } from '@/src/redux/api/scanApi/scanApi';
 import { Image } from 'expo-image';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useLocalSearchParams, useRouter } from 'expo-router';
