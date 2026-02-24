@@ -73,8 +73,16 @@ export const authApi = api.injectEndpoints({
 			}),
 			invalidatesTags: ['auth'],
 		}),
+		toggle2FA: builder.mutation<any, void>({
+			query: () => ({
+				url: '/user/2FA-toggle',
+				method: 'PATCH',
+			}),
+			invalidatesTags: ['auth'],
+		}),
 	}),
 });
+
 export const {
 	useUserRegisterMutation,
 	useOtpVerifyMutation,
@@ -85,4 +93,5 @@ export const {
 	useLogoutMutation,
 	useForgotPasswordMutation,
 	useUpdatePasswordMutation,
+	useToggle2FAMutation,
 } = authApi;

@@ -25,6 +25,16 @@ export const inventoryApi = api.injectEndpoints({
 			}),
 			providesTags: ['inventory'],
 		}),
+		getCardDetails: builder.query<any, any>({
+			query: params => ({
+				url: `/user/cards/${params.id}`,
+				method: 'GET',
+				params: {
+					filter: params.filter,
+				},
+			}),
+			providesTags: ['inventory'],
+		}),
 	}),
 });
 export const { useAddCardMutation, useLazySearchCardQuery } = inventoryApi;

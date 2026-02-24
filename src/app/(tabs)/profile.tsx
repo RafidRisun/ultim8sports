@@ -19,7 +19,10 @@ import DividerPurple from '@/src/components/DividerPurple';
 import RectangleGlassRow from '@/src/components/RectangleGlassRow';
 import Wrapper2 from '@/src/components/Wrapper2';
 import tw from '@/src/lib/tailwind';
-import { useLogoutMutation } from '@/src/redux/api/authApi/authApi';
+import {
+	useLogoutMutation,
+	useToggle2FAMutation,
+} from '@/src/redux/api/authApi/authApi';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Image } from 'expo-image';
 import { useRouter } from 'expo-router';
@@ -34,8 +37,8 @@ export default function Profile() {
 
 	const togglePriceAlertSwitch = () =>
 		setIsPriceAlertEnabled(previousState => !previousState);
-	const toggleTwoFactorSwitch = () =>
-		setIsTwoFactorEnabled(previousState => !previousState);
+	// const toggleTwoFactorSwitch = () =>
+	// 	setIsTwoFactorEnabled(previousState => !previousState);
 	const toggleGoogleSheetSwitch = () =>
 		setIsGoogleSheetConnected(previousState => !previousState);
 
@@ -55,6 +58,17 @@ export default function Profile() {
 			}
 		} catch (error) {
 			console.error('Logout failed:', error);
+		}
+	};
+
+	const [enable2FA, { isLoading: isToggle2FALoading }] = useToggle2FAMutation();
+
+	const toggleTwoFactorAuthentication = async () => {
+		try {
+			await enable2FA().unwrap();
+			setIsTwoFactorEnabled(prev => !prev);
+		} catch (error) {
+			console.error('Failed to toggle 2FA:', error);
 		}
 	};
 
@@ -147,7 +161,7 @@ export default function Profile() {
 								trackColor={{ false: '#FFFFFF', true: '#A375FF' }}
 								thumbColor={isTwoFactorEnabled ? '#FFFFFF' : '#A375FF'}
 								// ios_backgroundColor="#3e3e3e"
-								onValueChange={toggleTwoFactorSwitch}
+								onValueChange={toggleTwoFactorAuthentication}
 								value={isTwoFactorEnabled}
 							/>
 						</View>

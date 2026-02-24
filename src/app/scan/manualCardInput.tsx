@@ -228,14 +228,6 @@ export default function ManualCardInput() {
 						<RectangleGlass>
 							<View style={tw`flex flex-row w-full gap-5 p-2`}>
 								<View style={tw`flex flex-col flex-1 gap-2`}>
-									<TouchableOpacity
-										style={tw`py-1 px-2 bg-slate-500/30 rounded-lg items-center`}
-										onPress={handleTriggerScrape}
-									>
-										<Text style={tw`text-white font-poppinsLight text-xs`}>
-											Refresh
-										</Text>
-									</TouchableOpacity>
 									<Text style={tw`text-white font-poppinsMedium text-xs`}>
 										ESTIMATED MARKET VALUE
 									</Text>
@@ -285,6 +277,14 @@ export default function ManualCardInput() {
 									)}
 								</View>
 							</View>
+							<TouchableOpacity
+								style={tw`py-1 px-2 bg-slate-500/30 rounded-lg items-center`}
+								onPress={handleTriggerScrape}
+							>
+								<Text style={tw`text-white font-poppinsLight text-xs`}>
+									Refresh
+								</Text>
+							</TouchableOpacity>
 							<RoundedLitButton
 								text="View Market History"
 								action={() =>
