@@ -44,6 +44,23 @@ export default function LoginCheck() {
 		}
 	}
 
+	async function storeUser() {
+		try {
+			await AsyncStorage.setItem(
+				'user_data',
+				JSON.stringify(validateToken?.data),
+			);
+		} catch (e) {
+			console.error('Failed to store user data:', e);
+		}
+	}
+
+	useEffect(() => {
+		if (validateToken?.status === true) {
+			storeUser();
+		}
+	}, [validateToken]);
+
 	useEffect(() => {
 		// `undefined` means token is still being loaded; `null` means loaded but not present
 		if (token === undefined) return; // still loading token

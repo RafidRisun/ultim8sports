@@ -36,6 +36,7 @@ export default function SearchCard() {
 	const [searchQuery, setSearchQuery] = useState('');
 	// const [isScrapeLoading, setIsScrapeLoading] = useState(false);
 	const [data, setData] = useState<Data[]>([]);
+	const baseUrl = process.env.EXPO_PUBLIC_BASE_URL;
 
 	const [searchInventory, { isLoading: isSearchLoading }] =
 		useLazySearchCardQuery();
@@ -113,7 +114,7 @@ export default function SearchCard() {
 									<View style={tw`flex flex-row flex-1 gap-4`}>
 										<Image
 											source={{
-												uri: 'http://10.10.10.65:8010' + item.image,
+												uri: baseUrl + item.image,
 											}}
 											style={tw`h-14 w-10 rounded-md`}
 											contentFit="cover"

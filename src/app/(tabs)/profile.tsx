@@ -26,14 +26,17 @@ import {
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Image } from 'expo-image';
 import { useRouter } from 'expo-router';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Switch, Text, TouchableOpacity, View } from 'react-native';
 import { SvgXml } from 'react-native-svg';
 
 export default function Profile() {
 	const [isPriceAlertEnabled, setIsPriceAlertEnabled] = useState(false);
-	const [isTwoFactorEnabled, setIsTwoFactorEnabled] = useState(true);
+	const [isTwoFactorEnabled, setIsTwoFactorEnabled] = useState(false);
 	const [isGoogleSheetConnected, setIsGoogleSheetConnected] = useState(true);
+	const [user, setUser] = useState<any>(null);
+
+	const baseUrl = process.env.EXPO_PUBLIC_BASE_URL;
 
 	const togglePriceAlertSwitch = () =>
 		setIsPriceAlertEnabled(previousState => !previousState);
@@ -43,6 +46,36 @@ export default function Profile() {
 		setIsGoogleSheetConnected(previousState => !previousState);
 
 	const router = useRouter();
+
+	async function loadUserData() {
+		try {
+			const userDataString = await AsyncStorage.getItem('user_data');
+			if (userDataString) {
+				const userData = JSON.parse(userDataString);
+				// Use userData as needed
+				console.log('Loaded user data:', userData);
+				setUser(userData);
+				if (userData.is_2fa === 1) {
+					setIsTwoFactorEnabled(true);
+				} else {
+					setIsTwoFactorEnabled(false);
+				}
+				if (userData.master_price_alert_toggle === 1) {
+					setIsPriceAlertEnabled(true);
+				} else {
+					setIsPriceAlertEnabled(false);
+				}
+			} else {
+				console.log('No user data found in storage.');
+			}
+		} catch (e) {
+			console.error('Failed to load user data:', e);
+		}
+	}
+
+	useEffect(() => {
+		loadUserData();
+	}, []);
 
 	const [logout, { isLoading: isLogoutLoading }] = useLogoutMutation();
 
@@ -79,16 +112,20 @@ export default function Profile() {
 					<View style={tw`flex flex-row w-full items-center justify-between`}>
 						<View style={tw`flex flex-row flex-shrink items-center gap-2`}>
 							<Image
-								source={require('@/assets/images/profile photo.jpg')}
+								source={
+									// baseUrl + user?.avatar ||
+									user?.avatar_url ||
+									require('@/assets/images/defaultAvatar.jpg')
+								}
 								style={tw`h-10 w-10 rounded-full border-2 border-white m-1`}
 								contentFit="cover"
 							/>
 							<View style={tw`flex flex-col flex-shrink`}>
 								<Text style={tw`text-white font-poppinsSemiBold text-sm`}>
-									Zohran Mamdani
+									{user?.full_name || 'User Name'}
 								</Text>
 								<Text style={tw`text-gray-200 font-poppinsLight text-xs`}>
-									zohran@example.com
+									{user?.email || 'usermail'}
 								</Text>
 							</View>
 						</View>

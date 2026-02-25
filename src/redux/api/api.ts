@@ -21,10 +21,11 @@ const baseQueryWithRath: BaseQueryFn<
 	const token = await AsyncStorage.getItem('authToken');
 	console.log('REDUX', token);
 	//console.log('API REQUEST:', args);
+	const baseUrl = process.env.EXPO_PUBLIC_BASE_URL;
 
 	try {
 		const result: AxiosResponse = await axios({
-			baseURL: 'http://10.10.10.65:8010/api',
+			baseURL: `${baseUrl}/api`,
 			...args,
 			url: args.url,
 			method: args.method,
