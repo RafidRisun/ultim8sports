@@ -37,7 +37,11 @@ export const inventoryApi = api.injectEndpoints({
 		}),
 	}),
 });
-export const { useAddCardMutation, useLazySearchCardQuery } = inventoryApi;
+export const {
+	useAddCardMutation,
+	useLazySearchCardQuery,
+	useGetCardDetailsQuery,
+} = inventoryApi;
 
 type Params = {
 	card_store_type: string;

@@ -27,7 +27,13 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Image } from 'expo-image';
 import { useRouter } from 'expo-router';
 import React, { useEffect, useState } from 'react';
-import { Switch, Text, TouchableOpacity, View } from 'react-native';
+import {
+	ActivityIndicator,
+	Switch,
+	Text,
+	TouchableOpacity,
+	View,
+} from 'react-native';
 import { SvgXml } from 'react-native-svg';
 
 export default function Profile() {
@@ -194,13 +200,17 @@ export default function Profile() {
 									Two-Factor Authentication
 								</Text>
 							</View>
-							<Switch
-								trackColor={{ false: '#FFFFFF', true: '#A375FF' }}
-								thumbColor={isTwoFactorEnabled ? '#FFFFFF' : '#A375FF'}
-								// ios_backgroundColor="#3e3e3e"
-								onValueChange={toggleTwoFactorAuthentication}
-								value={isTwoFactorEnabled}
-							/>
+							{isToggle2FALoading ? (
+								<ActivityIndicator size="small" color="#fff" />
+							) : (
+								<Switch
+									trackColor={{ false: '#FFFFFF', true: '#A375FF' }}
+									thumbColor={isTwoFactorEnabled ? '#FFFFFF' : '#A375FF'}
+									// ios_backgroundColor="#3e3e3e"
+									onValueChange={toggleTwoFactorAuthentication}
+									value={isTwoFactorEnabled}
+								/>
+							)}
 						</View>
 					</View>
 				</View>

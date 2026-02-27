@@ -22,7 +22,9 @@ type Data = {
 };
 
 export default function ScanResult() {
-	const { cardData, scrapeData, photoUri } = useLocalSearchParams();
+	const { allCards, currentIndex, photoUri } = useLocalSearchParams();
+	const [cardsArray, setCardsArray] = useState<any[]>([]);
+	const [currentCardIndex, setCurrentCardIndex] = useState(0);
 	const [parsedCardData, setParsedCardData] = useState<any>(null);
 	const [parsedScrapeData, setParsedScrapeData] = useState<any>(null);
 	const [searchTitle, setSearchTitle] = useState('');
@@ -115,6 +117,42 @@ export default function ScanResult() {
 	}
 
 	useEffect(() => {
+		if (allCards) {
+			try {
+				const parsed =
+					typeof allCards === 'string' ? JSON.parse(allCards) : allCards;
+				setCardsArray(parsed);
+				const startIndex = parseInt(currentIndex as string) || 0;
+				setCurrentCardIndex(startIndex);
+				// Mark initial load as complete after first render
+				initialLoadComplete.current = true;
+				console.log('Received allCards:', parsed);
+				console.log('Starting at index:', startIndex);
+				// console.log('Current card data:', parsed[startIndex]);
+				// console.log('Current card scrape data:', parsed[startIndex]?.scrapeData);
+			} catch (e) {
+				console.error('Failed to parse allCards:', e);
+			}
+		}
+	}, [allCards, currentIndex]);
+
+	// Load card data when current index changes
+	useEffect(() => {
+		if (cardsArray.length === 0) return;
+
+		const currentCard = cardsArray[currentCardIndex];
+		if (!currentCard) return;
+
+		const { cardData, scrapeData } = currentCard;
+
+		// Reset scrape data state first
+		setEstimatedValue('0');
+		setAnalysis('0');
+		setSign('+');
+		setLastUpdate('');
+		setData([]);
+		setParsedScrapeData(null);
+
 		if (cardData) {
 			try {
 				const parsed =
@@ -133,42 +171,41 @@ export default function ScanResult() {
 				setParsedCardData(null);
 			}
 		}
-		if (
-			scrapeData &&
-			(typeof scrapeData === 'string' ? JSON.parse(scrapeData) : scrapeData)
-				.data.total_count > 0
-		) {
+
+		if (scrapeData) {
 			try {
 				const parsed =
 					typeof scrapeData === 'string' ? JSON.parse(scrapeData) : scrapeData;
-				setParsedScrapeData(parsed);
-				// console.log('Received scrapeData:', parsed);
-				setEstimatedValue(parsed.data.estimated_market_value.last_sold_price);
-				setAnalysis(
-					parsed.data.estimated_market_value.get_price_analysis.percentage,
-				);
-				setSign(parsed.data.estimated_market_value.get_price_analysis.sign);
-				setLastUpdate(
-					parsed.data.estimated_market_value.get_price_analysis.last_update,
-				);
-				const chartData: Data[] = parsed.data.ebay_response
-					.map((item: any) => {
-						const price = parseFloat(item.price);
-						if (isNaN(price)) return null;
-						return { value: price };
-					})
-					.filter((item: Data | null): item is Data => item !== null);
-				setData(chartData);
-				// console.log('Chart Data:', chartData);
-				// console.log('Chart Data Length:', chartData.length);
+				
+				// Check if scrapeData has valid market data
+				if (parsed?.data?.total_count > 0) {
+					setParsedScrapeData(parsed);
+					console.log('Received scrapeData:', parsed);
+					setEstimatedValue(parsed.data.estimated_market_value.last_sold_price);
+					setAnalysis(
+						parsed.data.estimated_market_value.get_price_analysis.percentage,
+					);
+					setSign(parsed.data.estimated_market_value.get_price_analysis.sign);
+					setLastUpdate(
+						parsed.data.estimated_market_value.get_price_analysis.last_update,
+					);
+					const chartData: Data[] = parsed.data.ebay_response
+						.map((item: any) => {
+							const price = parseFloat(item.price);
+							if (isNaN(price)) return null;
+							return { value: price };
+						})
+						.filter((item: Data | null): item is Data => item !== null);
+					setData(chartData);
+					// console.log('Chart Data:', chartData);
+					// console.log('Chart Data Length:', chartData.length);
+				}
 			} catch (e) {
 				console.error('Failed to parse scrapeData:', e);
 				setParsedScrapeData(null);
 			}
 		}
-		// Mark initial load as complete after first render
-		initialLoadComplete.current = true;
-	}, [cardData, scrapeData]);
+	}, [cardsArray, currentCardIndex]);
 
 	const [addCard, { isLoading: isAddingCard }] = useAddCardMutation();
 
@@ -202,7 +239,19 @@ export default function ScanResult() {
 				.unwrap()
 				.then(result => {
 					Alert.alert('Card added successfully!');
-					router.replace('/(tabs)');
+
+					// Check if there are more cards to display
+					if (currentCardIndex < cardsArray.length - 1) {
+						// Move to next card
+						setCurrentCardIndex(currentCardIndex + 1);
+						// Reset form fields for new card
+						setCostBasis('0');
+						setAskingPrice('0');
+						setDate(new Date());
+					} else {
+						// No more cards, go back to home
+						router.replace('/(tabs)');
+					}
 				})
 				.catch(error => {
 					console.log('Add Card Error:', error);
@@ -223,7 +272,7 @@ export default function ScanResult() {
 						<Image
 							source={{ uri: photoUri as string }}
 							style={tw`w-60 rounded-md h-70`}
-							contentFit="cover"
+							contentFit="contain"
 						/>
 					</View>
 					<RectangleGlass>
@@ -413,6 +462,39 @@ export default function ScanResult() {
 							setOpen(false);
 						}}
 					/>
+					{cardsArray.length > 1 && (
+						<View style={tw`flex flex-row w-full px-4 gap-4 mt-6`}>
+							<TouchableOpacity
+								style={tw`flex flex-row gap-2 flex-1 py-2 px-3 rounded-full items-center justify-center border-b-2 border-l-2 border-r-2 border-purple-300 shadow-lg shadow-[#9E91BA] bg-black relative ${currentCardIndex === 0 ? 'opacity-50' : ''}`}
+								onPress={() =>
+									setCurrentCardIndex(Math.max(0, currentCardIndex - 1))
+								}
+								disabled={currentCardIndex === 0}
+							>
+								<Text style={tw`text-purple-300 font-poppinsMedium text-sm`}>
+									← Prev
+								</Text>
+								<Text
+									style={tw`text-purple-300 font-poppinsLight text-xs ml-1`}
+								>
+									({currentCardIndex + 1}/{cardsArray.length})
+								</Text>
+							</TouchableOpacity>
+							<TouchableOpacity
+								style={tw`flex flex-row gap-2 flex-1 py-2 px-3 rounded-full items-center justify-center border-b-2 border-l-2 border-r-2 border-purple-300 shadow-lg shadow-[#9E91BA] bg-black relative ${currentCardIndex === cardsArray.length - 1 ? 'opacity-50' : ''}`}
+								onPress={() =>
+									setCurrentCardIndex(
+										Math.min(cardsArray.length - 1, currentCardIndex + 1),
+									)
+								}
+								disabled={currentCardIndex === cardsArray.length - 1}
+							>
+								<Text style={tw`text-purple-300 font-poppinsMedium text-sm`}>
+									Next →
+								</Text>
+							</TouchableOpacity>
+						</View>
+					)}
 					<View style={tw`flex flex-row w-full px-4 gap-4`}>
 						<TouchableOpacity
 							style={tw`flex flex-row gap-2 flex-1 py-3 rounded-full mt-10 items-center justify-center border-b-2 border-l-2 border-r-2 border-purple-300 shadow-xl shadow-[#9E91BA] bg-black relative`}

@@ -11,6 +11,7 @@ import RectangleGlass from '@/src/components/RectangleGlass';
 import RectangleGlassRow from '@/src/components/RectangleGlassRow';
 import Wrapper from '@/src/components/Wrapper';
 import tw from '@/src/lib/tailwind';
+import { useGetCardDetailsQuery } from '@/src/redux/api/inventoryApi';
 import { Image } from 'expo-image';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
@@ -27,13 +28,26 @@ import { LineChart } from 'react-native-gifted-charts';
 import { SvgXml } from 'react-native-svg';
 
 export default function CardDetails() {
-	const [selectedGraph, setSelectedGraph] = useState<'1M' | '3M' | '1Y'>('1M');
+	const [selectedGraph, setSelectedGraph] = useState<
+		'daily' | 'weekly' | 'monthly' | 'yearly'
+	>('monthly');
 	const [priceAlert, setPriceAlert] = useState(false);
 	const togglePriceAlertSwitch = () =>
 		setPriceAlert(previousState => !previousState);
 	const [profitTarget, setProfitTarget] = useState('');
 	const [stopLoss, setStopLoss] = useState('');
 	const router = useRouter();
+
+	// const postId = useLocalSearchParams().postId;
+	const postId = '18';
+
+	const baseUrl = process.env.EXPO_PUBLIC_BASE_URL;
+
+	const {
+		data: cardDetails,
+		isLoading,
+		error,
+	} = useGetCardDetailsQuery({ id: postId, filter: selectedGraph });
 
 	return (
 		<Wrapper>
@@ -42,7 +56,7 @@ export default function CardDetails() {
 				<View style={tw`flex-1 w-full gap-6 pb-20`}>
 					<View style={tw`flex w-full items-center justify-center p-4`}>
 						<Image
-							source={require('@/assets/images/card1.jpg')}
+							source={{ uri: `${baseUrl}${cardDetails?.data?.card_image_url}` }}
 							style={tw`w-60 rounded-md h-70`}
 							contentFit="cover"
 						/>
@@ -51,22 +65,23 @@ export default function CardDetails() {
 						style={tw`flex flex-col gap-4 px-4 w-full items-center justify-center`}
 					>
 						<Text style={tw`text-white text-2xl font-poppinsMedium`}>
-							Michael Jordan
+							{cardDetails?.data?.card_name || 'N/A'}
 						</Text>
 						<View style={tw`flex flex-row gap-4`}>
 							<Text style={tw`text-gray-300 text-sm font-poppinsSemiBold`}>
-								1996 Fleer
+								{cardDetails?.data?.year || 'N/A'}{' '}
+								{cardDetails?.data?.set_name || 'N/A'}
 							</Text>
 							<View
 								style={tw`w-1.5 h-1.5 bg-gray-300 rounded-full self-center`}
 							/>
 							<Text style={tw`text-gray-300 text-sm font-poppinsSemiBold`}>
-								#57 Rookie
+								{cardDetails?.data?.number || 'N/A'}
 							</Text>
 						</View>
 						<View style={tw`flex px-6 py-2 bg-gray-600/60 rounded-full`}>
 							<Text style={tw`text-white text-base font-poppins`}>
-								PSA 9 MINT
+								{cardDetails?.data?.condition || 'N/A'}
 							</Text>
 						</View>
 					</View>
@@ -81,27 +96,35 @@ export default function CardDetails() {
 								style={tw`flex flex-row items-center absolute top-4 right-[-6]`}
 							>
 								<TouchableOpacity
-									style={tw`flex p-2 ${selectedGraph === '1M' ? 'bg-gray-700 rounded-lg' : ''}`}
-									onPress={() => setSelectedGraph('1M')}
+									style={tw`flex p-2 ${selectedGraph === 'daily' ? 'bg-gray-700 rounded-lg' : ''}`}
+									onPress={() => setSelectedGraph('daily')}
 								>
 									<Text style={tw`text-white text-xs font-poppinsSemiBold`}>
-										1M
+										Daily
 									</Text>
 								</TouchableOpacity>
 								<TouchableOpacity
-									style={tw`flex p-2 ${selectedGraph === '3M' ? 'bg-gray-700 rounded-lg' : ''}`}
-									onPress={() => setSelectedGraph('3M')}
+									style={tw`flex p-2 ${selectedGraph === 'weekly' ? 'bg-gray-700 rounded-lg' : ''}`}
+									onPress={() => setSelectedGraph('weekly')}
 								>
 									<Text style={tw`text-white text-xs font-poppinsSemiBold`}>
-										3M
+										Weekly
 									</Text>
 								</TouchableOpacity>
 								<TouchableOpacity
-									style={tw`flex p-2 ${selectedGraph === '1Y' ? 'bg-gray-700 rounded-lg' : ''}`}
-									onPress={() => setSelectedGraph('1Y')}
+									style={tw`flex p-2 ${selectedGraph === 'monthly' ? 'bg-gray-700 rounded-lg' : ''}`}
+									onPress={() => setSelectedGraph('monthly')}
 								>
 									<Text style={tw`text-white text-xs font-poppinsSemiBold`}>
-										1Y
+										Monthly
+									</Text>
+								</TouchableOpacity>
+								<TouchableOpacity
+									style={tw`flex p-2 ${selectedGraph === 'yearly' ? 'bg-gray-700 rounded-lg' : ''}`}
+									onPress={() => setSelectedGraph('yearly')}
+								>
+									<Text style={tw`text-white text-xs font-poppinsSemiBold`}>
+										Yearly
 									</Text>
 								</TouchableOpacity>
 							</View>
@@ -115,13 +138,7 @@ export default function CardDetails() {
 								width={290}
 								areaChart
 								curved
-								data={
-									selectedGraph === '1M'
-										? oneMonthData
-										: selectedGraph === '3M'
-											? threeMonthData
-											: oneYearData
-								}
+								data={cardDetails?.data?.chart_data?.chart_data}
 								hideDataPoints
 								spacing={68}
 								noOfSections={4}
@@ -147,7 +164,9 @@ export default function CardDetails() {
 										COST BASIS
 									</Text>
 									<Text style={tw`text-white font-poppinsMedium text-lg`}>
-										$12,200
+										{cardDetails?.data?.cost_basis
+											? `$${cardDetails.data.cost_basis}`
+											: 'N/A'}
 									</Text>
 								</View>
 							</RectangleGlass>
@@ -157,7 +176,9 @@ export default function CardDetails() {
 										MARKET PRICE
 									</Text>
 									<Text style={tw`text-white font-poppinsMedium text-lg`}>
-										$14,200
+										{cardDetails?.data?.market_price
+											? `$${cardDetails.data.market_price}`
+											: 'N/A'}
 									</Text>
 								</View>
 							</RectangleGlass>
@@ -168,8 +189,10 @@ export default function CardDetails() {
 									<Text style={tw`text-xs font-poppinsLight text-white`}>
 										TOTAL PROFIT
 									</Text>
-									<Text style={tw`text-green-500 font-poppinsMedium text-lg`}>
-										+$12,200
+									<Text
+										style={tw`${cardDetails?.data?.total_profit?.status === 'Up' ? 'text-green-500' : 'text-red-500'} font-poppinsMedium text-lg`}
+									>
+										{cardDetails?.data?.total_profit?.total_profit}
 									</Text>
 								</View>
 							</RectangleGlass>
