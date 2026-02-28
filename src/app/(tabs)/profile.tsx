@@ -17,12 +17,14 @@ import {
 } from '@/assets/icon';
 import DividerPurple from '@/src/components/DividerPurple';
 import RectangleGlassRow from '@/src/components/RectangleGlassRow';
+import Wrapper from '@/src/components/Wrapper';
 import Wrapper2 from '@/src/components/Wrapper2';
 import tw from '@/src/lib/tailwind';
 import {
 	useLogoutMutation,
 	useToggle2FAMutation,
 } from '@/src/redux/api/authApi/authApi';
+import { useGetProfileQuery } from '@/src/redux/api/profileApi/profileApi';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Image } from 'expo-image';
 import { useRouter } from 'expo-router';
@@ -53,35 +55,53 @@ export default function Profile() {
 
 	const router = useRouter();
 
-	async function loadUserData() {
-		try {
-			const userDataString = await AsyncStorage.getItem('user_data');
-			if (userDataString) {
-				const userData = JSON.parse(userDataString);
-				// Use userData as needed
-				console.log('Loaded user data:', userData);
-				setUser(userData);
-				if (userData.is_2fa === 1) {
-					setIsTwoFactorEnabled(true);
-				} else {
-					setIsTwoFactorEnabled(false);
-				}
-				if (userData.master_price_alert_toggle === 1) {
-					setIsPriceAlertEnabled(true);
-				} else {
-					setIsPriceAlertEnabled(false);
-				}
-			} else {
-				console.log('No user data found in storage.');
-			}
-		} catch (e) {
-			console.error('Failed to load user data:', e);
-		}
-	}
+	// async function loadUserData() {
+	// 	try {
+	// 		const userDataString = await AsyncStorage.getItem('user_data');
+	// 		if (userDataString) {
+	// 			const userData = JSON.parse(userDataString);
+	// 			// Use userData as needed
+	// 			console.log('Loaded user data:', userData);
+	// 			setUser(userData);
+	// 			if (userData.is_2fa === 1) {
+	// 				setIsTwoFactorEnabled(true);
+	// 			} else {
+	// 				setIsTwoFactorEnabled(false);
+	// 			}
+	// 			if (userData.master_price_alert_toggle === 1) {
+	// 				setIsPriceAlertEnabled(true);
+	// 			} else {
+	// 				setIsPriceAlertEnabled(false);
+	// 			}
+	// 		} else {
+	// 			console.log('No user data found in storage.');
+	// 		}
+	// 	} catch (e) {
+	// 		console.error('Failed to load user data:', e);
+	// 	}
+	// }
+
+	// useEffect(() => {
+	// 	loadUserData();
+	// }, []);
+
+	const { data: userData, isLoading, error } = useGetProfileQuery();
 
 	useEffect(() => {
-		loadUserData();
-	}, []);
+		if (userData) {
+			setUser(userData.data.user);
+			if (userData.data.user.is_2fa === 1) {
+				setIsTwoFactorEnabled(true);
+			} else {
+				setIsTwoFactorEnabled(false);
+			}
+			if (userData.data.user.master_price_alert_toggle === 1) {
+				setIsPriceAlertEnabled(true);
+			} else {
+				setIsPriceAlertEnabled(false);
+			}
+		}
+	}, [userData]);
 
 	const [logout, { isLoading: isLogoutLoading }] = useLogoutMutation();
 
@@ -110,6 +130,18 @@ export default function Profile() {
 			console.error('Failed to toggle 2FA:', error);
 		}
 	};
+
+	if (isLoading) {
+		return (
+			<Wrapper>
+				<View
+					style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}
+				>
+					<ActivityIndicator size="large" color="#fff" />
+				</View>
+			</Wrapper>
+		);
+	}
 
 	return (
 		<Wrapper2>

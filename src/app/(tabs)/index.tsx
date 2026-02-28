@@ -10,8 +10,7 @@ import RectangleGlass from '@/src/components/RectangleGlass';
 import RoundGlass from '@/src/components/RoundGlass';
 import WrapperWithoutPX from '@/src/components/WrapperWithoutPX';
 import tw from '@/src/lib/tailwind';
-import { useGetInventoryItemsQuery } from '@/src/redux/api/inventoryApi';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useGetProfileQuery } from '@/src/redux/api/profileApi/profileApi';
 import MaskedView from '@react-native-masked-view/masked-view';
 import { Image } from 'expo-image';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -31,33 +30,44 @@ export default function Home() {
 
 	const [userAvatar, setUserAvatar] = React.useState<string | null>(null);
 
-	async function getUserAvatar() {
-		try {
-			const avatar = await AsyncStorage.getItem('user_avatar');
-			if (avatar) {
-				setUserAvatar(avatar);
-			}
-			// console.log('Retrieved avatar from AsyncStorage:', avatar);
-			// console.log('userAvatar state updated:', userAvatar);
-		} catch (error) {
-			console.error('Failed to get user avatar:', error);
-			return null;
-		}
-	}
+	const baseUrl = process.env.EXPO_PUBLIC_BASE_URL;
 
-	const {
-		data: inventoryItems,
-		isLoading,
-		error,
-	} = useGetInventoryItemsQuery({
-		filter: 'all',
-		page: 1,
-		per_page: 10,
-	});
+	// async function getUserAvatar() {
+	// 	try {
+	// 		const avatar = await AsyncStorage.getItem('user_avatar');
+	// 		if (avatar) {
+	// 			setUserAvatar(avatar);
+	// 		}
+	// 		// console.log('Retrieved avatar from AsyncStorage:', avatar);
+	// 		// console.log('userAvatar state updated:', userAvatar);
+	// 	} catch (error) {
+	// 		console.error('Failed to get user avatar:', error);
+	// 		return null;
+	// 	}
+	// }
+	const { data: userData, isLoading, error } = useGetProfileQuery();
 
 	useEffect(() => {
-		getUserAvatar();
-	}, []);
+		if (userData?.data?.user?.avatar_url) {
+			setUserAvatar(userData.data.user.avatar_url);
+		} else {
+			setUserAvatar(null);
+		}
+	}, [userData]);
+
+	// const {
+	// 	data: inventoryItems,
+	// 	isLoading,
+	// 	error,
+	// } = useGetInventoryItemsQuery({
+	// 	filter: 'all',
+	// 	page: 1,
+	// 	per_page: 10,
+	// });
+
+	// useEffect(() => {
+	// 	getUserAvatar();
+	// }, []);
 
 	// const combinedData = [
 	// 	{ type: 'yourItemsHeader' },
@@ -78,9 +88,9 @@ export default function Home() {
 						>
 							<Image
 								source={
-									userAvatar
-										? { uri: userAvatar }
-										: require('@/assets/images/default_avatar.png')
+									// userData?.avatar_url ||
+									// require('@/assets/images/defaultAvatar.jpg')
+									userAvatar || require('@/assets/images/defaultAvatar.jpg')
 								}
 								style={tw`h-11 w-11 rounded-full`}
 								contentFit="cover"

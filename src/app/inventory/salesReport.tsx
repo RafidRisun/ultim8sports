@@ -3,10 +3,12 @@ import RectangleGlass from '@/src/components/RectangleGlass';
 import RectangleGlassRow from '@/src/components/RectangleGlassRow';
 import Wrapper from '@/src/components/Wrapper';
 import tw from '@/src/lib/tailwind';
+import { useGetSalesRecordQuery } from '@/src/redux/api/salesApi';
 import { Image } from 'expo-image';
 import { useRouter } from 'expo-router';
 import React from 'react';
 import {
+	ActivityIndicator,
 	FlatList,
 	ScrollView,
 	Text,
@@ -19,6 +21,22 @@ export default function SalesReport() {
 	const [selectedFilter, setSelectedFilter] = React.useState<
 		'1M' | '3M' | '1Y' | 'ALL'
 	>('1M');
+
+	const baseUrl = process.env.EXPO_PUBLIC_BASE_URL;
+	const { data: salesRecordData, isLoading, error } = useGetSalesRecordQuery();
+
+	if (isLoading) {
+		return (
+			<Wrapper>
+				<View
+					style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}
+				>
+					<ActivityIndicator size="large" color="#fff" />
+				</View>
+			</Wrapper>
+		);
+	}
+
 	return (
 		<Wrapper>
 			<HeaderWithRoundBack title="Sales Report" back={true} />
@@ -105,7 +123,7 @@ export default function SalesReport() {
 						YOUR SOLD ITEMS
 					</Text>
 					<FlatList
-						data={soldItemData}
+						data={salesRecordData.data}
 						keyExtractor={(_, index) => index.toString()}
 						contentContainerStyle={tw`flex flex-col gap-4 pb-30`}
 						renderItem={({ item }) => (
@@ -118,22 +136,24 @@ export default function SalesReport() {
 								>
 									<View style={tw`flex flex-row gap-4`}>
 										<Image
-											source={require('@/assets/images/card1.jpg')}
+											source={{ uri: baseUrl + item.card_search.image }}
 											style={tw`h-14 w-10 rounded-md`}
 											contentFit="cover"
 										/>
 										<View style={tw`flex flex-col gap-1 justify-center`}>
-											<Text style={tw`text-white font-poppinsSemiBold text-sm`}>
-												{item.name}
+											<Text
+												style={tw`text-white font-poppinsSemiBold max-w-47 text-sm`}
+											>
+												{item.card_search.search_title}
 											</Text>
 											<Text style={tw`text-gray-300 font-poppins text-xs`}>
-												{item.soldDate}
+												{item.sold_date}
 											</Text>
 										</View>
 									</View>
 									<View style={tw`flex flex-col items-end`}>
 										<Text style={tw`text-white font-poppins text-base`}>
-											{item.soldPrice}
+											{item.sold_price}
 										</Text>
 										<Text style={tw`text-green-500 font-poppins text-sm`}>
 											{item.marketValue}
@@ -148,24 +168,3 @@ export default function SalesReport() {
 		</Wrapper>
 	);
 }
-
-const soldItemData = [
-	{
-		name: 'Michael Jordan',
-		soldPrice: '$5,250',
-		marketValue: '+$100',
-		soldDate: 'JAN 10,2025',
-	},
-	{
-		name: 'LeBron James',
-		soldPrice: '$4,800',
-		marketValue: '+$150',
-		soldDate: 'FEB 15,2025',
-	},
-	{
-		name: 'Kobe Bryant',
-		soldPrice: '$3,900',
-		marketValue: '+$200',
-		soldDate: 'MAR 20,2025',
-	},
-];
