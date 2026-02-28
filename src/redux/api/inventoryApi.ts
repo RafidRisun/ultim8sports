@@ -35,12 +35,25 @@ export const inventoryApi = api.injectEndpoints({
 			}),
 			providesTags: ['inventory'],
 		}),
+		getInventoryItems: builder.query<any, any>({
+			query: params => ({
+				url: '/user/get-inventory-items',
+				method: 'GET',
+				params: {
+					filter: params.filter,
+					page: params.page,
+					per_page: params.per_page,
+				},
+			}),
+			providesTags: ['inventory'],
+		}),
 	}),
 });
 export const {
 	useAddCardMutation,
 	useLazySearchCardQuery,
 	useGetCardDetailsQuery,
+	useGetInventoryItemsQuery,
 } = inventoryApi;
 
 type Params = {

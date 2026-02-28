@@ -17,6 +17,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
 import React, { useState } from 'react';
 import {
+	ActivityIndicator,
 	ScrollView,
 	Switch,
 	Text,
@@ -48,6 +49,18 @@ export default function CardDetails() {
 		isLoading,
 		error,
 	} = useGetCardDetailsQuery({ id: postId, filter: selectedGraph });
+
+	if (isLoading) {
+		return (
+			<Wrapper>
+				<View
+					style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}
+				>
+					<ActivityIndicator size="large" color="#fff" />
+				</View>
+			</Wrapper>
+		);
+	}
 
 	return (
 		<Wrapper>

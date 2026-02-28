@@ -165,7 +165,7 @@ export default function AnalysingCard() {
 					<Text style={tw`text-2xl text-purple-300 font-poppinsSemiBold`}>
 						Analyzing Card
 					</Text>
-					<Text style={tw`text-white text-sm font-poppinsSemiBold`}>
+					<Text style={tw`text-white text-center text-sm font-poppinsSemiBold`}>
 						{status}
 					</Text>
 				</View>

@@ -10,6 +10,7 @@ import RectangleGlass from '@/src/components/RectangleGlass';
 import RoundGlass from '@/src/components/RoundGlass';
 import WrapperWithoutPX from '@/src/components/WrapperWithoutPX';
 import tw from '@/src/lib/tailwind';
+import { useGetInventoryItemsQuery } from '@/src/redux/api/inventoryApi';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import MaskedView from '@react-native-masked-view/masked-view';
 import { Image } from 'expo-image';
@@ -43,6 +44,16 @@ export default function Home() {
 			return null;
 		}
 	}
+
+	const {
+		data: inventoryItems,
+		isLoading,
+		error,
+	} = useGetInventoryItemsQuery({
+		filter: 'all',
+		page: 1,
+		per_page: 10,
+	});
 
 	useEffect(() => {
 		getUserAvatar();
@@ -202,7 +213,7 @@ export default function Home() {
 							<Text style={tw`text-white font-poppinsMedium text-lg`}>
 								YOUR ITEMS
 							</Text>
-							{yourItems.slice(0, 3).map((item, index) => (
+							{/* {yourItems.slice(0, 3).map((item, index) => (
 								<ListingCard
 									key={index}
 									title={item.title}
@@ -211,7 +222,7 @@ export default function Home() {
 									change={item.change}
 									ebay={item.ebay}
 								/>
-							))}
+							))} */}
 							{loadMoreInventory ? (
 								<TouchableOpacity
 									style={tw`w-full py-3 rounded-lg border border-white/20`}
@@ -280,44 +291,6 @@ export default function Home() {
 		</WrapperWithoutPX>
 	);
 }
-
-const yourItems = [
-	{
-		title: 'Michael Jordan',
-		brand: '1986 Fleer',
-		price: '5,250',
-		change: '+8.2%',
-		ebay: true,
-	},
-	{
-		title: 'LeBron James',
-		brand: '2003 Topps Chrome',
-		price: '4,800',
-		change: '+6.5%',
-		ebay: true,
-	},
-	{
-		title: 'Kobe Bryant',
-		brand: '1996 Topps',
-		price: '3,900',
-		change: '+7.1%',
-		ebay: false,
-	},
-	{
-		title: 'Shaquille ONeal',
-		brand: '1992 Upper Deck',
-		price: '2,750',
-		change: '+5.9%',
-		ebay: false,
-	},
-	{
-		title: 'Tim Duncan',
-		brand: '1997 Topps',
-		price: '2,300',
-		change: '+4.8%',
-		ebay: true,
-	},
-];
 
 const topMovers = [
 	{

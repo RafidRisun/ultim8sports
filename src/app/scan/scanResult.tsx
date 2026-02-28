@@ -176,7 +176,7 @@ export default function ScanResult() {
 			try {
 				const parsed =
 					typeof scrapeData === 'string' ? JSON.parse(scrapeData) : scrapeData;
-				
+
 				// Check if scrapeData has valid market data
 				if (parsed?.data?.total_count > 0) {
 					setParsedScrapeData(parsed);
@@ -239,19 +239,7 @@ export default function ScanResult() {
 				.unwrap()
 				.then(result => {
 					Alert.alert('Card added successfully!');
-
-					// Check if there are more cards to display
-					if (currentCardIndex < cardsArray.length - 1) {
-						// Move to next card
-						setCurrentCardIndex(currentCardIndex + 1);
-						// Reset form fields for new card
-						setCostBasis('0');
-						setAskingPrice('0');
-						setDate(new Date());
-					} else {
-						// No more cards, go back to home
-						router.replace('/(tabs)');
-					}
+					handleCardCompletion();
 				})
 				.catch(error => {
 					console.log('Add Card Error:', error);
@@ -261,6 +249,62 @@ export default function ScanResult() {
 		} catch (error) {
 			Alert.alert('An error occurred:', JSON.stringify(error));
 		}
+	}
+
+	function handleCardCompletion() {
+		// Remove the current card from the array
+		const newCardsArray = cardsArray.filter(
+			(_, index) => index !== currentCardIndex,
+		);
+
+		if (newCardsArray.length > 0) {
+			// If there are still cards left
+			setCardsArray(newCardsArray);
+			// Reset form fields for new card
+			setCostBasis('0');
+			setAskingPrice('0');
+			setDate(new Date());
+			// Adjust index if needed (if we removed the last card, go back one)
+			if (currentCardIndex >= newCardsArray.length) {
+				setCurrentCardIndex(newCardsArray.length - 1);
+			}
+			// Otherwise the useEffect will automatically load the next card
+		} else {
+			// No more cards, go back to home
+			router.replace('/(tabs)');
+		}
+	}
+
+	function handleDiscardCard() {
+		Alert.alert('Discard Card', 'Are you sure you want to discard this card?', [
+			{ text: 'Cancel', onPress: () => {}, style: 'cancel' },
+			{
+				text: 'Discard',
+				onPress: () => {
+					// Remove the current card from the array
+					const newCardsArray = cardsArray.filter(
+						(_, index) => index !== currentCardIndex,
+					);
+
+					if (newCardsArray.length > 0) {
+						// If there are still cards left
+						setCardsArray(newCardsArray);
+						// Reset form fields for new card
+						setCostBasis('0');
+						setAskingPrice('0');
+						setDate(new Date());
+						// Adjust index if needed
+						if (currentCardIndex >= newCardsArray.length) {
+							setCurrentCardIndex(newCardsArray.length - 1);
+						}
+					} else {
+						// No more cards, go back to home
+						router.replace('/(tabs)');
+					}
+				},
+				style: 'destructive',
+			},
+		]);
 	}
 
 	return (
@@ -279,7 +323,7 @@ export default function ScanResult() {
 						<View style={tw`flex flex-row w-full gap-5 p-2`}>
 							<View style={tw`flex flex-col flex-1 gap-2`}>
 								<TouchableOpacity
-									style={tw`py-1 px-2 bg-slate-500/30 rounded-lg items-center`}
+									style={tw`py-1 px-2 bg-slate-500/30 rounded-lg items-center w-24`}
 									onPress={handleTriggerScrape}
 								>
 									<Text style={tw`text-white font-poppinsLight text-xs`}>
@@ -533,6 +577,14 @@ export default function ScanResult() {
 							</TouchableOpacity>
 						)}
 					</View>
+					<TouchableOpacity
+						style={tw`flex flex-row gap-2 w-full mx-4 py-2 px-4 rounded-full items-center justify-center border-b-2 border-l-2 border-r-2 border-red-400/50 shadow-lg shadow-red-500/20 bg-black relative mt-3`}
+						onPress={handleDiscardCard}
+					>
+						<Text style={tw`text-red-400 font-poppinsMedium text-sm`}>
+							Discard Card
+						</Text>
+					</TouchableOpacity>
 				</View>
 			</ScrollView>
 		</Wrapper>

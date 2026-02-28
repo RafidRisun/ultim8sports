@@ -7,6 +7,7 @@ import {
 	useGetProfileQuery,
 	useUpdateProfileMutation,
 } from '@/src/redux/api/profileApi/profileApi';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Image } from 'expo-image';
 import * as ImagePicker from 'expo-image-picker';
 import React, { useEffect, useState } from 'react';
@@ -46,6 +47,11 @@ export default function ProfileEdit() {
 			const response = await updateProfile(formData).unwrap();
 			console.log('Profile updated successfully:', response);
 			Alert.alert('Success', 'Profile updated successfully');
+			await AsyncStorage.removeItem('user_data');
+			await AsyncStorage.setItem(
+				'user_data',
+				JSON.stringify(response.data.user),
+			);
 		} catch (error: any) {
 			console.log(error);
 			Alert.alert('Error', 'Failed to update profile. Please try again later.');
